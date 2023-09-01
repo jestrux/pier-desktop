@@ -1,0 +1,595 @@
+[
+	{
+		"_id": "345c4cd9-ab8a-4173-9c7e-075850969a04",
+		"name": "Manager",
+		"display_field": "name",
+		"fields": [
+			{
+				"label": "image",
+				"type": "image",
+				"required": true,
+				"meta": { "face": true }
+			},
+			{ "label": "name", "type": "name", "required": true },
+			{ "label": "phone", "type": "phone", "required": true },
+			{
+				"label": "email",
+				"type": "email",
+				"required": false,
+				"default": "al_renter_imaro@gmail.com"
+			}
+		],
+		"settings": "{\"listPageType\": \"table\"}",
+		"created_at": "2022-07-16T09:20:57.000000Z",
+		"updated_at": "2022-07-19T13:13:23.000000Z",
+		"data": [
+			{
+				"_id": "3760629c-86e7-4361-9f6f-397ab4545fa9",
+				"image": "https://images.unsplash.com/photo-1566492031773-4f4e44671857?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxNjE2NXwwfDF8c2VhcmNofDEzfHxibGFjayUyMG1hbnxlbnwwfHx8fDE2NTc5NzYwNjA&ixlib=rb-1.2.1&q=80&w=1280",
+				"name": "James Njau",
+				"phone": "+255 762 888 517",
+				"created_at": "2022-07-16 12:53:21",
+				"updated_at": "2022-07-30 07:56:29",
+				"email": "jamesnjau@gmail.com"
+			},
+			{
+				"_id": "70eb8973-5c30-427d-b6af-37732213b766",
+				"image": "https://images.unsplash.com/photo-1506277886164-e25aa3f4ef7f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxNjE2NXwwfDF8c2VhcmNofDExfHxibGFjayUyMG1hbnxlbnwwfHx8fDE2NTc5NzYwNjA&ixlib=rb-1.2.1&q=80&w=1280",
+				"name": "Ludovick Sanner",
+				"phone": "+255 714 138 913",
+				"created_at": "2022-07-16 12:53:21",
+				"updated_at": "2022-07-30 07:58:11",
+				"email": "ludosan@gmail.com"
+			},
+			{
+				"_id": "762744f0-9943-4aaa-8523-edd8fee9b7b7",
+				"image": "https://images.unsplash.com/photo-1611432579402-7037e3e2c1e4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxNjE2NXwwfDF8c2VhcmNofDN8fGJsYWNrJTIwd29tYW58ZW58MHx8fHwxNjU3OTc2MTc3&ixlib=rb-1.2.1&q=80&w=1280",
+				"name": "Dianne Simon",
+				"phone": "+255 714 262 024",
+				"created_at": "2022-07-16 12:53:21",
+				"updated_at": "2022-07-30 07:59:20",
+				"email": "diansim@gmail.com"
+			},
+			{
+				"_id": "97d0156e-5ffb-46f6-ac8e-6972404c50ae",
+				"image": "https://images.unsplash.com/photo-1618085222100-93f0eecad0aa?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxNjE2NXwwfDF8c2VhcmNofDI4fHxibGFjayUyMHdvbWFufGVufDB8fHx8MTY1Nzk3NjI1MA&ixlib=rb-1.2.1&q=80&w=1280",
+				"name": "Alma Suleiman",
+				"phone": "+255 714 138 913",
+				"created_at": "2022-07-16 12:53:21",
+				"updated_at": "2022-07-30 07:59:42",
+				"email": "alsule@gmail.com"
+			},
+			{
+				"_id": "af08506a-3ccc-4d6c-a3d5-b0c91e968a10",
+				"image": "https://images.unsplash.com/photo-1631168061186-f2b406580967?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxNjE2NXwwfDF8c2VhcmNofDEyMnx8YmxhY2slMjB3b21hbiUyMHN1aXR8ZW58MHx8fHwxNjU4NTMzNzgy&ixlib=rb-1.2.1&q=80&w=1280",
+				"name": "Rummy Malisa",
+				"phone": "+255 759 627 468",
+				"created_at": "2022-07-16 12:53:21",
+				"updated_at": "2022-07-30 08:01:17",
+				"email": "rummylisa@gmail.com"
+			}
+		]
+	},
+	{
+		"_id": "a14eadc5-baa5-46ad-bcd7-38c3f517eb5d",
+		"name": "Apartment",
+		"display_field": "name",
+		"fields": [
+			{
+				"label": "image",
+				"type": "image",
+				"required": true,
+				"meta": { "face": false }
+			},
+			{ "label": "name", "type": "string", "required": true },
+			{ "label": "rent", "type": "number", "required": true },
+			{
+				"label": "type",
+				"type": "status",
+				"required": true,
+				"meta": {
+					"availableStatuses": [
+						{ "name": "Presidential", "color": "#9c27b0" },
+						{ "name": "Standard", "color": "#ff9800" },
+						{ "name": "Economy", "color": "#607d8b" }
+					]
+				}
+			},
+			{
+				"label": "complex",
+				"type": "reference",
+				"required": true,
+				"meta": {
+					"model": "Complex",
+					"mainField": "name",
+					"field": "name",
+					"type": "string"
+				}
+			},
+			{
+				"label": "description",
+				"type": "long text",
+				"required": false,
+				"meta": { "wysiwyg": true }
+			}
+		],
+		"settings": "{\"listPageType\": \"table\"}",
+		"created_at": "2022-07-02T08:08:44.000000Z",
+		"updated_at": "2022-09-02T12:13:24.000000Z",
+		"data": [
+			{
+				"_id": "014eb972-09df-4627-85aa-af4761076198",
+				"image": "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxNjE2NXwwfDF8c2VhcmNofDF8fGFwYXJ0bWVudHxlbnwwfHx8fDE2NTY3NDk0MjI&ixlib=rb-1.2.1&q=80&w=1080",
+				"name": "5 bedroom suite in masaki",
+				"rent": 1250000,
+				"type": "Standard",
+				"created_at": "2022-07-02 08:09:40",
+				"updated_at": "2022-07-02 08:11:20",
+				"complex": "26da45e8-135a-4be6-9a86-ad1f63135065",
+				"description": ""
+			},
+			{
+				"_id": "5355ea5a-b66d-46e8-be64-67888e662bc7",
+				"image": "https://images.unsplash.com/photo-1632724067578-fefb7d5a5f63?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxNjE2NXwwfDF8c2VhcmNofDExfHxhcGFydG1lbnQlMjBvY2VhbnxlbnwwfHx8fDE2NTY3NDk1NjA&ixlib=rb-1.2.1&q=80&w=1080",
+				"name": "Two seater with ocean view",
+				"rent": 235000,
+				"type": "Economy",
+				"created_at": "2022-07-02 08:09:40",
+				"updated_at": "2022-07-16 13:27:33",
+				"complex": "56f2a4f5-b691-4ab2-906a-5de977b3ca61",
+				"description": ""
+			},
+			{
+				"_id": "66778193-2d3c-4ae7-9f43-4ae60e3818c3",
+				"image": "https://images.unsplash.com/photo-1582719388123-e03e25d06d51?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxNjE2NXwwfDF8c2VhcmNofDF8fGJ1bmdhbG93fGVufDB8fHx8MTY1OTE4ODEzMg&ixlib=rb-1.2.1&q=80&w=1080",
+				"name": "5 room bungalow",
+				"rent": 120000,
+				"type": "Economy",
+				"created_at": "2022-07-02 08:09:40",
+				"updated_at": "2022-07-30 13:36:26",
+				"complex": "26da45e8-135a-4be6-9a86-ad1f63135065",
+				"description": ""
+			},
+			{
+				"_id": "a8d986dc-26f9-427f-8c22-f50f30a9b6aa",
+				"image": "https://images.unsplash.com/photo-1622866306950-81d17097d458?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxNjE2NXwwfDF8c2VhcmNofDJ8fGNvenklMjBhcGFydG1lbnR8ZW58MHx8fHwxNjU2NzQ5ODM4&ixlib=rb-1.2.1&q=80&w=1080",
+				"name": "Executive suite with amazing view",
+				"rent": 500000,
+				"type": "Presidential",
+				"created_at": "2022-07-02 08:09:40",
+				"updated_at": "2022-07-30 13:36:53",
+				"complex": "2fc1d283-87e3-4e63-b101-3689d00e6e90",
+				"description": ""
+			},
+			{
+				"_id": "cf0af9f8-0e45-4727-8c7d-4e133dd4d98e",
+				"image": "https://images.unsplash.com/photo-1617201929478-8eedff7508f9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxNjE2NXwwfDF8c2VhcmNofDF8fGNvenklMjBhcGFydG1lbnR8ZW58MHx8fHwxNjU2NzQ5ODM4&ixlib=rb-1.2.1&q=80&w=1080",
+				"name": "Cozy two room flat",
+				"rent": 286000,
+				"type": "Standard",
+				"created_at": "2022-07-02 08:09:40",
+				"updated_at": "2022-07-30 13:36:55",
+				"complex": "359c93eb-71ee-4634-932c-c0d6f638ec42",
+				"description": ""
+			},
+			{
+				"_id": "cf64f7f4-777b-4288-8ae6-48da00c708f0",
+				"image": "https://images.unsplash.com/photo-1446776899648-aa78eefe8ed0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxNjE2NXwwfDF8c2VhcmNofDE0fHxtYXB8ZW58MHx8fHwxNjYyNDc4Mzgy&ixlib=rb-1.2.1&q=80&w=1080",
+				"name": "Cute little flat",
+				"rent": 12000,
+				"type": "Standard",
+				"created_at": "2022-09-09 07:55:47",
+				"updated_at": "2022-09-09 07:55:47",
+				"complex": "2fc1d283-87e3-4e63-b101-3689d00e6e90",
+				"description": "<h3><strong>Presented the just brief and could whom quietly early and</strong></h3><p>THURSDAY, 12TH MAY 2022&nbsp;<span style=\"color: rgb(204, 0, 0);\">37 minutes ago</span></p><p>Have the travelling upper watched set more wrong sleepiness for and that upon tower, would into although the early to of food, have display would the myself the that no been distant have said do was concept may or brown the I in is morals, endeavours, set packed create created.</p>"
+			},
+			{
+				"_id": "e270b178-bc93-4095-97bf-d2122dc9337f",
+				"image": "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxNjE2NXwwfDF8c2VhcmNofDN8fGFwYXJ0bWVudHxlbnwwfHx8fDE2NTkxOTMyNDY&ixlib=rb-1.2.1&q=80&w=1080",
+				"name": "Luxe baby grande",
+				"rent": 768800,
+				"type": "Standard",
+				"created_at": "2022-07-30 15:04:35",
+				"updated_at": "2022-07-30 15:47:24",
+				"complex": "fdd93ecf-a55d-49c1-b080-7b9de622ae16",
+				"description": ""
+			}
+		]
+	},
+	{
+		"_id": "ab409b05-989e-4201-b676-7af19b1c3920",
+		"name": "Renter",
+		"display_field": "name",
+		"fields": [
+			{
+				"label": "image",
+				"type": "image",
+				"required": true,
+				"meta": { "face": true }
+			},
+			{ "label": "name", "type": "name", "required": true },
+			{ "label": "phone", "type": "phone", "required": true },
+			{
+				"label": "due_date",
+				"type": "date",
+				"required": true,
+				"meta": { "includeTime": false }
+			},
+			{
+				"label": "apartment",
+				"type": "reference",
+				"required": true,
+				"meta": {
+					"model": "Apartment",
+					"mainField": "name",
+					"field": "image",
+					"type": "image",
+					"face": false
+				}
+			},
+			{ "label": "verified", "type": "boolean", "required": false }
+		],
+		"settings": "{\"listPageType\": \"table\"}",
+		"created_at": "2022-07-02T08:20:07.000000Z",
+		"updated_at": "2022-07-23T01:36:36.000000Z",
+		"data": [
+			{
+				"_id": "044365e5-638e-4d93-b834-ea6fc744fd1e",
+				"image": "https://images.unsplash.com/photo-1633419798503-0b0c628f267c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxNjE2NXwwfDF8c2VhcmNofDE3fHxibGFjayUyMGdpcmx8ZW58MHx8fHwxNjU5MTg4MzU0&ixlib=rb-1.2.1&q=80&w=1080",
+				"name": "Melany Dare",
+				"phone": "+255 759 627 468",
+				"due_date": "2022-09-12 02:56:04",
+				"apartment": "66778193-2d3c-4ae7-9f43-4ae60e3818c3",
+				"created_at": "2022-07-02 08:21:55",
+				"updated_at": "2022-07-30 13:39:53",
+				"verified": 1
+			},
+			{
+				"_id": "1202c081-44ee-4adc-8689-a0db82f8c346",
+				"image": "https://images.unsplash.com/photo-1631168228401-c37875b22ee8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxNjE2NXwwfDF8c2VhcmNofDIyfHxibGFjayUyMGdpcmx8ZW58MHx8fHwxNjU5MTg4MzU0&ixlib=rb-1.2.1&q=80&w=1080",
+				"name": "Aliyah Rempel MD",
+				"phone": "+255 762 918 312",
+				"due_date": "2022-09-06 09:39:10",
+				"apartment": "a8d986dc-26f9-427f-8c22-f50f30a9b6aa",
+				"created_at": "2022-07-02 08:21:55",
+				"updated_at": "2022-07-30 13:42:32",
+				"verified": 1
+			},
+			{
+				"_id": "33533647-91d6-4704-95ca-39c865214bc8",
+				"image": "https://images.unsplash.com/flagged/photo-1577927791831-ef8e1af529a5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxNjE2NXwwfDF8Y29sbGVjdGlvbnwyOHwzNjc4OTAyfHx8fHwyfHwxNjU2NzUwMTE2&ixlib=rb-1.2.1&q=80&w=200",
+				"name": "Dr. Ruthie Witting III",
+				"phone": "255717138056",
+				"due_date": "2022-09-16 05:49:04",
+				"apartment": "66778193-2d3c-4ae7-9f43-4ae60e3818c3",
+				"created_at": "2022-07-02 08:21:55",
+				"updated_at": "2022-07-02 08:21:55",
+				"verified": 1
+			},
+			{
+				"_id": "381d81a2-c74f-4f02-bc98-27584350c424",
+				"image": "https://images.unsplash.com/photo-1562468689-22db61602255?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxNjE2NXwwfDF8Y29sbGVjdGlvbnwyfDM2Nzg5MDJ8fHx8fDJ8fDE2NTY3NTAxMTY&ixlib=rb-1.2.1&q=80&w=200",
+				"name": "Otto Pfeffer",
+				"phone": "255717138056",
+				"due_date": "2022-10-29 10:18:44",
+				"apartment": "014eb972-09df-4627-85aa-af4761076198",
+				"created_at": "2022-07-02 08:21:55",
+				"updated_at": "2022-07-02 08:21:55",
+				"verified": 0
+			},
+			{
+				"_id": "3a3890ff-f5de-42dd-b12a-8f9ee7debc7b",
+				"image": "https://images.unsplash.com/photo-1643075621394-11a4677c4bc8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxNjE2NXwwfDF8Y29sbGVjdGlvbnw0fDM2Nzg5MDJ8fHx8fDJ8fDE2NTY3NTAxMTY&ixlib=rb-1.2.1&q=80&w=200",
+				"name": "Misael Hyatt",
+				"phone": "255717138056",
+				"due_date": "2022-09-03 10:11:10",
+				"apartment": "a8d986dc-26f9-427f-8c22-f50f30a9b6aa",
+				"created_at": "2022-07-02 08:21:55",
+				"updated_at": "2022-07-02 08:21:55",
+				"verified": 1
+			},
+			{
+				"_id": "3abc4016-6a75-48f9-a8c2-107e9ddcad13",
+				"image": "https://images.unsplash.com/photo-1518979038051-686013f2c1f2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxNjE2NXwwfDF8Y29sbGVjdGlvbnwxOHwzNjc4OTAyfHx8fHwyfHwxNjU2NzUwMTE2&ixlib=rb-1.2.1&q=80&w=200",
+				"name": "Dr. Jimmy Witting",
+				"phone": "255717138056",
+				"due_date": "2022-09-12 19:51:24",
+				"apartment": "cf0af9f8-0e45-4727-8c7d-4e133dd4d98e",
+				"created_at": "2022-07-02 08:21:55",
+				"updated_at": "2022-07-02 08:21:55",
+				"verified": 1
+			},
+			{
+				"_id": "47ffcded-4e12-447d-b2c0-76eefe1edad8",
+				"image": "https://images.unsplash.com/photo-1546070465-88d0babced56?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxNjE2NXwwfDF8Y29sbGVjdGlvbnwxNXwzNjc4OTAyfHx8fHwyfHwxNjU2NzUwMTE2&ixlib=rb-1.2.1&q=80&w=200",
+				"name": "Leslie Howell",
+				"phone": "255717138056",
+				"due_date": "2022-09-02 13:58:27",
+				"apartment": "014eb972-09df-4627-85aa-af4761076198",
+				"created_at": "2022-07-02 08:21:55",
+				"updated_at": "2022-07-02 08:21:55",
+				"verified": 1
+			},
+			{
+				"_id": "499636ed-4f38-4a49-a0e5-4f1e0e46ca81",
+				"image": "https://images.unsplash.com/photo-1542305983-c4100e4b8cd2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxNjE2NXwwfDF8Y29sbGVjdGlvbnwxMHwzNjc4OTAyfHx8fHwyfHwxNjU2NzUwMTE2&ixlib=rb-1.2.1&q=80&w=200",
+				"name": "Miss Krista Schmidt",
+				"phone": "255717138056",
+				"due_date": "2022-10-02 06:43:48",
+				"apartment": "cf0af9f8-0e45-4727-8c7d-4e133dd4d98e",
+				"created_at": "2022-07-02 08:21:55",
+				"updated_at": "2022-07-02 08:21:55",
+				"verified": 1
+			},
+			{
+				"_id": "6268554e-29cd-44bf-9673-8099e85b2b1d",
+				"image": "https://images.unsplash.com/photo-1573131627935-82501c651569?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxNjE2NXwwfDF8Y29sbGVjdGlvbnwxNHwzNjc4OTAyfHx8fHwyfHwxNjU2NzUwMTE2&ixlib=rb-1.2.1&q=80&w=200",
+				"name": "Joana Wolf",
+				"phone": "255717138056",
+				"due_date": "2022-10-18 06:53:28",
+				"apartment": "014eb972-09df-4627-85aa-af4761076198",
+				"created_at": "2022-07-02 08:21:55",
+				"updated_at": "2022-07-02 08:21:55",
+				"verified": 0
+			},
+			{
+				"_id": "6f2b668b-bb7e-46db-804a-d73e05e6e04f",
+				"image": "https://images.unsplash.com/photo-1596662666063-33730c935c95?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxNjE2NXwwfDF8Y29sbGVjdGlvbnwyNXwzNjc4OTAyfHx8fHwyfHwxNjU2NzUwMTE2&ixlib=rb-1.2.1&q=80&w=200",
+				"name": "Dr. Casimer Jast MD",
+				"phone": "255717138056",
+				"due_date": "2022-09-22 14:47:20",
+				"apartment": "a8d986dc-26f9-427f-8c22-f50f30a9b6aa",
+				"created_at": "2022-07-02 08:21:55",
+				"updated_at": "2022-07-02 08:21:55",
+				"verified": 1
+			},
+			{
+				"_id": "72380b2b-2b45-423c-a7f7-589cf30cebe5",
+				"image": "https://images.unsplash.com/photo-1589156280159-27698a70f29e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxNjE2NXwwfDF8c2VhcmNofDF8fGJsYWNrJTIwd29tYW58ZW58MHx8fHwxNjU2NzUxNDkx&ixlib=rb-1.2.1&q=80&w=1080",
+				"name": "Latifa Ahmed",
+				"phone": "+255 719 497 059",
+				"due_date": "2022-07-23 00:00:00",
+				"apartment": "014eb972-09df-4627-85aa-af4761076198",
+				"created_at": "2022-07-02 08:45:06",
+				"updated_at": "2022-07-19 12:36:45",
+				"verified": 1
+			},
+			{
+				"_id": "74a8b630-11e5-4cbe-bbb8-ebd75bdfa5fb",
+				"image": "https://images.unsplash.com/photo-1633677863956-dde7cdb4f1e9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxNjE2NXwwfDF8Y29sbGVjdGlvbnw1fDM2Nzg5MDJ8fHx8fDJ8fDE2NTY3NTAxMTY&ixlib=rb-1.2.1&q=80&w=200",
+				"name": "Mr. Brycen Towne MD",
+				"phone": "255717138056",
+				"due_date": "2022-09-17 06:25:01",
+				"apartment": "a8d986dc-26f9-427f-8c22-f50f30a9b6aa",
+				"created_at": "2022-07-02 08:21:55",
+				"updated_at": "2022-07-02 08:21:55",
+				"verified": 1
+			},
+			{
+				"_id": "76e05859-74ca-4ded-8927-5cc0081b2b0d",
+				"image": "https://images.unsplash.com/photo-1567719367005-f4a24fcc8794?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxNjE2NXwwfDF8Y29sbGVjdGlvbnwyMHwzNjc4OTAyfHx8fHwyfHwxNjU2NzUwMTE2&ixlib=rb-1.2.1&q=80&w=200",
+				"name": "Dr. Skylar Streich DDS",
+				"phone": "255717138056",
+				"due_date": "2022-10-19 08:45:02",
+				"apartment": "cf0af9f8-0e45-4727-8c7d-4e133dd4d98e",
+				"created_at": "2022-07-02 08:21:55",
+				"updated_at": "2022-07-02 08:21:55",
+				"verified": 0
+			},
+			{
+				"_id": "8675b9f4-395a-49fb-8d04-8f585e63b821",
+				"image": "https://images.unsplash.com/photo-1547004378-6f7af05eb746?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxNjE2NXwwfDF8Y29sbGVjdGlvbnwxMnwzNjc4OTAyfHx8fHwyfHwxNjU2NzUwMTE2&ixlib=rb-1.2.1&q=80&w=200",
+				"name": "Donnie Adams",
+				"phone": "255717138056",
+				"due_date": "2022-09-08 07:35:32",
+				"apartment": "a8d986dc-26f9-427f-8c22-f50f30a9b6aa",
+				"created_at": "2022-07-02 08:21:55",
+				"updated_at": "2022-07-02 08:21:55",
+				"verified": 1
+			},
+			{
+				"_id": "8728879f-1755-48d0-a04b-93fa0c538e7a",
+				"image": "https://images.unsplash.com/photo-1598403032251-95901b70508a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxNjE2NXwwfDF8Y29sbGVjdGlvbnw5fDM2Nzg5MDJ8fHx8fDJ8fDE2NTY3NTAxMTY&ixlib=rb-1.2.1&q=80&w=200",
+				"name": "Prof. Roberto Haley V",
+				"phone": "255717138056",
+				"due_date": "2022-10-20 12:27:22",
+				"apartment": "014eb972-09df-4627-85aa-af4761076198",
+				"created_at": "2022-07-02 08:21:55",
+				"updated_at": "2022-07-02 08:21:55",
+				"verified": 0
+			},
+			{
+				"_id": "8b129802-aef6-4d22-9ae0-3578fef5d4e2",
+				"image": "https://images.unsplash.com/photo-1508970707-f6426fb47503?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxNjE2NXwwfDF8Y29sbGVjdGlvbnw4fDM2Nzg5MDJ8fHx8fDJ8fDE2NTY3NTAxMTY&ixlib=rb-1.2.1&q=80&w=200",
+				"name": "Nestor Morar MD",
+				"phone": "255717138056",
+				"due_date": "2022-09-06 07:11:01",
+				"apartment": "cf0af9f8-0e45-4727-8c7d-4e133dd4d98e",
+				"created_at": "2022-07-02 08:21:55",
+				"updated_at": "2022-07-02 08:21:55",
+				"verified": 1
+			},
+			{
+				"_id": "9b8834eb-d8e5-4f3a-be98-8e63ec339d13",
+				"image": "https://images.unsplash.com/photo-1603960098475-22e3ddbd9840?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxNjE2NXwwfDF8Y29sbGVjdGlvbnwyN3wzNjc4OTAyfHx8fHwyfHwxNjU2NzUwMTE2&ixlib=rb-1.2.1&q=80&w=200",
+				"name": "Mrs. Melyssa Stamm",
+				"phone": "255717138056",
+				"due_date": "2022-10-03 20:01:10",
+				"apartment": "66778193-2d3c-4ae7-9f43-4ae60e3818c3",
+				"created_at": "2022-07-02 08:21:55",
+				"updated_at": "2022-07-02 08:21:55",
+				"verified": 1
+			},
+			{
+				"_id": "b1e6987b-802f-4b2a-9bec-a764f90d68f1",
+				"image": "https://images.unsplash.com/photo-1641893049587-a7f0f399ecec?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxNjE2NXwwfDF8Y29sbGVjdGlvbnwzfDM2Nzg5MDJ8fHx8fDJ8fDE2NTY3NTAxMTY&ixlib=rb-1.2.1&q=80&w=200",
+				"name": "Flo Schneider",
+				"phone": "255717138056",
+				"due_date": "2022-09-11 14:42:10",
+				"apartment": "014eb972-09df-4627-85aa-af4761076198",
+				"created_at": "2022-07-02 08:21:55",
+				"updated_at": "2022-07-02 08:21:55",
+				"verified": 1
+			},
+			{
+				"_id": "b6f4d62c-80d0-466f-8e3e-e494614088a0",
+				"image": "https://images.unsplash.com/photo-1636140397397-1ae733c295ab?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxNjE2NXwwfDF8Y29sbGVjdGlvbnwxfDM2Nzg5MDJ8fHx8fDJ8fDE2NTY3NTAxMTY&ixlib=rb-1.2.1&q=80&w=200",
+				"name": "Bulah O'Hara",
+				"phone": "255717138056",
+				"due_date": "2022-10-21 02:16:46",
+				"apartment": "a8d986dc-26f9-427f-8c22-f50f30a9b6aa",
+				"created_at": "2022-07-02 08:21:55",
+				"updated_at": "2022-07-02 08:21:55",
+				"verified": 0
+			},
+			{
+				"_id": "c23dcfd0-ecba-496d-aea6-ab923066802d",
+				"image": "https://images.unsplash.com/photo-1592159945762-09ff275b4e8e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxNjE2NXwwfDF8Y29sbGVjdGlvbnwyMXwzNjc4OTAyfHx8fHwyfHwxNjU2NzUwMTE2&ixlib=rb-1.2.1&q=80&w=200",
+				"name": "Carmel Kovacek",
+				"phone": "255717138056",
+				"due_date": "2022-10-08 20:17:48",
+				"apartment": "a8d986dc-26f9-427f-8c22-f50f30a9b6aa",
+				"created_at": "2022-07-02 08:21:55",
+				"updated_at": "2022-07-02 08:21:55",
+				"verified": 1
+			},
+			{
+				"_id": "c33c5e9c-3adf-4ab1-8c92-51d8f53b7dcf",
+				"image": "https://images.unsplash.com/photo-1519165436158-adda02d4aa53?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxNjE2NXwwfDF8Y29sbGVjdGlvbnwyMnwzNjc4OTAyfHx8fHwyfHwxNjU2NzUwMTE2&ixlib=rb-1.2.1&q=80&w=200",
+				"name": "Giuseppe Mosciski",
+				"phone": "255717138056",
+				"due_date": "2022-10-04 06:04:08",
+				"apartment": "a8d986dc-26f9-427f-8c22-f50f30a9b6aa",
+				"created_at": "2022-07-02 08:21:55",
+				"updated_at": "2022-07-02 08:21:55",
+				"verified": 1
+			},
+			{
+				"_id": "d4a0055c-a330-4747-98e5-2d0c72f6479e",
+				"image": "https://images.unsplash.com/photo-1604955620083-115f4ffe676c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxNjE2NXwwfDF8Y29sbGVjdGlvbnwyOXwzNjc4OTAyfHx8fHwyfHwxNjU2NzUwMTE2&ixlib=rb-1.2.1&q=80&w=200",
+				"name": "Larry Schuster",
+				"phone": "255717138056",
+				"due_date": "2022-09-18 08:51:45",
+				"apartment": "cf0af9f8-0e45-4727-8c7d-4e133dd4d98e",
+				"created_at": "2022-07-02 08:21:55",
+				"updated_at": "2022-07-02 08:21:55",
+				"verified": 1
+			},
+			{
+				"_id": "da164fbd-8aeb-45c1-a597-f02180e77882",
+				"image": "https://images.unsplash.com/photo-1548810020-ea2f1da35cff?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxNjE2NXwwfDF8Y29sbGVjdGlvbnwxMXwzNjc4OTAyfHx8fHwyfHwxNjU2NzUwMTE2&ixlib=rb-1.2.1&q=80&w=200",
+				"name": "Nat Parker III",
+				"phone": "255717138056",
+				"due_date": "2022-10-05 00:27:58",
+				"apartment": "5355ea5a-b66d-46e8-be64-67888e662bc7",
+				"created_at": "2022-07-02 08:21:55",
+				"updated_at": "2022-07-02 08:21:55",
+				"verified": 1
+			},
+			{
+				"_id": "e09f13e3-99ac-43ac-8303-589001722884",
+				"image": "https://images.unsplash.com/photo-1616707694728-599b59672d82?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxNjE2NXwwfDF8Y29sbGVjdGlvbnw3fDM2Nzg5MDJ8fHx8fDJ8fDE2NTY3NTAxMTY&ixlib=rb-1.2.1&q=80&w=200",
+				"name": "Prof. Turner Dooley",
+				"phone": "255717138056",
+				"due_date": "2022-10-12 21:19:53",
+				"apartment": "5355ea5a-b66d-46e8-be64-67888e662bc7",
+				"created_at": "2022-07-02 08:21:55",
+				"updated_at": "2022-07-02 08:21:55",
+				"verified": 0
+			},
+			{
+				"_id": "f46690d2-03ab-4b5b-8687-fca1f82ae2d0",
+				"image": "https://images.unsplash.com/photo-1546409825-ccb9cf43cac5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxNjE2NXwwfDF8Y29sbGVjdGlvbnwxN3wzNjc4OTAyfHx8fHwyfHwxNjU2NzUwMTE2&ixlib=rb-1.2.1&q=80&w=200",
+				"name": "America Barrows",
+				"phone": "255717138056",
+				"due_date": "2022-09-25 15:43:43",
+				"apartment": "66778193-2d3c-4ae7-9f43-4ae60e3818c3",
+				"created_at": "2022-07-02 08:21:55",
+				"updated_at": "2022-07-02 08:21:55",
+				"verified": 1
+			},
+			{
+				"_id": "f9803d89-a119-4814-924b-99d825482d52",
+				"image": "https://images.unsplash.com/photo-1548819611-fc0f1732d402?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxNjE2NXwwfDF8Y29sbGVjdGlvbnwxNnwzNjc4OTAyfHx8fHwyfHwxNjU2NzUwMTE2&ixlib=rb-1.2.1&q=80&w=200",
+				"name": "Jerry Kuhn",
+				"phone": "255717138056",
+				"due_date": "2022-09-09 18:34:43",
+				"apartment": "a8d986dc-26f9-427f-8c22-f50f30a9b6aa",
+				"created_at": "2022-07-02 08:21:55",
+				"updated_at": "2022-07-02 08:21:55",
+				"verified": 1
+			}
+		]
+	},
+	{
+		"_id": "f68d4b1a-25a7-40ff-96c2-93a90b58ce19",
+		"name": "Complex",
+		"display_field": "name",
+		"fields": [
+			{ "label": "name", "type": "string", "required": true },
+			{
+				"label": "location",
+				"type": "location",
+				"required": true,
+				"meta": { "countries": "tz" }
+			},
+			{
+				"label": "manager",
+				"type": "reference",
+				"required": true,
+				"meta": {
+					"model": "Manager",
+					"mainField": "name",
+					"field": "image",
+					"type": "image",
+					"face": true
+				}
+			}
+		],
+		"settings": "{\"listPageType\": \"table\"}",
+		"created_at": "2022-07-16T12:52:25.000000Z",
+		"updated_at": "2022-07-16T12:52:25.000000Z",
+		"data": [
+			{
+				"_id": "26da45e8-135a-4be6-9a86-ad1f63135065",
+				"name": "Affordable apartments in Mwanza",
+				"location": "{\"name\":\"Igoma, Nyamagana, Mwanza Region, Lake Zone, Tanzania\",\"coords\":[\"32.98759523398133\",\"-2.554732\"]}",
+				"manager": "af08506a-3ccc-4d6c-a3d5-b0c91e968a10",
+				"created_at": "2022-07-16 13:00:49",
+				"updated_at": "2022-07-31 19:32:07"
+			},
+			{
+				"_id": "2fc1d283-87e3-4e63-b101-3689d00e6e90",
+				"name": "Luxury flats in Oysterbay",
+				"location": "{\"name\":\"Oyster Bay, Dar es-Salaam, 5983, Tanzania\",\"coords\":[\"39.2899417\",\"-6.7678778\"]}",
+				"manager": "3760629c-86e7-4361-9f6f-397ab4545fa9",
+				"created_at": "2022-07-16 13:00:49",
+				"updated_at": "2022-07-16 13:02:12"
+			},
+			{
+				"_id": "359c93eb-71ee-4634-932c-c0d6f638ec42",
+				"name": "Standard huts",
+				"location": "{\"name\":\"Tabora Region, Central Zone, Tanzania\",\"coords\":[\"32.5080629\",\"-5.1913822\"]}",
+				"manager": "762744f0-9943-4aaa-8523-edd8fee9b7b7",
+				"created_at": "2022-07-16 13:00:49",
+				"updated_at": "2022-07-31 19:25:52"
+			},
+			{
+				"_id": "56f2a4f5-b691-4ab2-906a-5de977b3ca61",
+				"name": "Presidential suites in Arusha",
+				"location": "{\"name\":\"Aglican Church of Tanzania, Njiro, Njiro Road, Corridor, Themi, Engutoto Ward, Arusha Municipal, Arusha, Northern Zone, 23114, Tanzania\",\"coords\":[\"36.7051019\",\"-3.4198115\"]}",
+				"manager": "97d0156e-5ffb-46f6-ac8e-6972404c50ae",
+				"created_at": "2022-07-16 13:00:49",
+				"updated_at": "2022-07-31 19:24:46"
+			},
+			{
+				"_id": "fdd93ecf-a55d-49c1-b080-7b9de622ae16",
+				"name": "Prix dee apartments",
+				"location": "{\"name\":\"Iringa, Iringa Region, Southern Highlands Zone, Tanzania\",\"coords\":[\"35.07448067667575\",\"-7.5662123\"]}",
+				"manager": "762744f0-9943-4aaa-8523-edd8fee9b7b7",
+				"created_at": "2022-07-30 15:03:28",
+				"updated_at": "2022-07-31 19:25:24"
+			}
+		]
+	}
+]

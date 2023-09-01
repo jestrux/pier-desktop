@@ -1,0 +1,76 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+	:root {
+		--border-color: #e2e8f0;
+		--shadow-color: rgba(0, 0, 0, 0.26);
+	}
+
+	@media (prefers-color-scheme: dark) {
+		:root {
+			--border-color: rgba(255, 255, 255, 0.16);
+			--shadow-color: rgba(0, 0, 0, 1);
+		}
+	}
+
+	* {
+		border-color: var(--border-color);
+	}
+
+	.flex > * {
+		min-width: 0;
+	}
+}
+
+[data-reach-combobox-option][data-selected],
+[data-reach-combobox-option][data-highlighted],
+[data-reach-combobox-option]:hover,
+.data-reach-combobox-selected {
+	position: relative;
+}
+
+[data-reach-combobox-option][data-selected]:before,
+[data-reach-combobox-option][data-highlighted]:before,
+[data-reach-combobox-option]:hover:before,
+.data-reach-combobox-selected:before {
+	content: "";
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: currentColor;
+	opacity: 0.08;
+}
+
+.spotlight-grid-item[data-selected]:before,
+.spotlight-grid-item[data-highlighted]:before,
+.spotlight-grid-item:hover:before,
+.spotlight-grid-item.data-reach-combobox-selected:before {
+	left: -1px;
+	top: -1px;
+	right: -1px;
+	bottom: -1px;
+	width: auto;
+	height: auto;
+	opacity: 0.12;
+	border-radius: 4px;
+	border: 1px solid currentColor;
+}
+
+.spotlight-grid-item[data-selected]:after,
+.spotlight-grid-item[data-highlighted]:after,
+.spotlight-grid-item:hover:after,
+.spotlight-grid-item.data-reach-combobox-selected:after {
+	content: "";
+	position: absolute;
+	left: -1px;
+	top: -1px;
+	right: -1px;
+	bottom: -1px;
+	opacity: 0.5;
+	border-radius: 4px;
+	border: 1px solid currentColor;
+}
