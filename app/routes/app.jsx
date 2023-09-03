@@ -1,45 +1,59 @@
 import { Outlet } from "@remix-run/react";
-import { useEffect } from "react";
 import { useHydrated } from "remix-utils";
 
-function AppTheming() {
-	const hydrated = useHydrated();
+import { useLoaderData } from "@remix-run/react";
+import { queryModel } from "~/orm";
+import tinycolor from "tinycolor2";
+import StandaloneAppContext from "~/StandaloneApp/StandaloneAppContext";
 
-	useEffect(() => {
-		if (!hydrated) return;
+import theme from "~/StandaloneApp/theme-old.css";
 
-		window.addEventListener("load", () => {
-			console.log("Window loaded");
-		});
+export const loader = async () => {
+	const {
+		data: [app],
+	} = await queryModel("pier_apps", { includeModelDetails: false });
+	app.settings = JSON.parse(app.settings);
+	let { data: pages } = await queryModel("pier_pages", {
+		includeModelDetails: false,
+	});
+	pages = pages.map((p) => (p.settings = JSON.parse(p.settings)));
+	let { data: sections } = await queryModel("pier_sections", {
+		includeModelDetails: false,
+	});
+	sections = sections.map((section) => {
+		section.settings = JSON.parse(section.settings);
+		return section;
+	});
 
-		window.tailwind.config = {
-			theme: {
-				extend: {
-					colors: {
-						canvas: "rgb(var(--canvas-color) / <alpha-value>)",
-						card: "rgb(var(--card-color) / <alpha-value>)",
-						popup: "rgb(var(--popup-color) / <alpha-value>)",
-						divider: "rgb(var(--divider-color) / <alpha-value>)",
-						content: "rgb(var(--content-color) / <alpha-value>)",
-						primary: "rgb(var(--primary-color) / <alpha-value>)",
-						"primary-light":
-							"rgb(var(--primary-light-color) / <alpha-value>)",
-					},
-				},
-			},
-		};
-	}, [hydrated]);
+	const isLight = tinycolor(app.color).isLight();
+	const primaryBgTextColor = isLight ? "white" : "black";
+	const appBar = sections.find(({ type }) => type == "appBar")?.settings;
+	const scrollBehavior = appBar?.scrollBehavior ?? "Sticky";
+	const banner = sections.find(({ type }) => type == "banner")?.settings;
+	const bannerColor = banner?.color ?? "inherit";
 
-	if (!hydrated) return <script src="tailwindcss.js"></script>;
+	return {
+		app,
+		pages,
+		currentPage: pages?.[0],
+		sections,
+		pageProps: {
+			appBar,
+			primaryBgTextColor,
+			scrollBehavior,
+			banner,
+			bannerColor,
+		},
+	};
+};
 
-	return <link rel="stylesheet" href="app-theme.css" />;
-}
+export const links = () => [{ rel: "stylesheet", href: theme }];
 
-export default function StandaloneApp() {
+export default function StandaloneAppWrapper() {
 	return (
-		<>
+		<StandaloneAppContext.Provider value={useLoaderData()}>
 			<Outlet />
-			<AppTheming />
-		</>
+			{!useHydrated() && <script src="tailwindcss.js"></script>}
+		</StandaloneAppContext.Provider>
 	);
 }

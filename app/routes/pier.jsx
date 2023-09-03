@@ -1,6 +1,6 @@
 import { Outlet } from "@remix-run/react";
-import styles from "~/styles.css";
 import { ChakraProvider, extendTheme } from "@chakra-ui/react";
+import styles from "~/styles.css";
 
 export const links = () => [{ rel: "stylesheet", href: styles }];
 

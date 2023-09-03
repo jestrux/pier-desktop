@@ -12,7 +12,7 @@ async function createWindow(url) {
 	win.show();
 
 	if (process.env.NODE_ENV === "development") {
-		win.webContents.openDevTools();
+		// win.webContents.openDevTools();
 	}
 }
 

@@ -15,7 +15,7 @@ const darkColors = {
 export default {
 	content: [
 		"./app/**/*.{js,jsx,ts,tsx}",
-		"!./app/Standalone/**/*.{js,jsx,ts,tsx}",
+		"!./app/StandaloneApp/**/*.{js,jsx,ts,tsx}",
 	],
 	theme: {
 		extend: {
