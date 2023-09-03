@@ -16,7 +16,10 @@ export const loader = async () => {
 	let { data: pages } = await queryModel("pier_pages", {
 		includeModelDetails: false,
 	});
-	pages = pages.map((p) => (p.settings = JSON.parse(p.settings)));
+	pages = pages.map((page) => {
+		page.settings = JSON.parse(page.settings);
+		return page;
+	});
 	let { data: sections } = await queryModel("pier_sections", {
 		includeModelDetails: false,
 	});
@@ -26,7 +29,7 @@ export const loader = async () => {
 	});
 
 	const isLight = tinycolor(app.color).isLight();
-	const primaryBgTextColor = isLight ? "white" : "black";
+	const primaryBgTextColor = isLight ? "black" : "white";
 	const appBar = sections.find(({ type }) => type == "appBar")?.settings;
 	const scrollBehavior = appBar?.scrollBehavior ?? "Sticky";
 	const banner = sections.find(({ type }) => type == "banner")?.settings;
@@ -35,7 +38,7 @@ export const loader = async () => {
 	return {
 		app,
 		pages,
-		currentPage: pages?.[0],
+		currentPage: pages?.length ? pages[0] : null,
 		sections,
 		pageProps: {
 			appBar,

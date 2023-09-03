@@ -1,4 +1,5 @@
 import { useStandaloneAppContext } from "./StandaloneAppContext";
+import WebsiteBanner from "./Website/WebsiteBanner";
 import WebsiteNavbar from "./Website/WebsiteNavbar";
 
 export default function StandaloneApp() {
@@ -21,13 +22,7 @@ export default function StandaloneApp() {
 				<WebsiteNavbar />
 
 				<div style={{ minHeight: "140vh" }}>
-					{/* @include('pier-website.banner.index') */}
-					<div className="p-3">
-						<div className="flex items-center gap-3 mb-4">App</div>
-						<h1 className="mb-5 text-3xl font-bold text-blue-100">
-							{app.name}
-						</h1>
-					</div>
+					<WebsiteBanner />
 				</div>
 			</main>
 		</>
