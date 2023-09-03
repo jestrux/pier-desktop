@@ -21,9 +21,14 @@
 		]
 	},
 	"dependencies": {
+		"@chakra-ui/icons": "^2.1.0",
 		"@chakra-ui/react": "^2.8.0",
 		"@emotion/react": "^11.11.1",
 		"@emotion/styled": "^11.11.0",
+		"@headlessui/react": "^1.7.17",
+		"@heroicons/react": "^2.0.18",
+		"@reach/alert-dialog": "^0.18.0",
+		"@reach/combobox": "^0.18.0",
 		"@remix-run/node": "^1.16.1",
 		"@remix-run/react": "^1.16.1",
 		"@remix-run/server-runtime": "^1.16.1",
@@ -34,10 +39,11 @@
 		"react": "^18.2.0",
 		"react-dom": "^18.2.0",
 		"remix-electron": "latest",
+		"remix-utils": "^6.6.0",
 		"sqlite3": "^5.1.6"
 	},
 	"devDependencies": {
-		"@remix-run/dev": "^1.16.1",
+		"@remix-run/dev": "^1.19.3",
 		"@types/react": "^18.2.7",
 		"@types/react-dom": "^18.2.4",
 		"cross-env": "^7.0.3",

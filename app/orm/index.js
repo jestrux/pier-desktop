@@ -15,21 +15,6 @@ const testModel = {
 	],
 };
 
-const testData = [
-	{
-		_id: Math.random().toFixed(4),
-		name: "Admin Strator",
-		email: "adminstrator@example.com",
-		password: "1234",
-	},
-	{
-		_id: Math.random().toFixed(4),
-		name: "Walter Kimaro",
-		email: "wakyj07@gmail.com",
-		password: "1234",
-	},
-];
-
 export const model_table = (model) => {
 	return (model?.name || model || "").toLowerCase();
 };
@@ -70,9 +55,10 @@ export const queryModel = (
 			: await queryModelDetails(model, { q, rowId });
 
 		const rowFilter = !rowId?.length ? "" : `WHERE _id = ${rowId}`;
-		const query = !modelDetails
-			? `SELECT * FROM ${model_table(model)}${rowFilter}`
-			: queryModelString(modelDetails, { q, rowId });
+		const query = `SELECT * FROM ${model_table(model)}${rowFilter}`;
+		// const query = !modelDetails
+		// 	? `SELECT * FROM ${model_table(model)}${rowFilter}`
+		// 	: queryModelString(modelDetails, { q, rowId });
 
 		dbClient.all(query, (err, data) => {
 			if (err) return reject(err);

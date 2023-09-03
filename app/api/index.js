@@ -22,6 +22,8 @@ export const createModel = ({
 
 	db.serialize(() => {
 		try {
+			db.run(`DELETE FROM pier WHERE _id = '${model._id}'`);
+
 			db.run(
 				`INSERT INTO pier (_id, name, display_field, fields, settings) VALUES (?, ?, ?, ?, ?)`,
 				[
@@ -34,6 +36,8 @@ export const createModel = ({
 			);
 
 			db.run(`CREATE TABLE IF NOT EXISTS ${table} (${columns})`);
+
+			db.run(`DELETE FROM ${table}`);
 
 			if (data?.length) {
 				db.run(
