@@ -1,17 +1,5 @@
 import type { Config } from "tailwindcss";
 
-const darkColors = {
-	// canvas: "#181818",
-	// card: "#252525",
-	canvas: "#000",
-	card: "#1A1A1A",
-	popup: "#383838",
-	divider: "#222", //"#222"
-	content: "#fff",
-	primary: "#b070f1",
-	"primary-light": "#F6AD55",
-};
-
 export default {
 	content: [
 		"./app/**/*.{js,jsx,ts,tsx}",
@@ -30,11 +18,15 @@ export default {
 				"4xl": "2rem",
 			},
 		},
-		// extend: {
-		//     fontFamily: {
-		//         sans: ["Nunito", ...defaultTheme.fontFamily.sans],
-		//     },
-		// },
+		colors: {
+			canvas: "rgb(var(--canvas-color) / <alpha-value>)",
+			card: "rgb(var(--card-color) / <alpha-value>)",
+			popup: "rgb(var(--popup-color) / <alpha-value>)",
+			divider: "rgb(var(--divider-color) / <alpha-value>)",
+			content: "rgb(var(--content-color) / <alpha-value>)",
+			primary: "rgb(var(--primary-color) / <alpha-value>)",
+			"primary-light": "rgb(var(--primary-light-color) / <alpha-value>)",
+		},
 	},
 
 	plugins: [
@@ -46,36 +38,6 @@ export default {
 			tableHoverBackgroundColor: "rgba(0,0,0,.075)",
 			tableBodyBorder: true, // If false, borders for table(not .table-bordered) will be removed.
 			verticalAlign: "middle",
-		}),
-		require("tailwindcss-themer")({
-			defaultTheme: {
-				extend: {
-					colors: darkColors,
-				},
-			},
-			themes: [
-				{
-					name: "chakra-ui-light",
-					extend: {
-						colors: {
-							canvas: "#E5E5E5",
-							card: "#FFF",
-							popup: "#FFF",
-							divider: "#eaeaea",
-							content: "#000",
-							primary: "rebeccapurple",
-							// primary: "#1F571A",
-							"primary-light": "#F6AD55",
-						},
-					},
-				},
-				{
-					name: "chakra-ui-dark",
-					extend: {
-						colors: darkColors,
-					},
-				},
-			],
 		}),
 	],
 } satisfies Config;

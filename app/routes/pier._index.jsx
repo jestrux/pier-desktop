@@ -20,7 +20,7 @@ export default function Index() {
 					{(data ?? []).map((model, index) => (
 						<tr key={index}>
 							<td className="border-b border-content/10">
-								<Link to={`/models/${model.name}`}>
+								<Link to={`models/${model.name}`}>
 									{model.name}
 								</Link>
 							</td>
