@@ -100,7 +100,7 @@ export default function WebsiteBanner() {
 	if (!banner) return;
 
 	const bannerLayout = () => {
-		if (banner.layout?.toLowerCase() == "centered")
+		if (banner.settings.layout?.toLowerCase() == "centered")
 			return <CenteredBanner />;
 
 		return <RegularBanner />;

@@ -4,7 +4,14 @@ import SectionButtons from "~/StandaloneApp/components/SectionButtons";
 
 export default function WebsiteNavbar() {
 	const { app, currentPage, pageProps } = useStandaloneAppContext();
-	const { appBar, banner, bannerColor, scrollBehavior } = pageProps;
+	const {
+		appBar: _appBar,
+		banner: _banner,
+		bannerColor,
+		scrollBehavior,
+	} = pageProps;
+	const appBar = _appBar?.settings;
+	const banner = _banner?.settings;
 	const showAppName = appBar?.showAppName ?? false;
 	const activeLink = appBar?.activeLink ?? {
 		showIndicator: true,

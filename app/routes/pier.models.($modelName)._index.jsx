@@ -1,6 +1,6 @@
 import { Link, useLoaderData } from "@remix-run/react";
 import DataTable from "~/components/DataTable";
-import { queryModel } from "~/orm";
+import { queryModel } from "~/server/orm";
 
 export const loader = async ({ params }) => {
 	return await queryModel(params.modelName);
@@ -21,7 +21,7 @@ export default function Index() {
 			{/* <ul>
 				{(data ?? []).map((model, index) => (
 					<li key={index}>
-						<Link to={`/models/${model.name}`}>{model.name}</Link>
+						<Link to={`models/${model.name}`}>{model.name}</Link>
 					</li>
 				))}
 			</ul> */}

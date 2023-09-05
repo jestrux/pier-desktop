@@ -1,6 +1,6 @@
 import { Link, useLoaderData } from "@remix-run/react";
 import TableColumn from "~/components/DataTable/TableColumn";
-import { queryModel } from "~/orm";
+import { queryModel } from "~/server/orm";
 
 export const loader = async ({ params }) => {
 	return await queryModel(params.modelName, {
@@ -15,7 +15,7 @@ export default function Index() {
 		<main className="p-3">
 			<div className="flex items-center gap-3 mb-4">
 				<Link to="/">Home</Link> /
-				<Link to={`/models/${model.name}`}>{model.name}</Link>
+				<Link to={`/pier/models/${model.name}`}>{model.name}</Link>
 			</div>
 			<h1 className="mb-5 text-3xl font-bold">
 				{data[model.display_field]}

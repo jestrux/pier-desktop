@@ -24,8 +24,8 @@ export default {
 			popup: "rgb(var(--popup-color) / <alpha-value>)",
 			divider: "rgb(var(--divider-color) / <alpha-value>)",
 			content: "rgb(var(--content-color) / <alpha-value>)",
-			primary: "rgb(var(--primary-color) / <alpha-value>)",
-			"primary-light": "rgb(var(--primary-light-color) / <alpha-value>)",
+			primary: "rgb(var(--pier-primary-color) / <alpha-value>)",
+			"primary-light": "rgb(var(--pier-primary-light-color) / <alpha-value>)",
 		},
 	},
 

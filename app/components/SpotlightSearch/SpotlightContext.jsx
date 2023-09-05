@@ -1,8 +1,9 @@
 /* eslint-disable no-unused-vars */
-import { createContext, useContext, useRef, useState } from "react";
+import { createContext, useContext, useEffect, useRef, useState } from "react";
 import { randomId } from "~/utils";
 
 export const SpotlightContext = createContext({
+	pierAppData: {},
 	spotlightCommands: {},
 	registerSpotlightCommand: (name, handler) => {},
 	spotlightInnerPages: [],
@@ -16,6 +17,8 @@ export const SpotlightContext = createContext({
 });
 
 export function SpotlightProvider({ children }) {
+	const [spotlightRef, setSpotlightRef] = useState(randomId());
+	const [pierAppData, setPierAppData] = useState({});
 	const [spotlightSearchVisible, setSpotlightSearchVisible] = useState(false);
 	const [spotlightInnerPages, setSpotlightInnerPages] = useState([]);
 	const spotlightCommands = useRef({});
@@ -77,7 +80,29 @@ export function SpotlightProvider({ children }) {
 		return resolver;
 	};
 
+	const handlePierAppDataChanged = (e) => {
+		console.log("App data changed: ", e.detail);
+		// setSpotlightRef(randomId());
+		setPierAppData(e.detail);
+	};
+
+	useEffect(() => {
+		document.addEventListener(
+			"pier:app-data-changed",
+			handlePierAppDataChanged,
+			false
+		);
+
+		return () =>
+			document.removeEventListener(
+				"pier:app-data-changed",
+				handlePierAppDataChanged,
+				false
+			);
+	}, []);
+
 	const value = {
+		pierAppData,
 		spotlightCommands: spotlightCommands.current,
 		registerSpotlightCommand,
 		spotlightInnerPages,
@@ -92,7 +117,7 @@ export function SpotlightProvider({ children }) {
 
 	return (
 		<SpotlightContext.Provider value={value}>
-			{children}
+			<div key={spotlightRef}>{children}</div>
 		</SpotlightContext.Provider>
 	);
 }

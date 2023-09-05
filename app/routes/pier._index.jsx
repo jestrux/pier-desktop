@@ -1,5 +1,5 @@
 import { Link, useLoaderData } from "@remix-run/react";
-import { queryModel } from "~/orm";
+import { queryModel } from "~/server/orm";
 
 export const loader = async () => {
 	return await queryModel("pier", { includeModelDetails: false });

@@ -29,9 +29,9 @@ export default function App() {
 						popup: "rgb(var(--popup-color) / <alpha-value>)",
 						divider: "rgb(var(--divider-color) / <alpha-value>)",
 						content: "rgb(var(--content-color) / <alpha-value>)",
-						primary: "rgb(var(--primary-color) / <alpha-value>)",
+						primary: "rgb(var(--pier-primary-color) / <alpha-value>)",
 						"primary-light":
-							"rgb(var(--primary-light-color) / <alpha-value>)",
+							"rgb(var(--pier-primary-light-color) / <alpha-value>)",
 					},
 				},
 			},
@@ -50,15 +50,14 @@ export default function App() {
 				<Links />
 			</head>
 			<body>
-				<Outlet />
-				<ScrollRestoration />
-				<Scripts />
-
 				{!hydrated ? (
 					<script src="tailwindcss.js"></script>
 				) : (
 					<SpotlightSearch />
 				)}
+				<Outlet />
+				<ScrollRestoration />
+				<Scripts />
 				{process.env.NODE_ENV === "development" && <LiveReload />}
 			</body>
 		</html>

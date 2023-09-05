@@ -1,46 +1,25 @@
-import server from "~/server/electron.server";
-const dbClient = server.db;
-
-const testModel = {
-	name: "User",
-	display_field: "name",
-	fields: [
-		{ label: "name", type: "string", required: true },
-		{ label: "email", type: "email", required: true },
-		{
-			label: "password",
-			type: "password",
-			required: true,
-		},
-	],
-};
+import { queryAll } from "~/server/db.server";
 
 export const model_table = (model) => {
 	return (model?.name || model || "").toLowerCase();
 };
 
-export const queryModelDetails = (model) => {
+export const queryModelDetails = async (model) => {
 	// const stmt = dbClient.prepare("SELECT * FROM hello WHERE a=:aval AND b=:bval");
 	// const res = stmt.getAsObject({ ":aval": 1, ":bval": "world" });
 	// stmt.free();
 	// return res;
 
-	return new Promise((resolve, reject) => {
-		dbClient.all(
-			`SELECT * FROM pier WHERE name = '${model}'`,
-			(err, rows) => {
-				if (err) return reject(err);
+	const rows = await queryAll(`SELECT * FROM pier WHERE name = '${model}'`);
 
-				const data = rows[0];
-				data.fields = JSON.parse(data.fields);
-				data.settings = JSON.parse(data.settings);
-				resolve(data);
-			}
-		);
-	});
+	const data = rows[0];
+	data.fields = JSON.parse(data.fields);
+	data.settings = JSON.parse(data.settings);
+
+	return data;
 };
 
-export const queryModel = (
+export const queryModel = async (
 	model,
 	{ q, rowId, includeModelDetails = true } = {}
 ) => {
@@ -49,25 +28,20 @@ export const queryModel = (
 	// stmt.free();
 	// return res;
 
-	return new Promise(async (resolve, reject) => {
-		const modelDetails = !includeModelDetails
-			? null
-			: await queryModelDetails(model, { q, rowId });
+	const modelDetails = !includeModelDetails
+		? null
+		: await queryModelDetails(model, { q, rowId });
 
-		const rowFilter = !rowId?.length ? "" : `WHERE _id = ${rowId}`;
-		const query = `SELECT * FROM ${model_table(model)}${rowFilter}`;
-		// const query = !modelDetails
-		// 	? `SELECT * FROM ${model_table(model)}${rowFilter}`
-		// 	: queryModelString(modelDetails, { q, rowId });
+	const rowFilter = !rowId?.length ? "" : `WHERE _id = ${rowId}`;
+	const query = !modelDetails
+		? `SELECT * FROM ${model_table(model)}${rowFilter}`
+		: queryModelString(modelDetails, { q, rowId });
 
-		dbClient.all(query, (err, data) => {
-			if (err) return reject(err);
+	let data = await queryAll(query);
 
-			if (rowId?.length) data = data?.[0] ?? null;
+	if (rowId?.length) data = data?.[0] ?? null;
 
-			resolve({ model: modelDetails, data });
-		});
-	});
+	return { model: modelDetails, data };
 };
 
 export const modelFieldsObject = (model) =>

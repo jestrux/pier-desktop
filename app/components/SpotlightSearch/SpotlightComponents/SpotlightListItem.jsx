@@ -58,10 +58,10 @@ export default function SpotlightListItem({
 
 	useEffect(() => {
 		const ref = optionRef.current;
-		ref.addEventListener("on-select", handleSelect, false);
+		if (ref) ref.addEventListener("on-select", handleSelect, false);
 
 		return () => {
-			ref.removeEventListener("on-select", handleSelect, false);
+			if (ref) ref.removeEventListener("on-select", handleSelect, false);
 		};
 	}, []);
 

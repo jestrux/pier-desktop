@@ -2,7 +2,8 @@ import { useStandaloneAppContext } from "~/StandaloneApp/StandaloneAppContext";
 
 export default function useBannerProps() {
 	const { app, pageProps } = useStandaloneAppContext();
-	const { banner } = pageProps;
+	const { banner: _banner } = pageProps;
+	const banner = _banner?.settings;
 
 	const imageCornerRadius = {
 		none: "rounded-none",

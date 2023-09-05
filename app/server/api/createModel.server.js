@@ -1,8 +1,7 @@
-export const createModel = ({
-	db = dbClient,
-	model = testModel,
-	data = testData,
-}) => {
+import dbClient from "~/server/db.server";
+
+export default async function createModel({ model, data }) {
+	const db = await dbClient();
 	const fields = ["_id", ...model.fields.map((f) => f.label)];
 	const columns = fields.map((f) => `${f} text`).join(", ");
 	const _data = data
@@ -51,8 +50,10 @@ export const createModel = ({
 				// }
 				// stmt.finalize();
 			}
-		} catch (error) {}
+		} catch (error) {
+			//
+		}
 	});
 
 	// db.close();
-};
+}

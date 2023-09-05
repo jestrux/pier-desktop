@@ -131,7 +131,7 @@ export default function TableColumn({ field, value, isFirst, alignLeft }) {
 		renderValue = (
 			<Link
 				className="text-blue-500 underline"
-				to={`/models/${field.meta.model}/${value["_id"]}`}
+				to={`/pier/models/${field.meta.model}/${value["_id"]}`}
 			>
 				<span>{value[field.meta.mainField]}</span>
 			</Link>
