@@ -49,19 +49,16 @@ export default forwardRef(function Menu(
 	};
 
 	const doProcess = useCallback((open) => {
-		const spotlightParent = triggerRef.current?.closest(
+		const spotlightParent = wrapperRef.current?.closest(
 			"#spotlightSearchWrapper"
 		);
-
-		if (closedRef.current == !open || !spotlightParent) return;
-
-		closedRef.current = !open;
 
 		if (open) spotlightParent.classList.add(idRef.current);
 		if (!open) {
 			setTimeout(() => {
 				spotlightParent.classList.remove(idRef.current);
-			}, 200);
+				spotlightParent.querySelector("input").focus();
+			});
 		}
 	}, []);
 
@@ -79,14 +76,14 @@ export default forwardRef(function Menu(
 		<div ref={wrapperRef} style={{ width }}>
 			<Listbox value={selected} onChange={handleSelect}>
 				{({ open }) => {
-					doProcess(open);
+					// doProcess(open);
 
 					return (
 						<div className="relative">
 							<Listbox.Button
 								ref={triggerRef}
 								id="menuTriggerButton"
-								onFocus={() => restoreFocus()}
+								onFocus={() => doProcess(open)}
 								className={`relative w-full cursor-default rounded-md h-9 pl-2.5 focus:outline-none focus-visible:border-content/20 text-xs font-medium
                                 ${
 									plain
