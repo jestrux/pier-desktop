@@ -1,0 +1,65 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider      = "prisma-client-js"
+  engineType    = "library"
+  // output        = "../app/database/generated/client"
+  binaryTargets = ["native"]
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Pier {
+  id            Int      @id @default(autoincrement())
+  display_field String
+  fields        String
+  settings      String
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model PierApp {
+  id        Int           @id @default(autoincrement())
+  name      String
+  icon      String
+  color     String
+  type      String
+  settings  String
+  pages     PierPage[]
+  sections  PierSection[]
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+}
+
+model PierPage {
+  id        Int           @id @default(autoincrement())
+  name      String
+  icon      String        @default("home")
+  type      String        @default("custom")
+  settings  String
+  index     Int           @default(1)
+  appId     Int
+  app       PierApp       @relation(fields: [appId], references: [id], onDelete: Cascade)
+  sections  PierSection[]
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+}
+
+model PierSection {
+  id        Int       @id @default(autoincrement())
+  name      String
+  type      String
+  platform  String    @default("all")
+  settings  String
+  index     Int       @default(1)
+  appId     Int?
+  pageId    Int?
+  app       PierApp?  @relation(fields: [appId], references: [id], onDelete: Cascade)
+  page      PierPage? @relation(fields: [pageId], references: [id], onDelete: Cascade)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}

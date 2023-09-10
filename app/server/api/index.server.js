@@ -1,4 +1,4 @@
-import dbClient from "~/server/db.server";
+import { prisma } from "~/server/db.server";
 
 export { default as createModel } from "./createModel.server";
 
@@ -8,28 +8,26 @@ export const updateSectionSettings = async ({
 	sectionId,
 	settings: updatedSettings,
 } = {}) => {
-	const db = await dbClient();
-	const { settings: oldSettings } = await db.get(
-		"SELECT settings FROM pier_sections WHERE _id = ?",
-		sectionId
-	);
-
-	// console.log("User settings: ", updatedSettings, oldSettings);
-
-	const settings = JSON.stringify({
-		...JSON.parse(oldSettings),
-		...JSON.parse(updatedSettings),
+	const { settings: oldSettings } = await prisma.pierSection.findFirst({
+		where: {
+			id: Number(sectionId),
+		},
 	});
 
-	await db.run(
-		`UPDATE pier_sections SET settings = $settings WHERE _id = $id`,
-		{
-			$settings: settings,
-			$id: sectionId,
-		}
-	);
+	const settings = {
+		...JSON.parse(oldSettings),
+		...JSON.parse(updatedSettings),
+	};
 
-	// db.close();
+	await prisma.pierSection.update({
+		data: {
+			id: Number(sectionId),
+			settings: JSON.stringify(settings),
+		},
+		where: {
+			id: Number(sectionId),
+		},
+	});
 
 	return settings;
 };

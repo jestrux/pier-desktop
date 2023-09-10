@@ -37,7 +37,7 @@ export default function SpotlightPageContent({
 				);
 				if (!element) return;
 
-				const container = element.closest(".overflow-y-auto");
+				const container = element.closest("#popoverContent");
 
 				if (container && element) {
 					const top = element.offsetTop - container.scrollTop;

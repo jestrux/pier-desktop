@@ -17,7 +17,15 @@ const SettingsTrailing = ({ field = {}, onChange }) => {
 	let { type, value, choices } = field;
 
 	if (type == "boolean")
-		return <Switch colorScheme="primary" size="md" isChecked={value} />;
+		return (
+			<Switch
+				id="switchItem"
+				colorScheme="primary"
+				size="md"
+				defaultChecked={value}
+				onChange={(e) => onChange(e.target.checked)}
+			/>
+		);
 	if (type == "radio") {
 		return (
 			<Menu plain choices={choices} value={value} onChange={onChange} />
@@ -87,6 +95,9 @@ export default function SpotlightSettingsItem({
 
 		if (type == "radio")
 			return el.current.querySelector(`#menuTriggerButton`).click();
+
+		if (type == "boolean")
+			return el.current.querySelector(`#switchItem`).click();
 
 		// if (type == "form") {
 		//     newValue = await pushSpotlightPage({

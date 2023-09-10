@@ -45,16 +45,17 @@ export function SpotlightSearchWrapper() {
 						dragProps={dragProps}
 					>
 						<SpotlightSettingsItem
-							label="Show app name"
-							checked={
-								pierAppData.pageProps?.appBar?.settings
-									?.showAppName
-							}
+							field={{
+								type: "boolean",
+								label: "Show app name",
+								value: pierAppData.pageProps?.appBar?.settings
+								?.showAppName
+							}}
 							onChange={async (showAppName) => {
 								const appBar = pierAppData.pageProps.appBar;
 								fetcher.submit(
 									{
-										sectionId: appBar._id,
+										sectionId: appBar.id,
 										settings: JSON.stringify({
 											showAppName,
 										}),
@@ -82,7 +83,7 @@ export function SpotlightSearchWrapper() {
 								const banner = pierAppData.pageProps.banner;
 								fetcher.submit(
 									{
-										sectionId: banner._id,
+										sectionId: banner.id,
 										settings: JSON.stringify({
 											layout,
 										}),

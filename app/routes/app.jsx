@@ -7,42 +7,51 @@ import StandaloneAppContext from "~/StandaloneApp/StandaloneAppContext";
 
 import theme from "~/StandaloneApp/theme-old.css";
 import { redirect } from "@remix-run/server-runtime";
-import { initializeDb, updateSectionSettings } from "~/server/api/index.server";
-import { getAll } from "~/server/db.server";
+import { updateSectionSettings } from "~/server/api/index.server";
+import { prisma } from "~/server/db.server";
 import { useEffect } from "react";
 import { formDataObject } from "~/utils";
+import seedApp from "~/server/seeder";
 
 export const action = async ({ request }) => {
 	const data = formDataObject(await request.formData());
 	await updateSectionSettings(data);
-	return redirect("/app");
+	return null;
 };
 
 export const loader = async () => {
-	let apps;
-
+	let app;
 	try {
-		apps = await getAll("pier_apps", { includeModelDetails: false });
+		app = await prisma.pierApp.findFirstOrThrow({
+			include: {
+				sections: true,
+				pages: {
+					include: {
+						sections: true,
+					},
+				},
+			},
+		});
 	} catch (error) {
-		await initializeDb();
+		await seedApp();
 		return redirect("/app");
 	}
 
-	const app = apps[0];
 	app.settings = JSON.parse(app.settings);
-	let pages = await getAll("pier_pages", {
-		includeModelDetails: false,
-	});
-	pages = pages.map((page) => {
+	app.pages = app.pages.map((page) => {
 		page.settings = JSON.parse(page.settings);
 		return page;
 	});
-	let sections = await getAll("pier_sections", {
-		includeModelDetails: false,
-	});
-	sections = sections.map((section) => {
-		section.settings = JSON.parse(section.settings);
-		return section;
+	const pages = app.pages;
+
+	const sections = [
+		...app.sections,
+		...pages.map(({ sections }) => sections).flat(),
+	].map((section) => {
+		return {
+			...section,
+			settings: JSON.parse(section.settings),
+		};
 	});
 
 	const isLight = tinycolor(app.color).isLight();
@@ -74,8 +83,6 @@ export default function StandaloneAppWrapper() {
 	const appData = useLoaderData();
 
 	useEffect(() => {
-		console.log("App wrapper loaded!!");
-
 		if (hyrated) {
 			document.dispatchEvent(
 				new CustomEvent("pier:app-data-changed", {

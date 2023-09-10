@@ -2,6 +2,8 @@ const { initRemix } = require("remix-electron");
 const { app, BrowserWindow, dialog } = require("electron");
 const { join } = require("node:path");
 
+const isDev = process.env.NODE_ENV === "development";
+
 /** @type {BrowserWindow | undefined} */
 let win;
 
@@ -11,14 +13,14 @@ async function createWindow(url) {
 	await win.loadURL(url);
 	win.show();
 
-	if (process.env.NODE_ENV === "development") {
+	if (isDev) {
 		// win.webContents.openDevTools();
 	}
 }
 
 app.on("ready", async () => {
 	try {
-		if (process.env.NODE_ENV === "development") {
+		if (isDev) {
 			const {
 				default: installExtension,
 				REACT_DEVELOPER_TOOLS,
