@@ -43,11 +43,6 @@ export default forwardRef(function Menu(
 		onChange(value);
 	};
 
-	const restoreFocus = () => {
-		const popover = wrapperRef.current?.closest("#spotlightSearchWrapper");
-		popover.querySelector("input").focus();
-	};
-
 	const doProcess = useCallback((open) => {
 		const spotlightParent = wrapperRef.current?.closest(
 			"#spotlightSearchWrapper"
