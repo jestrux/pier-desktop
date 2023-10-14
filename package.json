@@ -49,11 +49,15 @@
 		"isbot": "latest",
 		"promised-sqlite3": "^2.1.0",
 		"react": "^18.2.0",
+		"react-beautiful-dnd": "^13.1.1",
 		"react-dom": "^18.2.0",
+		"react-hot-toast": "^2.4.1",
+		"react-textarea-autosize": "^8.5.3",
 		"remarkable": "^2.0.1",
 		"remix-electron": "latest",
 		"remix-utils": "^6.6.0",
 		"sqlite3": "^5.1.6",
+		"textarea-markdown-editor": "^1.0.4",
 		"tinycolor2": "^1.6.0"
 	},
 	"devDependencies": {

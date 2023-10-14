@@ -4,6 +4,16 @@ export { default as createModel } from "./createModel.server";
 
 export { default as initializeDb } from "./initializeDb.server";
 
+export const createSection = async (payload) => {
+	return await prisma.pierSection.create({
+		data: {
+			...payload,
+			...(payload.pageId ? { pageId: Number(payload.pageId) } : {}),
+			...(payload.appId ? { appId: Number(payload.appId) } : {}),
+		},
+	});
+};
+
 export const updateSectionSettings = async ({
 	sectionId,
 	settings: updatedSettings,

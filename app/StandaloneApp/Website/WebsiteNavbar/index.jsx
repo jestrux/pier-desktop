@@ -20,7 +20,9 @@ export default function WebsiteNavbar() {
 
 	const layout = appBar.layout ?? "Regular";
 	const links = appBar.links ?? [];
-	const buttons = (appBar.buttons ?? []).filter(({ hidden }) => !hidden);
+	const buttons = [appBar.buttonOne, appBar.buttonTwo].filter(
+		(button) => button && !button.hidden
+	);
 	const bgClass = "border-b border-[--border-color] bg-white dark:bg-black ";
 
 	const scrollBehaviorClass =

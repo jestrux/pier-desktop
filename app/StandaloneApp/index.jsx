@@ -1,9 +1,10 @@
 import { useStandaloneAppContext } from "./StandaloneAppContext";
+import SectionText from "./Website/SectionText";
 import WebsiteBanner from "./Website/WebsiteBanner";
 import WebsiteNavbar from "./Website/WebsiteNavbar";
 
 export default function StandaloneApp() {
-	const { app, pageProps } = useStandaloneAppContext();
+	const { app, sections, pageProps } = useStandaloneAppContext();
 	const { primaryBgTextColor, bannerColor } = pageProps;
 
 	return (
@@ -22,7 +23,28 @@ export default function StandaloneApp() {
 				<WebsiteNavbar />
 
 				<div style={{ minHeight: "140vh" }}>
-					<WebsiteBanner />
+					{sections.map((section, index) => {
+						let settings;
+
+						try {
+							settings = JSON.parse(section.settings);
+						} catch (error) {
+							if (section.settings) settings = section.settings;
+						}
+
+						if (section.type == "banner")
+							return <WebsiteBanner key={index} />;
+
+						if (section.type == "sectionText") {
+							return (
+								<div className="py-24" key={index}>
+									<SectionText {...settings} />
+								</div>
+							);
+						}
+
+						return null;
+					})}
 				</div>
 			</main>
 		</>

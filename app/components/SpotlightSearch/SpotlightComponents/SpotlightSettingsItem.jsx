@@ -4,12 +4,7 @@ import Menu from "~/components/Menu";
 // import FieldEditor from "@/Commands/CommandPages/FieldEditor";
 import { useSpotlightContext } from "~/components/SpotlightSearch/SpotlightContext";
 // import PickColor from "@/Commands/CommandPages/PickColor";
-// import ImagePicker from "@/Commands/CommandPages/ImagePicker";
-import {
-	buttonEditorListProps,
-	camelCaseToSentenceCase,
-	randomId,
-} from "~/utils";
+import { camelCaseToSentenceCase, onEditButton, randomId } from "~/utils";
 import SpotlightListItem from "./SpotlightListItem";
 import { useSpotlightPageState } from "../SpotlightSearchPage/SpotlightPageContext";
 
@@ -89,7 +84,7 @@ export default function SpotlightSettingsItem({
 	};
 
 	const editField = async () => {
-		const { type, label, value, ...otherProps } = field;
+		const { type, fields, label, value, ...otherProps } = field;
 		const title = "Edit " + label;
 		let newValue = null;
 
@@ -99,34 +94,46 @@ export default function SpotlightSettingsItem({
 		if (type == "boolean")
 			return el.current.querySelector(`#switchItem`).click();
 
+		if (type == "object") {
+			const res = await pushSpotlightPage({
+				title,
+				type: "form",
+				fields,
+				values: props.values,
+			});
+
+			newValue = Object.fromEntries(
+				Object.entries(res).filter(([key]) =>
+					Object.keys(fields).includes(key)
+				)
+			);
+		}
+
+		if (type == "button") {
+			newValue = await pushSpotlightPage({
+				...onEditButton(pierAppData.app, value),
+				title,
+			});
+		}
+
 		// if (type == "form") {
 		//     newValue = await pushSpotlightPage({
 		//         title,
 		//         type: "form",
 		//         fields: otherProps.fields,
-		//         data: value,
+		//         values: value,
 		//     });
 		// }
 
-		// if (type == "sectionText") {
-		//     newValue = await pushSpotlightPage({
-		//         title,
-		//         type: "form",
-		//         fields: {
-		//             title: "markdown",
-		//             subtitle: "markdown",
-		//         },
-		//         data: value,
-		//     });
-		// }
+		if (type == "image") {
+			newValue = await pushSpotlightPage({
+				type: "image",
+				title,
+				value,
+			});
 
-		// if (type == "image") {
-		//     newValue = await pushSpotlightPage({
-		//         type: "action",
-		//         title,
-		//         content: <ImagePicker value={value} />,
-		//     });
-		// }
+			console.log("New value: ", newValue);
+		}
 
 		// if (type == "color") {
 		//     newValue = await pushSpotlightPage({
@@ -143,21 +150,9 @@ export default function SpotlightSettingsItem({
 		//     });
 		// }
 
-		// if (type == "buttons") {
-		//     const [pageProps, editorProps] = buttonEditorListProps({
-		//         buttons: value,
-		//         pierAppData.app,
-		//         onSave: (newValue) => handleChange(newValue),
-		//     });
-
-		//     newValue = await pushSpotlightPage({
-		//         title,
-		//         ...pageProps,
-		//         content: <FieldEditor {...editorProps} />,
-		//     });
-		// }
-
 		if (newValue?.fromSecondaryAction) newValue = newValue.data;
+
+		// console.log("New value: ", newValue);
 
 		if (newValue != null && newValue != undefined) handleChange(newValue);
 	};

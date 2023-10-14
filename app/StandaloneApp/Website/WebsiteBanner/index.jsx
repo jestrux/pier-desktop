@@ -1,17 +1,7 @@
-import { Remarkable } from "remarkable";
 import { useStandaloneAppContext } from "~/StandaloneApp/StandaloneAppContext";
 import useBannerProps from "./useBannerProps";
 import SectionButtons from "~/StandaloneApp/components/SectionButtons";
-
-const Markdown = ({ children }) => {
-	return (
-		<div
-			dangerouslySetInnerHTML={{
-				__html: new Remarkable({ breaks: true }).render(children),
-			}}
-		></div>
-	);
-};
+import MarkdownText from "~/StandaloneApp/components/MarkdownText";
 
 const CenteredBanner = () => {
 	const { title, subtitle, image, background, imageCornerRadius, buttons } =
@@ -26,11 +16,11 @@ const CenteredBanner = () => {
 
 			<div className="flex flex-col items-center text-center max-w-5xl mx-auto py-24 relative">
 				<h2 className="section-title">
-					<Markdown>{title}</Markdown>
+					<MarkdownText>{title}</MarkdownText>
 				</h2>
 
 				<div className="mt-4 section-subtitle">
-					<Markdown>{subtitle}</Markdown>
+					<MarkdownText>{subtitle}</MarkdownText>
 				</div>
 
 				<div className="mt-8">
@@ -66,11 +56,11 @@ const RegularBanner = () => {
 			<div className="section-wrapper inset flex items-center justify-center py-12 min-h-[600px]">
 				<div className="pt-10 pb-24 pr-12 relative flex-1 overflow-hidden">
 					<h2 className="section-title">
-						<Markdown>{title}</Markdown>
+						<MarkdownText>{title}</MarkdownText>
 					</h2>
 
 					<div className="mt-4 section-subtitle">
-						<Markdown>{subtitle}</Markdown>
+						<MarkdownText>{subtitle}</MarkdownText>
 					</div>
 
 					<div className="mt-8">

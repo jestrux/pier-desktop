@@ -122,5 +122,44 @@ export function SpotlightProvider({ children }) {
 }
 
 export function useSpotlightContext() {
-	return useContext(SpotlightContext);
+	const context = useContext(SpotlightContext);
+	const changeHandler = useRef();
+	const selectHandler = useRef();
+	const onChange = (callback) => (changeHandler.current = callback);
+	const onSelect = (callback) => (selectHandler.current = callback);
+
+	const handleSelect = ({ detail }) => {
+		const { page, value } = detail || {};
+		if (page?.id != context.page?.id) return;
+
+		if (typeof selectHandler.current == "function")
+			selectHandler.current(value);
+	};
+
+	useEffect(() => {
+		if (typeof changeHandler.current == "function")
+			changeHandler.current(context.navigationValue);
+	}, [context.navigationValue]);
+
+	useEffect(() => {
+		document.addEventListener(
+			"spotlight-search-value-changed",
+			handleSelect,
+			false
+		);
+
+		return () => {
+			document.removeEventListener(
+				"spotlight-search-value-changed",
+				handleSelect,
+				false
+			);
+		};
+	}, []);
+
+	return {
+		...context,
+		onChange,
+		onSelect,
+	};
 }

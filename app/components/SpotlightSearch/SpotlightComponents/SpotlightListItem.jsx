@@ -27,7 +27,10 @@ export default function SpotlightListItem({
 	label,
 	className = "",
 	onSelect,
+	onFocus,
+	onBlur,
 }) {
+	const hoverObserverRef = useRef();
 	const optionRef = useRef();
 	const { searchTerm } = useSpotlightPageContext();
 	const replace = children && typeof children == "function";
@@ -53,25 +56,54 @@ export default function SpotlightListItem({
 	);
 
 	const handleSelect = () => {
-		if (typeof onSelect == "function") onSelect();
+		if (typeof onSelect == "function") onSelect(value);
+	};
+
+	const observeForHover = (element) => {
+		hoverObserverRef.current = new MutationObserver((mutations) => {
+			const mutation = mutations.find(({ type }) => type == "attributes");
+			if (mutation) {
+				const selected = [true, "true"].includes(
+					mutation.target.ariaSelected
+				);
+
+				if (mutation.attributeName == "aria-selected") {
+					if (selected)
+						onFocus(mutation.target.getAttribute("data-value"));
+					else onBlur(mutation.target.getAttribute("data-value"));
+				}
+			}
+		});
+
+		hoverObserverRef.current.observe(element, {
+			attributes: true,
+		});
 	};
 
 	useEffect(() => {
 		const ref = optionRef.current;
-		if (ref) ref.addEventListener("on-select", handleSelect, false);
+
+		if (ref) {
+			ref.addEventListener("on-select", handleSelect, false);
+			if ([typeof onFocus, typeof onBlur].includes("function"))
+				observeForHover(ref);
+		}
 
 		return () => {
 			if (ref) ref.removeEventListener("on-select", handleSelect, false);
+			if (hoverObserverRef.current) hoverObserverRef.current.disconnect();
 		};
 	}, []);
 
 	if (searchTerm?.length) {
-		const matched = value
-			.toString()
-			.toLowerCase()
-			.includes(searchTerm.toString().toLowerCase());
+		try {
+			const matched = value
+				.toString()
+				.toLowerCase()
+				.includes(searchTerm.toString().toLowerCase());
 
-		if (!matched) return null;
+			if (!matched) return null;
+		} catch (error) {}
 	}
 
 	if (value === undefined) return content;

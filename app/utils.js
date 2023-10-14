@@ -163,14 +163,24 @@ export const parseFields = (fields, data) => {
 	});
 };
 
-export const onEditButtons = (currentPierApp, button) => ({
+export const onEditButton = (currentPierApp, button = {}) => ({
+	type: "form",
 	title: "Edit Button",
 	action: "Save Button",
-	secondaryAction: "Hide Button",
-	onSecondaryAction: (button) => ({
-		...button,
-		hidden: true,
-	}),
+	secondaryAction: {
+		label: button.hidden ? "Show button" : "Hide Button",
+		onClick: (page) => {
+			const button = page.values;
+
+			if (!button) return;
+
+			// console.log("Toggle button...", page);
+			return {
+				...button,
+				hidden: !button.hidden,
+			};
+		},
+	},
 	fields: {
 		label: "text",
 		appPage: {
@@ -194,10 +204,11 @@ export const onEditButtons = (currentPierApp, button) => ({
 		useAppColor: {
 			type: "boolean",
 			label: "Use app color as background",
-			// show: (state) => state.style == "Filled",
+			show: (state) => state.style == "Filled",
 		},
 	},
-	...(button?.hidden ? { data: { ...button, hidden: false } } : {}),
+	values: button,
+	// ...(button?.hidden ? { values: { ...button, hidden: false } } : {}),
 });
 
 export const buttonEditorListProps = ({
@@ -219,7 +230,7 @@ export const buttonEditorListProps = ({
 	const editorProps = {
 		editable: true,
 		canAdd: false,
-		onEdit: (button) => onEditButtons(currentPierApp, button),
+		onEdit: (button) => onEditButton(currentPierApp, button),
 		onSave,
 		onGroupAction: (buttons) => {
 			const hidden = buttons.filter(({ hidden }) => !hidden).length > 0;

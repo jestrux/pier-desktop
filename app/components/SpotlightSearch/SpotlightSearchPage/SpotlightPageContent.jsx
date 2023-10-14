@@ -7,6 +7,11 @@ import {
 import useKeyDetector from "~/hooks/useKeyDetector";
 
 import { ArrowLeftIcon } from "@heroicons/react/24/outline";
+import SettingsPage from "./SettingsPage";
+import ActionPage from "./ActionPage";
+import FormPage from "./FormPage";
+import ListPage from "./ListPage";
+import ImagePickerPage from "./ImagePickerPage";
 
 export default function SpotlightPageContent({
 	open,
@@ -112,6 +117,30 @@ export default function SpotlightPageContent({
 			setSearchTerm(event.target.value);
 	};
 
+	const renderPage = () => {
+		const pageHasFields = Object.keys(page.fields ?? {}).length > 0;
+		const pageHasAction =
+			pageHasFields ||
+			["list", "action"].includes(page.type) ||
+			page.hasAction ||
+			page.secondaryAction;
+		let content = children;
+
+		if (page?.values?.length && page.type == "list")
+			content = <ListPage page={page} editable />;
+		if (page.type == "image")
+			content = <ImagePickerPage value={page.value} />;
+		else if (pageHasFields) {
+			if (page.type == "settings") content = <SettingsPage page={page} />;
+			if (page.type == "form") content = <FormPage page={page} />;
+		}
+
+		if (pageHasAction)
+			content = <ActionPage page={page}>{content}</ActionPage>;
+
+		return content;
+	};
+
 	return (
 		<>
 			<div
@@ -163,9 +192,9 @@ export default function SpotlightPageContent({
 				portal={false}
 				className="-mt-0.5 relative overflow-y-auto max-h-[580px] focus:outline-none"
 			>
-				{children}
-				{/* <div>
-                    {page.type == "form" ? (
+				<div>
+					{renderPage()}
+					{/* {page.type == "form" ? (
                         <FormPage page={page}>{children}</FormPage>
                     ) : page.type == "action" ||
                       page.hasAction ||
@@ -173,8 +202,8 @@ export default function SpotlightPageContent({
                         <ActionPage page={page}>{children}</ActionPage>
                     ) : (
                         <div>{children}</div>
-                    )}
-                </div> */}
+                    )} */}
+				</div>
 			</ComboboxPopover>
 		</>
 	);

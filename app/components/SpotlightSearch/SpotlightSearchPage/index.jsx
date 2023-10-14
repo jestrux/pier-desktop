@@ -85,16 +85,6 @@ export default function SpotlightSearchPage({
 				>
 					<SpotlightPageContent {...comboProps}>
 						{children}
-						{/* {children ? (
-							children
-						) : (
-							<>
-								<CommandList
-									{...props}
-									closeSpotlight={onClose}
-								/>
-							</>
-						)} */}
 					</SpotlightPageContent>
 				</Combobox>
 			</SpotlightPageProvider>

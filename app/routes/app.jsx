@@ -7,7 +7,10 @@ import StandaloneAppContext from "~/StandaloneApp/StandaloneAppContext";
 
 import theme from "~/StandaloneApp/theme-old.css";
 import { redirect } from "@remix-run/server-runtime";
-import { updateSectionSettings } from "~/server/api/index.server";
+import {
+	createSection,
+	updateSectionSettings,
+} from "~/server/api/index.server";
 import { prisma } from "~/server/db.server";
 import { useEffect } from "react";
 import { formDataObject } from "~/utils";
@@ -15,7 +18,10 @@ import seedApp from "~/server/seeder";
 
 export const action = async ({ request }) => {
 	const data = formDataObject(await request.formData());
-	await updateSectionSettings(data);
+
+	if (data.sectionId) await updateSectionSettings(data);
+	else await createSection(data);
+
 	return null;
 };
 
@@ -43,10 +49,12 @@ export const loader = async () => {
 		return page;
 	});
 	const pages = app.pages;
+	const currentPage = pages?.length ? pages[0] : null;
 
 	const sections = [
 		...app.sections,
-		...pages.map(({ sections }) => sections).flat(),
+		...(currentPage?.sections.length ? currentPage.sections : []),
+		// ...pages.map(({ sections }) => sections).flat(),
 	].map((section) => {
 		return {
 			...section,
@@ -64,7 +72,7 @@ export const loader = async () => {
 	return {
 		app,
 		pages,
-		currentPage: pages?.length ? pages[0] : null,
+		currentPage,
 		sections,
 		pageProps: {
 			appBar,

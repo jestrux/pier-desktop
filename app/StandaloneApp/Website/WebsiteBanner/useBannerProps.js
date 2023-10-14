@@ -15,5 +15,6 @@ export default function useBannerProps() {
 		...banner,
 		background: banner.background ?? "",
 		imageCornerRadius,
+		buttons: [banner.buttonOne, banner.buttonTwo],
 	};
 }
