@@ -98,6 +98,99 @@ export function SpotlightSearchWrapper() {
 						dragProps={dragProps}
 					>
 						<SpotlightNavigationButton
+							label="Edit App Settings"
+							page={{
+								title: "Edit App Settings",
+								type: "settings",
+								fields: {
+									fontFamily: {
+										label: "Font Family",
+										type: "radio",
+										choices: [
+											{
+												label: "Montserrat",
+												value: `"Montserrat", sans-serif`,
+											},
+											{
+												label: "Open Sans",
+												value: `"Open Sans", sans-serif`,
+											},
+										],
+									},
+									headings: {
+										type: "settings",
+										fields: {
+											uppercaseHeadings: "boolean",
+											headingFontFamily: {
+												label: "Font Family",
+												type: "radio",
+												choices: [
+													{
+														label: "Sans Serif",
+														value: `"Montserrat", sans-serif`,
+													},
+													{
+														label: "Serif",
+														value: `"Cormorant Garamond", serif`,
+													},
+												],
+											},
+											headingFontSize: {
+												label: "Font Size",
+												type: "radio",
+												choices: [
+													{
+														label: "Regular",
+														value: "2.5rem",
+													},
+													{
+														label: "Large",
+														value: "2.85rem",
+													},
+													{
+														label: "X Large",
+														value: "3.2rem",
+													},
+												],
+											},
+											headingFontWeight: {
+												label: "Font Weight",
+												type: "radio",
+												choices: [
+													{
+														label: "bold",
+														value: 700,
+													},
+													{
+														label: "bolder",
+														value: 800,
+													},
+													{
+														label: "black",
+														value: 900,
+													},
+												],
+											},
+										},
+									},
+									roundedCorners: {
+										type: "radio",
+										choices: ["none", "regular", "full"],
+									},
+								},
+								values: pierAppData.app?.settings,
+								onChange: async (value) => {
+									fetcher.submit(
+										{
+											appId: pierAppData.app.id,
+											settings: JSON.stringify(value),
+										},
+										{ method: "post", action: "/app" }
+									);
+								},
+							}}
+						/>
+						<SpotlightNavigationButton
 							label="Edit Navbar"
 							page={{
 								title: "Edit Navbar",

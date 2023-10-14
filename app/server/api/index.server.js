@@ -4,6 +4,34 @@ export { default as createModel } from "./createModel.server";
 
 export { default as initializeDb } from "./initializeDb.server";
 
+export const updateAppSettings = async ({
+	appId,
+	settings: updatedSettings,
+} = {}) => {
+	const { settings: oldSettings } = await prisma.pierApp.findFirst({
+		where: {
+			id: Number(appId),
+		},
+	});
+
+	const settings = {
+		...JSON.parse(oldSettings),
+		...JSON.parse(updatedSettings),
+	};
+
+	await prisma.pierApp.update({
+		data: {
+			id: Number(appId),
+			settings: JSON.stringify(settings),
+		},
+		where: {
+			id: Number(appId),
+		},
+	});
+
+	return settings;
+};
+
 export const createSection = async (payload) => {
 	return await prisma.pierSection.create({
 		data: {

@@ -111,6 +111,7 @@ export const objectFieldChoices = (choices) =>
 		const label = objectField(choice, "label");
 		return {
 			tempId: label,
+			value: label,
 			label: label,
 			...(typeof choice == "object" ? choice : {}),
 		};
@@ -147,7 +148,10 @@ export const parseFields = (fields, data) => {
 
 		const computedDefaultValue = dataValue ?? defaultValue;
 
-		if (choices && !choices.includes(computedDefaultValue))
+		const processedChoices = objectFieldChoices(choices || []).map(
+			({ value }) => value
+		);
+		if (choices && !processedChoices.includes(computedDefaultValue))
 			choices.push(computedDefaultValue);
 
 		return {

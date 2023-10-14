@@ -91,54 +91,59 @@ export default function ActionPage({ page, children }) {
 				})
 			)}
 
-			<div className="bg-card sticky bottom-0 h-11 px-3 flex gap-1 items-center justify-between border-t z-10">
-				<div
-					className={
-						typeof submitHandler.current != "function"
-							? "ml-auto -mr-2"
-							: "-ml-2"
-					}
-				>
-					{page?.secondaryAction && (
+			{(typeof submitHandler.current == "function" ||
+				page?.secondaryAction?.label?.length) && (
+				<div className="bg-card sticky bottom-0 h-11 px-3 flex gap-1 items-center justify-between border-t z-10">
+					<div
+						className={
+							typeof submitHandler.current != "function"
+								? "ml-auto -mr-2"
+								: "-ml-2"
+						}
+					>
+						{page?.secondaryAction && (
+							<Button
+								ref={secondaryActionButtonRef}
+								className="gap-1"
+								rounded="md"
+								size="sm"
+								variant="ghost"
+								colorScheme={
+									page.secondaryAction?.destructive && "red"
+								}
+								onClick={handleSecondaryAction}
+							>
+								<span className="mr-0.5 capitalize">
+									{page.secondaryAction.label}
+								</span>
+								{secondaryActionShortCut
+									.split(" + ")
+									.map((key) => (
+										<CommandKey key={key} label={key} />
+									))}
+							</Button>
+						)}
+					</div>
+
+					{typeof submitHandler.current == "function" && (
 						<Button
-							ref={secondaryActionButtonRef}
-							className="gap-1"
+							className="gap-1 -mr-2"
+							onClick={handleSubmit}
 							rounded="md"
 							size="sm"
 							variant="ghost"
-							colorScheme={
-								page.secondaryAction?.destructive && "red"
-							}
-							onClick={handleSecondaryAction}
 						>
 							<span className="mr-0.5 capitalize">
-								{page.secondaryAction.label}
+								{page?.action || "Submit"}
 							</span>
-							{secondaryActionShortCut.split(" + ").map((key) => (
-								<CommandKey key={key} label={key} />
-							))}
+
+							<CommandKey label="Cmd" />
+
+							<CommandKey label="Enter" />
 						</Button>
 					)}
 				</div>
-
-				{typeof submitHandler.current == "function" && (
-					<Button
-						className="gap-1 -mr-2"
-						onClick={handleSubmit}
-						rounded="md"
-						size="sm"
-						variant="ghost"
-					>
-						<span className="mr-0.5 capitalize">
-							{page?.action || "Submit"}
-						</span>
-
-						<CommandKey label="Cmd" />
-
-						<CommandKey label="Enter" />
-					</Button>
-				)}
-			</div>
+			)}
 		</>
 	);
 }

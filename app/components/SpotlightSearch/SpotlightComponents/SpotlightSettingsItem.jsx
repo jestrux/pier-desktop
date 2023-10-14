@@ -94,6 +94,16 @@ export default function SpotlightSettingsItem({
 		if (type == "boolean")
 			return el.current.querySelector(`#switchItem`).click();
 
+		if (type == "settings") {
+			await pushSpotlightPage({
+				title,
+				type: "settings",
+				fields,
+				values: props.values,
+				onChange: handleChange,
+			});
+		}
+
 		if (type == "object") {
 			const res = await pushSpotlightPage({
 				title,
@@ -125,7 +135,7 @@ export default function SpotlightSettingsItem({
 		//     });
 		// }
 
-		if (type == "image" || type == "color") {
+		if (["image", "color"].includes(type)) {
 			newValue = await pushSpotlightPage({
 				type,
 				title,

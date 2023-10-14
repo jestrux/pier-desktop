@@ -9,6 +9,7 @@ import theme from "~/StandaloneApp/theme-old.css";
 import { redirect } from "@remix-run/server-runtime";
 import {
 	createSection,
+	updateAppSettings,
 	updateSectionSettings,
 } from "~/server/api/index.server";
 import { prisma } from "~/server/db.server";
@@ -19,7 +20,8 @@ import seedApp from "~/server/seeder";
 export const action = async ({ request }) => {
 	const data = formDataObject(await request.formData());
 
-	if (data.sectionId) await updateSectionSettings(data);
+	if (data.appId) await updateAppSettings(data);
+	else if (data.sectionId) await updateSectionSettings(data);
 	else await createSection(data);
 
 	return null;

@@ -8,7 +8,12 @@ export default function SectionText({ title, subtitle, buttonOne, buttonTwo }) {
 
 	return (
 		<div className="flex flex-col items-center justify-center text-center">
-			<h2 className="text-2xl md:text-5xl/none font-bold">
+			<h2 className="text-2xl font-black" style={{
+				fontFamily: "var(--heading-font-family)",
+				fontSize: "var(--heading-font-size)",
+				fontWeight: "var(--heading-font-weight)",
+				textTransform: "var(--heading-text-transform)",
+			}}>
 				<MarkdownText>{title}</MarkdownText>
 			</h2>
 

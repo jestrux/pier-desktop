@@ -15,7 +15,16 @@ const CenteredBanner = () => {
 			></div>
 
 			<div className="flex flex-col items-center text-center max-w-5xl mx-auto py-24 relative">
-				<h2 className="section-title">
+				<h2
+					style={{
+						fontFamily: "var(--heading-font-family)",
+						// fontSize: "var(--heading-font-size)",
+						fontSize: "3.75rem",
+						lineHeight: "1.22",
+						fontWeight: "var(--heading-font-weight)",
+						textTransform: "var(--heading-text-transform)",
+					}}
+				>
 					<MarkdownText>{title}</MarkdownText>
 				</h2>
 
@@ -55,7 +64,15 @@ const RegularBanner = () => {
 
 			<div className="section-wrapper inset flex items-center justify-center py-12 min-h-[600px]">
 				<div className="pt-10 pb-24 pr-12 relative flex-1 overflow-hidden">
-					<h2 className="section-title">
+					<h2
+						style={{
+							fontFamily: "var(--heading-font-family)",
+							fontSize: "calc(var(--heading-font-size)*1.3)",
+							lineHeight: "1.15",
+							fontWeight: "var(--heading-font-weight)",
+							textTransform: "var(--heading-text-transform)",
+						}}
+					>
 						<MarkdownText>{title}</MarkdownText>
 					</h2>
 

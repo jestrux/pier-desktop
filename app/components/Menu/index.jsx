@@ -10,7 +10,7 @@ import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/24/outline";
 import CommandKey from "../CommandKey";
 import useKeyDetector from "~/hooks/useKeyDetector";
-import { randomId } from "~/utils";
+import { objectFieldChoices, randomId } from "~/utils";
 import useOnClickOutside from "~/hooks/useOnClickOutside";
 import { createPortal } from "react-dom";
 import { usePopper } from "./usePopper";
@@ -131,7 +131,7 @@ export default forwardRef(function Menu(
 										className="z-10 pier-spotlight-actions absolute mt-1 w-56 max-h-60 overflow-auto rounded-md bg-card py-1 border shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none text-xs"
 										ref={containerRef}
 									>
-										{choices.map((choice, choiceIdx) => (
+										{objectFieldChoices(choices).map((choice, choiceIdx) => (
 											<Listbox.Option
 												key={choiceIdx}
 												className={({ active }) =>
@@ -141,7 +141,7 @@ export default forwardRef(function Menu(
 															: ""
 													}`
 												}
-												value={choice}
+												value={choice.value}
 											>
 												{({ selected, active }) => (
 													<>
@@ -153,7 +153,7 @@ export default forwardRef(function Menu(
 																	: "text-content/50"
 															}`}
 														>
-															{choice}
+															{choice.label}
 														</span>
 														{selected ? (
 															<span className="absolute inset-y-0 right-0 flex items-center pr-3 text-primary">

@@ -1,8 +1,9 @@
-import { ServerOnly } from "remix-utils";
+import { ServerOnly, useHydrated } from "remix-utils";
 import { useStandaloneAppContext } from "~/StandaloneApp/StandaloneAppContext";
 import SectionButtons from "~/StandaloneApp/components/SectionButtons";
 
 export default function WebsiteNavbar() {
+	const hydrated = useHydrated();
 	const { app, currentPage, pageProps } = useStandaloneAppContext();
 	const {
 		appBar: _appBar,
@@ -23,15 +24,18 @@ export default function WebsiteNavbar() {
 	const buttons = [appBar.buttonOne, appBar.buttonTwo].filter(
 		(button) => button && !button.hidden
 	);
-	const bgClass = "border-b border-[--border-color] bg-white dark:bg-black ";
+	const bgClass = !hydrated
+		? ""
+		: "border-b border-[--border-color] bg-white dark:bg-black ";
 
-	const scrollBehaviorClass =
-		{
-			Sticky: "sticky ",
-			Lift: "Lift sticky ",
-			Leave: "Leave absolute top-0 inset-x-0 ",
-			Collapse: "absolute top-0 inset-x-0 ",
-		}[scrollBehavior] ?? "";
+	const scrollBehaviorClass = !hydrated
+		? ""
+		: {
+				Sticky: "sticky ",
+				Lift: "Lift sticky ",
+				Leave: "Leave absolute top-0 inset-x-0 ",
+				Collapse: "absolute top-0 inset-x-0 ",
+		  }[scrollBehavior] ?? "";
 
 	// @include('pier-website.navbar.mobile')
 
@@ -69,14 +73,16 @@ export default function WebsiteNavbar() {
 	return (
 		<>
 			<style>
-				{`
-            .Lift:not(.scrolled) {
-                background: transparent;
-                border-color: transparent;
-            }
+				{!hydrated
+					? ""
+					: `
+					.Lift:not(.scrolled) {
+						background: transparent;
+						border-color: transparent;
+					}
 
-            ${styles()}
-        `}
+					${styles()}
+				`}
 			</style>
 			<section
 				id="mainNavigationMenu"

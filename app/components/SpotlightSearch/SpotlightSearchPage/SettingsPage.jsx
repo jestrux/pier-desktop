@@ -7,7 +7,9 @@ export default function SettingsPage({ page }) {
 
 	const handleChange = (field, value) => {
 		return onChange(
-			field.type == "object" ? value : { [field.name]: value }
+			["object", "settings"].includes(field.type)
+				? value
+				: { [field.name]: value }
 		);
 	};
 
