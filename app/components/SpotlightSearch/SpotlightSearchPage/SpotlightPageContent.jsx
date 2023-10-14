@@ -12,6 +12,8 @@ import ActionPage from "./ActionPage";
 import FormPage from "./FormPage";
 import ListPage from "./ListPage";
 import ImagePickerPage from "./ImagePickerPage";
+import ColorPickerPage from "./ColorPickerPage";
+import SpotlightPageActions from "./SpotlightPageActions";
 
 export default function SpotlightPageContent({
 	open,
@@ -130,6 +132,7 @@ export default function SpotlightPageContent({
 			content = <ListPage page={page} editable />;
 		if (page.type == "image")
 			content = <ImagePickerPage value={page.value} />;
+		if (page.type == "color") content = <ColorPickerPage page={page} />;
 		else if (pageHasFields) {
 			if (page.type == "settings") content = <SettingsPage page={page} />;
 			if (page.type == "form") content = <FormPage page={page} />;
@@ -175,6 +178,7 @@ export default function SpotlightPageContent({
 							"position-fixed opacity-0 pointer-events-none"
 						}
                     `}
+					readOnly={["color"].includes(page.type)}
 					placeholder={placeholder}
 					value={searchTerm}
 					onChange={handleSearchTermChange}
@@ -183,7 +187,7 @@ export default function SpotlightPageContent({
 					onKeyDown={onKeyDown}
 				/>
 
-				{/* <SpotlightSearchActions page={page} /> */}
+				<SpotlightPageActions page={page} />
 			</div>
 
 			<ComboboxPopover

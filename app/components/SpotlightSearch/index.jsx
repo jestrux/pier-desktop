@@ -158,6 +158,11 @@ export function SpotlightSearchWrapper() {
 								},
 								type: "settings",
 								fields: {
+									background: "color",
+									color: {
+										type: "radio",
+										choices: ["inherit", "black", "white"],
+									},
 									layout: {
 										label: "Layout",
 										type: "radio",

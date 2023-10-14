@@ -125,30 +125,24 @@ export default function SpotlightSettingsItem({
 		//     });
 		// }
 
-		if (type == "image") {
+		if (type == "image" || type == "color") {
 			newValue = await pushSpotlightPage({
-				type: "image",
+				type,
 				title,
 				value,
+				pickGradient: otherProps.pickGradient ?? true,
+				...(type == "color"
+					? {
+							secondaryAction: {
+								label: "Transparent",
+								onClick: () => "inherit",
+							},
+					  }
+					: {}),
 			});
 
 			console.log("New value: ", newValue);
 		}
-
-		// if (type == "color") {
-		//     newValue = await pushSpotlightPage({
-		//         type: "action",
-		//         title,
-		//         secondaryAction: "Transparent",
-		//         onSecondaryAction: () => "inherit",
-		//         content: (
-		//             <PickColor
-		//                 value={value}
-		//                 pickGradient={otherProps.pickGradient ?? true}
-		//             />
-		//         ),
-		//     });
-		// }
 
 		if (newValue?.fromSecondaryAction) newValue = newValue.data;
 

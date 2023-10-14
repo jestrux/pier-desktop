@@ -4,9 +4,7 @@ import { useSpotlightPageActions } from "./SpotlightPageContext";
 
 export default function SpotlightPageActions({ page }) {
 	const ref = useRef();
-	const { actions, value, setValue } = useSpotlightPageActions(
-		...(page?.actions ? page.actions : [])
-	);
+	const { actions, value, setValue } = useSpotlightPageActions();
 
 	if (!actions?.length) return null;
 

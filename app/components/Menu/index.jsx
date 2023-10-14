@@ -59,7 +59,16 @@ export default forwardRef(function Menu(
 
 	useKeyDetector({
 		key: actionKey,
-		action: () => (onTopMenu ? triggerRef.current.click() : null),
+		action: () => {
+			if (
+				!onTopMenu ||
+				!wrapperRef.current ||
+				!wrapperRef.current.querySelector(`#menuTriggerButton`)
+			)
+				return;
+
+			wrapperRef.current.querySelector(`#menuTriggerButton`).click();
+		},
 	});
 
 	useOnClickOutside(
