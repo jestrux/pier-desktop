@@ -9,6 +9,7 @@ import theme from "~/StandaloneApp/theme-old.css";
 import { redirect } from "@remix-run/server-runtime";
 import {
 	createSection,
+	deleteSection,
 	updateAppSettings,
 	updateSectionSettings,
 } from "~/server/api/index.server";
@@ -20,11 +21,14 @@ import seedApp from "~/server/seeder";
 export const action = async ({ request }) => {
 	const data = formDataObject(await request.formData());
 
-	if (data.appId) await updateAppSettings(data);
-	else if (data.sectionId) await updateSectionSettings(data);
-	else await createSection(data);
+	if (data.appId) return await updateAppSettings(data);
+	else if (data.sectionId) {
+		if (!data.settings) return await deleteSection(data.sectionId);
 
-	return null;
+		return await updateSectionSettings(data);
+	}
+
+	return await createSection(data);
 };
 
 export const loader = async () => {

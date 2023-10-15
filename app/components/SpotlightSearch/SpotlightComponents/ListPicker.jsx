@@ -49,7 +49,7 @@ export function ListPickerComponent({
 				return (
 					<SpotlightListItem
 						key={choice.tempId}
-						value={choice.label}
+						value={choice.value}
 						onSelect={handleSelect}
 						leading={
 							typeof leading == "function"
@@ -88,11 +88,17 @@ export function ListPickerComponent({
 	);
 }
 
-export function ListPickerPage(props) {
+export function ListPickerPage({ page }) {
 	const handleSelect = (value) => {
 		popCurrentSpotlightPage(value);
 	};
-	const { popCurrentSpotlightPage } = useSpotlightPageContext();
+	const { popCurrentSpotlightPage } = useSpotlightContext();
 
-	return <ListPickerComponent {...props} onSelect={handleSelect} />;
+	return (
+		<ListPickerComponent
+			choices={page.fields}
+			onSelect={handleSelect}
+			trailing=" "
+		/>
+	);
 }

@@ -12,21 +12,24 @@ export default function StandaloneApp() {
 	return (
 		<>
 			<style>
-				{!hydrated
-					? ""
-					: `
+				{`
 					:root {
 						--primary-color: ${app.color};
 						--heading-text-transform: ${app.settings.uppercaseHeadings ? "uppercase" : ""};
 						--heading-font-size: ${app.settings.headingFontSize ?? "1.875rem"};
-						--heading-font-family: ${app.settings.headingFontFamily ?? ""};
+						--heading-font-family: ${!hydrated ? "" : app.settings.headingFontFamily ?? ""};
 						--heading-font-weight: ${app.settings.headingFontWeight ?? "900"};
 						--banner-text-color: ${bannerColor};
 						--primary-text-color: ${primaryBgTextColor};
 					}
 
 					body {
-						font-family: ${app.settings.fontFamily ?? `"Open Sans", sans-serif`};
+						font-family: ${
+							!hydrated
+								? ""
+								: app.settings.fontFamily ??
+								  "'Open Sans', sans-serif"
+						};
 						font-weight: ${app.settings.fontWeight ?? "500"};
 					}
 				`}
@@ -36,28 +39,21 @@ export default function StandaloneApp() {
 				<WebsiteNavbar />
 
 				<div style={{ minHeight: "140vh" }}>
-					{sections.map((section, index) => {
-						let settings;
+					{pageProps.banner && <WebsiteBanner />}
 
-						try {
-							settings = JSON.parse(section.settings);
-						} catch (error) {
-							if (section.settings) settings = section.settings;
-						}
-
-						if (section.type == "banner")
-							return <WebsiteBanner key={index} />;
-
-						if (section.type == "sectionText") {
-							return (
-								<div className="py-24" key={index}>
-									<SectionText {...settings} />
-								</div>
-							);
-						}
-
-						return null;
-					})}
+					{sections
+						.filter(
+							({ id }) =>
+								![
+									pageProps.banner?.id,
+									pageProps.appBar.id,
+								].includes(id)
+						)
+						.map((section, index) => (
+							<div className="py-24" key={index}>
+								<SectionText {...section.settings} />
+							</div>
+						))}
 				</div>
 			</main>
 		</>

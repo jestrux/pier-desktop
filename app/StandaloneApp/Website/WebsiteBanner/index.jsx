@@ -116,7 +116,7 @@ export default function WebsiteBanner() {
 	return (
 		<section
 			id="banner"
-			className={`{ ${scrollBehavior == "Lift" ? "-mt-16 pt-16" : ""} ${
+			className={`${scrollBehavior == "Lift" ? "-mt-16 pt-16" : ""} ${
 				scrollBehavior == "Leave" ? "pt-16" : ""
 			} relative text-[--banner-text-color]`}
 		>

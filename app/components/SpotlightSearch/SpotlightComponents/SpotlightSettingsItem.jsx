@@ -150,13 +150,9 @@ export default function SpotlightSettingsItem({
 					  }
 					: {}),
 			});
-
-			console.log("New value: ", newValue);
 		}
 
 		if (newValue?.fromSecondaryAction) newValue = newValue.data;
-
-		// console.log("New value: ", newValue);
 
 		if (newValue != null && newValue != undefined) handleChange(newValue);
 	};

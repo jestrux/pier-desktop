@@ -14,6 +14,7 @@ import ListPage from "./ListPage";
 import ImagePickerPage from "./ImagePickerPage";
 import ColorPickerPage from "./ColorPickerPage";
 import SpotlightPageActions from "./SpotlightPageActions";
+import { ListPickerPage } from "../SpotlightComponents/ListPicker";
 
 export default function SpotlightPageContent({
 	open,
@@ -130,8 +131,12 @@ export default function SpotlightPageContent({
 
 		if (page?.values?.length && page.type == "list")
 			content = <ListPage page={page} editable />;
+
 		if (page.type == "image")
 			content = <ImagePickerPage value={page.value} />;
+
+		if (page.type == "select") content = <ListPickerPage page={page} />;
+
 		if (page.type == "color") content = <ColorPickerPage page={page} />;
 		else if (pageHasFields) {
 			if (page.type == "settings") content = <SettingsPage page={page} />;

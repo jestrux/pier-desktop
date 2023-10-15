@@ -33,13 +33,17 @@ export const updateAppSettings = async ({
 };
 
 export const createSection = async (payload) => {
-	return await prisma.pierSection.create({
+	const res = await prisma.pierSection.create({
 		data: {
 			...payload,
 			...(payload.pageId ? { pageId: Number(payload.pageId) } : {}),
 			...(payload.appId ? { appId: Number(payload.appId) } : {}),
 		},
 	});
+
+	console.log("New section: ", res);
+
+	return res;
 };
 
 export const updateSectionSettings = async ({
@@ -68,4 +72,12 @@ export const updateSectionSettings = async ({
 	});
 
 	return settings;
+};
+
+export const deleteSection = async (sectionId) => {
+	return await prisma.pierSection.delete({
+		where: {
+			id: Number(sectionId),
+		},
+	});
 };

@@ -3,11 +3,16 @@ import SpotlightListItem from "./SpotlightListItem";
 import { camelCaseToSentenceCase } from "~/utils";
 import { useSpotlightContext } from "../SpotlightContext";
 
-export default function SpotlightNavigationButton({ label, page, ...props }) {
+export default function SpotlightNavigationButton({
+	label,
+	page,
+	onPop = () => {},
+	...props
+}) {
 	const { pushSpotlightPage } = useSpotlightContext();
 
 	const handleClick = async () => {
-		pushSpotlightPage({
+		const res = await pushSpotlightPage({
 			// secondaryAction: "Submit",
 			// secondaryActionType: "danger",
 			// confirmText: "Delete",
@@ -16,6 +21,8 @@ export default function SpotlightNavigationButton({ label, page, ...props }) {
 			// content,
 			...(page || {}),
 		});
+
+		onPop(res);
 	};
 
 	return (

@@ -151,7 +151,7 @@ export const parseFields = (fields, data) => {
 		const processedChoices = objectFieldChoices(choices || []).map(
 			({ value }) => value
 		);
-		if (choices && !processedChoices.includes(computedDefaultValue))
+		if (computedDefaultValue != undefined && choices && !processedChoices.includes(computedDefaultValue))
 			choices.push(computedDefaultValue);
 
 		return {

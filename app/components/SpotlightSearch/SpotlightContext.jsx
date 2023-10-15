@@ -1,5 +1,7 @@
 /* eslint-disable no-unused-vars */
+import { useFetcher } from "@remix-run/react";
 import { createContext, useContext, useEffect, useRef, useState } from "react";
+import useWebsiteSections from "~/providers/website-sections/useWebsiteSections";
 import { randomId } from "~/utils";
 
 export const SpotlightContext = createContext({
@@ -14,6 +16,7 @@ export const SpotlightContext = createContext({
 	popCurrentSpotlightPage: (data) => {},
 	replaceCurrentSpotlightPage: (page) => {},
 	popSpotlightToRoot: () => {},
+	editSection: (section) => {},
 });
 
 export function SpotlightProvider({ children }) {
@@ -25,6 +28,8 @@ export function SpotlightProvider({ children }) {
 	const registerSpotlightCommand = (name, handler) => {
 		spotlightCommands.current[name] = handler;
 	};
+	const fetcher = useFetcher();
+	const { getSection: getWebsiteSection } = useWebsiteSections();
 
 	const showSpotlightSearch = () => setSpotlightSearchVisible(true);
 
@@ -100,6 +105,37 @@ export function SpotlightProvider({ children }) {
 			);
 	}, []);
 
+	const editSection = (section) => {
+		pushSpotlightPage({
+			title: "Edit " + section.name,
+			secondaryAction: {
+				label: "Remove " + section.name,
+				destructive: true,
+				confirmText: "Remove",
+				onClick: () => {
+					return fetcher.submit(
+						{
+							sectionId: section.id,
+						},
+						{ method: "post", action: "/app" }
+					);
+				},
+			},
+			type: "settings",
+			fields: getWebsiteSection(section.type)?.fields,
+			values: section.settings,
+			onChange: async (value) => {
+				fetcher.submit(
+					{
+						sectionId: section.id,
+						settings: JSON.stringify(value),
+					},
+					{ method: "post", action: "/app" }
+				);
+			},
+		});
+	};
+
 	const value = {
 		pierAppData,
 		spotlightCommands: spotlightCommands.current,
@@ -112,6 +148,7 @@ export function SpotlightProvider({ children }) {
 		popCurrentSpotlightPage,
 		replaceCurrentSpotlightPage,
 		popSpotlightToRoot: () => setSpotlightInnerPages([]),
+		editSection,
 	};
 
 	return (

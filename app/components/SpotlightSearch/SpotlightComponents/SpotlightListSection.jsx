@@ -14,7 +14,7 @@ export default function SpotlightListSection({ title, children }) {
 			)}
 
 			<ComboboxList ref={sectionRef}>
-				<div className="divide-y divide-content/5">{children}</div>
+				<div className="sdivide-y divide-content/5">{children}</div>
 			</ComboboxList>
 		</div>
 	);
