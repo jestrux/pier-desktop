@@ -1,4 +1,8 @@
-import { ChakraProvider, extendTheme } from "@chakra-ui/react";
+import {
+	ChakraProvider,
+	extendTheme,
+	useColorMode,
+} from "@chakra-ui/react";
 import SpotlightSearchPage from "./SpotlightSearchPage";
 import { SpotlightProvider, useSpotlightContext } from "./SpotlightContext";
 import DraggableElement from "~/components/DraggableElement";
@@ -10,7 +14,8 @@ import useKeyDetector from "~/hooks/useKeyDetector";
 import { useFetcher } from "@remix-run/react";
 import SpotlightSettingsItem from "./SpotlightComponents/SpotlightSettingsItem";
 import AlertsWrapper from "../Alerts";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useHydrated } from "remix-utils";
 
 const theme = extendTheme(chakraTheme);
 
@@ -36,6 +41,19 @@ export function SpotlightSearchWrapper() {
 		popSpotlightToRoot,
 		...props
 	} = useSpotlightContext();
+
+	const hydrated = useHydrated();
+	const { setColorMode } = useColorMode();
+
+	useEffect(() => {
+		if (!hydrated) return;
+
+		const dark =
+			window?.matchMedia &&
+			window?.matchMedia("(prefers-color-scheme: dark)").matches;
+
+		setColorMode(dark ? "dark" : "light");
+	}, [hydrated]);
 
 	const fetcher = useFetcher();
 
