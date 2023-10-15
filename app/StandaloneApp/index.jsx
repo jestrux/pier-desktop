@@ -3,6 +3,11 @@ import { useStandaloneAppContext } from "./StandaloneAppContext";
 import SectionText from "./Website/SectionText";
 import WebsiteBanner from "./Website/WebsiteBanner";
 import WebsiteNavbar from "./Website/WebsiteNavbar";
+import Footer from "./Website/SectionComponents/Footer";
+import CtaSection from "./Website/SectionComponents/CtaSection";
+import FeatureSection from "./Website/SectionComponents/FeatureSection";
+import MediaSection from "./Website/SectionComponents/MediaSection";
+import GridSection from "./Website/SectionComponents/GridSection";
 
 export default function StandaloneApp() {
 	const hydrated = useHydrated();
@@ -30,8 +35,21 @@ export default function StandaloneApp() {
 								: app.settings.fontFamily ??
 								  "'Open Sans', sans-serif"
 						};
-						font-weight: ${app.settings.fontWeight ?? "500"};
+						font-weight: ${app.settings.fontWeight ?? 500};
 					}
+
+					.bg-primary {
+						background-color: var(--primary-color);
+					}
+					
+					.bg-accent {
+						background-color: #FDFBE9;
+					}
+					
+					.text-primary {
+						color: var(--primary-color);
+					}
+					
 				`}
 			</style>
 
@@ -55,6 +73,16 @@ export default function StandaloneApp() {
 							</div>
 						))}
 				</div>
+
+				<GridSection />
+
+				<MediaSection />
+
+				<FeatureSection />
+
+				<CtaSection />
+
+				<Footer />
 			</main>
 		</>
 	);
