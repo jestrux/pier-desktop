@@ -1,22 +1,22 @@
-# remix-electron-template
-
-Welcome to your new remix-electron project!
-
-- [remix-electron docs](https://github.com/itsMapleLeaf/remix-electron)
-- [Remix docs](https://remix.run/docs)
+# Pier Desktop
 
 ## Getting Started
 
-1. To install our app's dependencies, run the following command:
+1. Install app dependencies
 
    ```sh
-   npm install
+   yarn
+   ```
+2. Migrate database
+
+   ```sh
+   yarn migrate
    ```
 
 1. To start the app in development mode, run the dev script:
 
    ```sh
-   npm run dev
+   yarn dev
    ```
 
 ## Scripts
