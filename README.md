@@ -4,32 +4,30 @@
 
 1. Install app dependencies
 
-   ```sh
-   yarn
-   ```
+    ```sh
+    yarn
+    ```
+
 2. Migrate database
 
-   ```sh
-   yarn migrate
-   ```
+    ```sh
+    yarn migrate
+    ```
 
-1. To start the app in development mode, run the dev script:
+3. Start the app in development mode
 
-   ```sh
-   yarn dev
-   ```
+    ```sh
+    yarn dev
+    ```
 
-## Scripts
+4. Start the app in production mode
 
-The following scripts are defined in the `package.json` file:
+    ```sh
+    yarn start
+    ```
 
-- `prepare`: This sets up remix dependencies after an install. Don't remove this!
-- `dev`: Starts the app with hot reloading. Uses nodemon to restart the app when main process files change.
-- `build`: Builds the app for production. Uses [Electron Builder](https://www.electron.build/) to create a distributable package.
-- `start`: Starts the app in production mode. Make sure you ran `build` first.
+5. Package app. Uses [Electron Builder](https://www.electron.build/) to create a distributable package.
 
-## Debugging in VSCode
-
-See this guide: https://gist.github.com/kiliman/a9d7c874af03369a1d105a92560d89e9
-
-Choose the `dev` script to debug in dev, and `start` to debug in production.
+    ```sh
+    yarn build
+    ```

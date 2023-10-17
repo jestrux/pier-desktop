@@ -10,7 +10,7 @@
 		"dev:remix": "remix watch",
 		"dev:nodemon": "wait-on file:desktop/main.js && nodemon .",
 		"build": "npm run clean && remix build && electron-builder",
-		"start": "cross-env NODE_ENV=production electron .",
+		"start": "cross-env NODE_ENV=production remix build && electron .",
 		"migrate": "npx prisma db push"
 	},
 	"build": {
