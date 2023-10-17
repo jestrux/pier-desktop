@@ -3,7 +3,7 @@ import textSection from "./text-section";
 export default function gridSection() {
 	const section = {
 		...textSection(),
-		index: 3,
+		index: 4,
 		type: "gridSection",
 		name: "Grid Section",
 	};

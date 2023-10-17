@@ -1,5 +1,8 @@
+import { defaultSettings as defaultAppBarSettings } from "~/providers/website-sections/sections/appBar";
+import { defaultSettings as defaultBannerSettings } from "~/providers/website-sections/sections/banner";
+import { defaultSettings as defaultFooterSettings } from "~/providers/website-sections/sections/footer";
+
 export default {
-	_id: "a023524c-16e0-4d37-b452-416bbc24620f",
 	icon: "https://ipf-website.s3.amazonaws.com/paperless.png",
 	color: "#2196F3",
 	type: "website",
@@ -18,79 +21,24 @@ export default {
 		headingFontWeight: 800,
 		roundedCorners: "regular",
 	},
-	created_at: "2023-03-30T11:32:27.000000Z",
-	updated_at: "2023-03-30T11:59:02.000000Z",
 	sections: [
 		{
-			_id: "f2f7fc8f-4bbe-492a-af8f-6038fb8732e4",
 			name: "Global Appbar",
 			type: "appBar",
-			index: 1,
-			settings: {
-				showAppName: false,
-				scrollBehavior: "Lift",
-				links: [
-					{
-						tempId: "Home",
-						label: "Home",
-						appPage: true,
-						page: "Home",
-						underline: false,
-					},
-					{
-						tempId: "About Us",
-						label: "About Us",
-						appPage: false,
-						url: "#",
-						underline: false,
-					},
-					{
-						label: "Our Services",
-						appPage: false,
-						url: "#",
-						underline: false,
-						tempId: "Our Services",
-					},
-					{
-						tempId: "Contact Us",
-						label: "Feautured Work",
-						appPage: false,
-						url: "#",
-						underline: false,
-					},
-				],
-				activeLink: {
-					showIndicator: false,
-					useAppColorForText: false,
-				},
-				buttonOne: {
-					tempId: "Login",
-					label: "Contact Us",
-					appPage: false,
-					url: "#",
-					style: "Outline",
-					useAppColor: false,
-					hidden: false,
-				},
-				buttonTwo: {
-					tempId: "Get Started",
-					label: "Get Started",
-					url: "#",
-					style: "Filled",
-					hidden: true,
-				},
-				layout: "Regular",
-			},
+			index: 0,
+			settings: defaultAppBarSettings,
 			platform: "all",
-			parent_id: "a023524c-16e0-4d37-b452-416bbc24620f",
-			parent_type: "app",
-			created_at: "2023-03-30T11:32:27.000000Z",
-			updated_at: "2023-05-19T17:24:43.000000Z",
+		},
+		{
+			name: "Footer",
+			type: "footer",
+			index: 100,
+			settings: defaultFooterSettings,
+			platform: "all",
 		},
 	],
 	pages: [
 		{
-			_id: "c4cb7557-d1cb-4de7-bee7-90d75f9d5bd0",
 			icon: "home",
 			name: "Home",
 			type: "custom",
@@ -98,47 +46,13 @@ export default {
 			settings: {
 				layout: "default",
 			},
-			app_id: "a023524c-16e0-4d37-b452-416bbc24620f",
-			created_at: "2023-03-30T11:32:27.000000Z",
-			updated_at: "2023-03-30T11:32:27.000000Z",
 			sections: [
 				{
-					_id: "986a44df-1e42-4f81-924a-45843eb85a5f",
 					name: "Banner",
 					type: "banner",
 					index: 1,
-					settings: {
-						layout: "Centered",
-						image: "https://images.unsplash.com/photo-1522444501378-94cddd292428?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxNjE2NXwwfDF8c2VhcmNofDEzNXx8aW5kb29yJTIwcGxhbnRzfGVufDB8fHx8MTY4MTg0NTA3OQ&ixlib=rb-4.0.3&q=80&w=1080",
-						title: "Ten remote productivity\nhacks and tricks",
-						subtitle:
-							"The little things that actually boost your energy and keep you \ngoing through your work day.",
-						buttonOne: {
-							tempId: "Speaker List",
-							label: "Speaker List",
-							hidden: true,
-							url: "#",
-							style: "Outline",
-							useAppColor: false,
-						},
-						buttonTwo: {
-							label: "Grab your own copy now",
-							appPage: false,
-							url: "#",
-							style: "Filled",
-							useAppColor: true,
-							tempId: "Book your Seat",
-							hidden: false,
-						},
-						color: "black",
-						background:
-							"linear-gradient(90deg, #e3ffe7 0%, #d9e7ff 100%)",
-					},
+					settings: defaultBannerSettings,
 					platform: "all",
-					parent_id: "c4cb7557-d1cb-4de7-bee7-90d75f9d5bd0",
-					parent_type: "page",
-					created_at: "2023-03-30T11:39:54.000000Z",
-					updated_at: "2023-05-03T10:18:38.000000Z",
 				},
 			],
 		},

@@ -1,4 +1,3 @@
-import { ChevronRightIcon } from "@heroicons/react/24/outline";
 import SpotlightListItem from "../SpotlightComponents/SpotlightListItem";
 import SpotlightListSection from "../SpotlightComponents/SpotlightListSection";
 import { useSpotlightContext } from "../SpotlightContext";
@@ -9,9 +8,9 @@ export default function PageSections() {
 
 	if (!pierAppData?.pageProps) return;
 
-	const { banner, appBar } = pierAppData.pageProps;
+	const { banner, appBar, footer } = pierAppData.pageProps;
 	const sections = pierAppData.sections.filter(
-		({ id }) => ![banner?.id, appBar.id].includes(id)
+		({ id }) => ![banner?.id, appBar?.id, footer?.id].includes(id)
 	);
 
 	return (
@@ -22,12 +21,7 @@ export default function PageSections() {
 					label={section.name}
 					value={section.id}
 					onSelect={() => editSection(section)}
-					trailing={
-						<ChevronRightIcon
-							className="w-4 opacity-40"
-							strokeWidth={2}
-						/>
-					}
+					trailing={SpotlightListItem.NavIcon}
 				/>
 			))}
 

@@ -83,7 +83,7 @@ export default function WebsiteNavbar() {
 						<a href="#" className="flex items-center gap-3">
 							<img
 								className="max-h-8 max-w-[130px]"
-								src={app.icon}
+								src={appBar?.logo ?? app.icon}
 								alt=""
 							/>
 

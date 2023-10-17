@@ -11,9 +11,10 @@ import { useEffect } from "react";
 import { useHydrated } from "remix-utils";
 import AppSettings from "./SpotlightPages/AppSettings";
 import EditBanner from "./SpotlightPages/EditBanner";
-import EditNavbar from "./SpotlightPages/EditNavbar";
+import EditAppBar from "./SpotlightPages/EditAppBar";
 import PageSections from "./SpotlightPages/PageSections";
 import SpotlightListSection from "./SpotlightComponents/SpotlightListSection";
+import EditFooter from "./SpotlightPages/EditFooter";
 
 const theme = extendTheme(chakraTheme);
 
@@ -62,9 +63,11 @@ export function SpotlightSearchWrapper() {
 						<SpotlightListSection>
 							<AppSettings />
 
-							<EditNavbar />
+							<EditAppBar />
 
 							<EditBanner />
+
+							<EditFooter />
 						</SpotlightListSection>
 
 						<PageSections />

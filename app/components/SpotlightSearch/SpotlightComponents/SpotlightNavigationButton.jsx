@@ -1,4 +1,3 @@
-import { ChevronRightIcon } from "@heroicons/react/24/outline";
 import SpotlightListItem from "./SpotlightListItem";
 import { camelCaseToSentenceCase } from "~/utils";
 import { useSpotlightContext } from "../SpotlightContext";
@@ -27,9 +26,7 @@ export default function SpotlightNavigationButton({
 
 	return (
 		<SpotlightListItem
-			trailing={
-				<ChevronRightIcon className="w-4 opacity-40" strokeWidth={2} />
-			}
+			trailing={SpotlightListItem.NavIcon}
 			{...props}
 			label={camelCaseToSentenceCase(label)}
 			value={label}

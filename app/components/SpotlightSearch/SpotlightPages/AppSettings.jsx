@@ -95,7 +95,7 @@ export default function AppSettings() {
 							appId: pierAppData.app.id,
 							settings: JSON.stringify(value),
 						},
-						{ method: "post", action: "/app" }
+						{ method: "patch", action: "/app" }
 					);
 				},
 			}}

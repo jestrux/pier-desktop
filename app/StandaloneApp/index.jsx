@@ -54,7 +54,7 @@ export default function StandaloneApp() {
 			</style>
 
 			<main className="bg-[--bg-color] text-[--text-color]">
-				<WebsiteNavbar />
+				{pageProps.appBar && <WebsiteNavbar />}
 
 				<div style={{ minHeight: "140vh" }}>
 					{pageProps.banner && <WebsiteBanner />}
@@ -64,25 +64,41 @@ export default function StandaloneApp() {
 							({ id }) =>
 								![
 									pageProps.banner?.id,
-									pageProps.appBar.id,
+									pageProps.appBar?.id,
+									pageProps.footer?.id,
 								].includes(id)
 						)
-						.map((section, index) => (
-							<div className="py-24" key={index}>
-								<SectionText {...section.settings} />
-							</div>
-						))}
+						.map((section, index) => {
+							if (section.type == "textSection") {
+								return (
+									<div className="py-24" key={index}>
+										<SectionText {...section.settings} />
+									</div>
+								);
+							}
+
+							const Component = {
+								gridSection: GridSection,
+								mediaSection: MediaSection,
+								featureSection: FeatureSection,
+								ctaSection: CtaSection,
+								footer: Footer,
+							}[section.type];
+
+							if (Component) {
+								return (
+									<Component
+										key={index}
+										{...section.settings}
+									/>
+								);
+							}
+
+							return null;
+						})}
 				</div>
 
-				<GridSection />
-
-				<MediaSection />
-
-				<FeatureSection />
-
-				<CtaSection />
-
-				<Footer />
+				{pageProps.footer && <Footer />}
 			</main>
 		</>
 	);

@@ -65,10 +65,12 @@ export default function AddSection() {
 			page={{
 				title: "Add Section",
 				type: "select",
-				fields: sectionArray.map(({ type, name }) => ({
-					label: name,
-					value: type,
-				})),
+				fields: sectionArray
+					.filter(({ type }) => !["appBar", "banner", "footer"].includes(type))
+					.map(({ type, name }) => ({
+						label: name,
+						value: type,
+					})),
 			}}
 			onPop={handleAddSection}
 		/>

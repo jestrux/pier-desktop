@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
 import { ComboboxOption } from "~/components/reach-combobox"; //"@reach/combobox";
 import { useSpotlightPageContext } from "../SpotlightSearchPage/SpotlightPageContext";
+import { ChevronRightIcon } from "@heroicons/react/24/outline";
 
 export const defaultSpotlightSearchItemLeading = (
 	<svg
@@ -18,7 +19,7 @@ export const defaultSpotlightSearchItemLeading = (
 	</svg>
 );
 
-export default function SpotlightListItem({
+function SpotlightListItem({
 	id = "",
 	value,
 	leading = defaultSpotlightSearchItemLeading,
@@ -122,3 +123,9 @@ export default function SpotlightListItem({
 		</ComboboxOption>
 	);
 }
+
+SpotlightListItem.NavIcon = (
+	<ChevronRightIcon className="w-4 opacity-40" strokeWidth={2} />
+);
+
+export default SpotlightListItem;

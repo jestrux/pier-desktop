@@ -1,15 +1,15 @@
 import SpotlightListItem from "../SpotlightComponents/SpotlightListItem";
 import { useSpotlightContext } from "../SpotlightContext";
 
-export default function EditBanner() {
+export default function EditAppBar() {
 	const { pierAppData, addSection, editSection } = useSpotlightContext();
-	const banner = pierAppData.pageProps.banner;
+	const appBar = pierAppData.pageProps.appBar;
 
 	return (
 		<SpotlightListItem
-			value="Page Banner"
+			value="App NavBar"
 			onSelect={() =>
-				banner ? editSection(banner) : addSection("banner")
+				appBar ? editSection(appBar) : addSection("appBar", "app")
 			}
 			trailing={SpotlightListItem.NavIcon}
 		/>

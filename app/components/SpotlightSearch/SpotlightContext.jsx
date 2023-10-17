@@ -16,6 +16,7 @@ export const SpotlightContext = createContext({
 	popCurrentSpotlightPage: (data) => {},
 	replaceCurrentSpotlightPage: (page) => {},
 	popSpotlightToRoot: () => {},
+	addSection: (type) => {},
 	editSection: (section) => {},
 });
 
@@ -117,7 +118,7 @@ export function SpotlightProvider({ children }) {
 						{
 							sectionId: section.id,
 						},
-						{ method: "post", action: "/app" }
+						{ method: "delete", action: "/app" }
 					);
 				},
 			},
@@ -130,9 +131,62 @@ export function SpotlightProvider({ children }) {
 						sectionId: section.id,
 						settings: JSON.stringify(value),
 					},
-					{ method: "post", action: "/app" }
+					{ method: "patch", action: "/app" }
 				);
 			},
+		});
+	};
+
+	const addSection = async (type, parent = "page") => {
+		const section = getWebsiteSection(type);
+
+		if (!section) return console.log("Section not found: ", type);
+
+		let defaultValues = section.defaultValues;
+
+		if (!defaultValues) {
+			const defaultFields = Object.entries(section.fields).filter(
+				([, field]) => field.defaultValue != undefined
+			);
+
+			defaultValues = defaultFields.reduce((agg, [fieldName, field]) => {
+				return {
+					...agg,
+					...(["object", "form", "settings"].includes(field.type)
+						? field.defaultValue
+						: { [fieldName]: field.defaultValue }),
+				};
+			}, {});
+		}
+
+		const payload = {
+			name: section.name,
+			type: section.type,
+			settings: JSON.stringify(defaultValues),
+			...(parent == "page"
+				? { pageId: pierAppData.currentPage.id }
+				: { appId: pierAppData.app.id }),
+		};
+
+		const listenForNewEntry = (e) => {
+			editSection(e.detail.sections.at(-1));
+
+			document.removeEventListener(
+				"pier:app-data-changed",
+				listenForNewEntry,
+				false
+			);
+		};
+
+		document.addEventListener(
+			"pier:app-data-changed",
+			listenForNewEntry,
+			false
+		);
+
+		fetcher.submit(payload, {
+			method: "post",
+			action: "/app",
 		});
 	};
 
@@ -148,6 +202,7 @@ export function SpotlightProvider({ children }) {
 		popCurrentSpotlightPage,
 		replaceCurrentSpotlightPage,
 		popSpotlightToRoot: () => setSpotlightInnerPages([]),
+		addSection,
 		editSection,
 	};
 

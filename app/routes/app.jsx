@@ -20,15 +20,17 @@ import seedApp from "~/server/seeder";
 
 export const action = async ({ request }) => {
 	const data = formDataObject(await request.formData());
+	let res;
 
-	if (data.appId) return await updateAppSettings(data);
+	if (data.appId && request.method == "PATCH")
+		res = await updateAppSettings(data);
 	else if (data.sectionId) {
-		if (!data.settings) return await deleteSection(data.sectionId);
+		if (request.method == "DELETE")
+			res = await deleteSection(data.sectionId);
+		else res = await updateSectionSettings(data);
+	} else res = await createSection(data);
 
-		return await updateSectionSettings(data);
-	}
-
-	return await createSection(data);
+	return res;
 };
 
 export const loader = async () => {
@@ -74,6 +76,7 @@ export const loader = async () => {
 	const scrollBehavior = appBar?.settings?.scrollBehavior ?? "Sticky";
 	const banner = sections.find(({ type }) => type == "banner");
 	const bannerColor = banner?.settings?.color ?? "inherit";
+	const footer = sections.find(({ type }) => type == "footer");
 
 	return {
 		app,
@@ -86,6 +89,7 @@ export const loader = async () => {
 			scrollBehavior,
 			banner,
 			bannerColor,
+			footer,
 		},
 	};
 };
