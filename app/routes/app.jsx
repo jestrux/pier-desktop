@@ -8,6 +8,7 @@ import StandaloneAppContext from "~/StandaloneApp/StandaloneAppContext";
 import theme from "~/StandaloneApp/theme-old.css";
 import { redirect } from "@remix-run/server-runtime";
 import {
+	createPage,
 	createSection,
 	deleteSection,
 	updateAppSettings,
@@ -17,23 +18,30 @@ import { prisma } from "~/server/db.server";
 import { useEffect } from "react";
 import { formDataObject } from "~/utils";
 import seedApp from "~/server/seeder";
+import getIp from "~/server/getIp.server";
 
 export const action = async ({ request }) => {
-	const data = formDataObject(await request.formData());
-	let res;
+	const { _action, ...data } = formDataObject(await request.formData());
 
-	if (data.appId && request.method == "PATCH")
-		res = await updateAppSettings(data);
-	else if (data.sectionId) {
+	if (data.appId) {
+		if (request.method == "PATCH") return await updateAppSettings(data);
+
+		if (_action == "addPage") return await createPage(data);
+	}
+
+	if (data.sectionId) {
 		if (request.method == "DELETE")
-			res = await deleteSection(data.sectionId);
-		else res = await updateSectionSettings(data);
-	} else res = await createSection(data);
+			return await deleteSection(data.sectionId);
 
-	return res;
+		return await updateSectionSettings(data);
+	}
+
+	return await createSection(data);
 };
 
-export const loader = async () => {
+export const loader = async ({ context }) => {
+	const ipAddress = getIp();
+
 	let app;
 	try {
 		app = await prisma.pierApp.findFirstOrThrow({
@@ -78,7 +86,11 @@ export const loader = async () => {
 	const bannerColor = banner?.settings?.color ?? "inherit";
 	const footer = sections.find(({ type }) => type == "footer");
 
+	if (typeof context.socket.emit == "function")
+		context.socket.emit("app-changed", JSON.stringify({ app, models: [] }));
+
 	return {
+		ipAddress,
 		app,
 		pages,
 		currentPage,

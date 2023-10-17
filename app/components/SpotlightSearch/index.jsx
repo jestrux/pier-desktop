@@ -15,6 +15,7 @@ import EditAppBar from "./SpotlightPages/EditAppBar";
 import PageSections from "./SpotlightPages/PageSections";
 import SpotlightListSection from "./SpotlightComponents/SpotlightListSection";
 import EditFooter from "./SpotlightPages/EditFooter";
+import EditPage from "./SpotlightPages/EditPage";
 
 const theme = extendTheme(chakraTheme);
 
@@ -62,6 +63,8 @@ export function SpotlightSearchWrapper() {
 					>
 						<SpotlightListSection>
 							<AppSettings />
+
+							<EditPage />
 
 							<EditAppBar />
 

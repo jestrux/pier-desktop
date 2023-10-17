@@ -9,6 +9,7 @@
 		"dev": "npm run clean && cross-env NODE_ENV=development npm-run-all --parallel --print-label --race dev:*",
 		"dev:remix": "remix watch",
 		"dev:nodemon": "wait-on file:desktop/main.js && nodemon .",
+		"dev:studio": "npx prisma studio",
 		"build": "npm run clean && remix build && electron-builder",
 		"start": "cross-env NODE_ENV=production remix build && electron .",
 		"migrate": "npx prisma db push"
@@ -45,6 +46,7 @@
 		"@remix-run/web-stream": ">=1.0.3",
 		"eslint": "^8.48.0",
 		"eslint-plugin-react": "^7.33.2",
+		"express": "^4.18.2",
 		"fast-glob": "^3.2.12",
 		"framer-motion": "^10.16.2",
 		"isbot": "latest",
@@ -54,10 +56,12 @@
 		"react-color": "^2.19.3",
 		"react-dom": "^18.2.0",
 		"react-hot-toast": "^2.4.1",
+		"react-qr-code": "^2.0.12",
 		"react-textarea-autosize": "^8.5.3",
 		"remarkable": "^2.0.1",
 		"remix-electron": "latest",
 		"remix-utils": "^6.6.0",
+		"socket.io": "^4.7.2",
 		"sqlite3": "^5.1.6",
 		"textarea-markdown-editor": "^1.0.4",
 		"tinycolor2": "^1.6.0"

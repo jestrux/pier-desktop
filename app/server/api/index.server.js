@@ -32,6 +32,15 @@ export const updateAppSettings = async ({
 	return settings;
 };
 
+export const createPage = async (payload) => {
+	return await prisma.pierPage.create({
+		data: {
+			...payload,
+			appId: Number(payload.appId),
+		},
+	});
+};
+
 export const createSection = async (payload) => {
 	return await prisma.pierSection.create({
 		data: {
