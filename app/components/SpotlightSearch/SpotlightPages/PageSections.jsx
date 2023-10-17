@@ -1,10 +1,13 @@
+import { PlusIcon } from "@heroicons/react/24/outline";
 import SpotlightListItem from "../SpotlightComponents/SpotlightListItem";
 import SpotlightListSection from "../SpotlightComponents/SpotlightListSection";
+import SpotlightNavigationButton from "../SpotlightComponents/SpotlightNavigationButton";
 import { useSpotlightContext } from "../SpotlightContext";
-import AddSection from "./AddSection";
+import useWebsiteSections from "~/providers/website-sections/useWebsiteSections";
 
 export default function PageSections() {
-	const { pierAppData, editSection } = useSpotlightContext();
+	const { pierAppData, addSection, editSection } = useSpotlightContext();
+	const { sectionArray } = useWebsiteSections();
 
 	if (!pierAppData?.pageProps) return;
 
@@ -25,7 +28,25 @@ export default function PageSections() {
 				/>
 			))}
 
-			<AddSection />
+			<SpotlightNavigationButton
+				className="text-primary"
+				leading={<PlusIcon width={20} />}
+				label="Add Section"
+				page={{
+					title: "Add Section",
+					type: "select",
+					fields: sectionArray
+						.filter(
+							({ type }) =>
+								!["appBar", "banner", "footer"].includes(type)
+						)
+						.map(({ type, name }) => ({
+							label: name,
+							value: type,
+						})),
+				}}
+				onPop={addSection}
+			/>
 		</SpotlightListSection>
 	);
 }

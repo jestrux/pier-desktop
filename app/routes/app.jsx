@@ -10,8 +10,10 @@ import { redirect } from "@remix-run/server-runtime";
 import {
 	createPage,
 	createSection,
+	deletePage,
 	deleteSection,
 	updateAppSettings,
+	updatePage,
 	updateSectionSettings,
 } from "~/server/api/index.server";
 import { prisma } from "~/server/db.server";
@@ -34,6 +36,11 @@ export const action = async ({ request }) => {
 			return await deleteSection(data.sectionId);
 
 		return await updateSectionSettings(data);
+	}
+
+	if (data.pageId) {
+		if (request.method == "DELETE") return await deletePage(data.pageId);
+		else if (_action == "editPage") return await updatePage(data);
 	}
 
 	return await createSection(data);

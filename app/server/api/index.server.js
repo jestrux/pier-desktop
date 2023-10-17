@@ -41,6 +41,42 @@ export const createPage = async (payload) => {
 	});
 };
 
+export const updatePage = async ({ pageId, ...payload } = {}) => {
+	let settings;
+
+	if (payload.settings) {
+		const { settings: oldSettings } = await prisma.pierPage.findFirst({
+			where: {
+				id: Number(pageId),
+			},
+		});
+
+		settings = JSON.stringify({
+			...JSON.parse(oldSettings),
+			...JSON.parse(payload.settings),
+		});
+	}
+
+	return await prisma.pierPage.update({
+		data: {
+			id: Number(pageId),
+			...payload,
+			...(settings ? { settings } : {}),
+		},
+		where: {
+			id: Number(pageId),
+		},
+	});
+};
+
+export const deletePage = async (pageId) => {
+	return await prisma.pierPage.delete({
+		where: {
+			id: Number(pageId),
+		},
+	});
+};
+
 export const createSection = async (payload) => {
 	return await prisma.pierSection.create({
 		data: {

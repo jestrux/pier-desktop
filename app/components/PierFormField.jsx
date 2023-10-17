@@ -62,7 +62,7 @@ const PierField = ({ field, value, onChange }) => {
 										className="cursor-pointer"
 									>
 										<input
-											className="hidden"
+											className="peer opacity-0 pointer-events-none"
 											type="radio"
 											name={field.name}
 											value={choiceValue}
