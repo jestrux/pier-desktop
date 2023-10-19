@@ -47,16 +47,18 @@ async function getApp() {
 	});
 
 	app.settings = JSON.parse(app.settings);
-	app.pages = app.pages.map((page) => {
-		page.settings = JSON.parse(page.settings);
-		page.sections = page.sections.map((section) => {
-			return {
-				...section,
-				section: JSON.parse(section.settings),
-			};
-		});
-		return page;
-	});
+	app.pages = app.pages
+		.map((page) => {
+			page.settings = JSON.parse(page.settings);
+			page.sections = page.sections.map((section) => {
+				return {
+					...section,
+					section: JSON.parse(section.settings),
+				};
+			});
+			return page;
+		})
+		.sort((a, b) => a.index - b.index);
 
 	// console.log("Pier app:", app);
 
@@ -98,7 +100,7 @@ async function createWindow(url) {
 	win.show();
 
 	if (isDev) {
-		win.webContents.openDevTools();
+		// win.webContents.openDevTools();
 	}
 }
 

@@ -6,7 +6,10 @@ import {
 } from "@heroicons/react/24/solid";
 import { useRef } from "react";
 import SpotlightListItem from "../SpotlightComponents/SpotlightListItem";
-import { useSpotlightPageState } from "./SpotlightPageContext";
+import {
+	useSpotlightPageContext,
+	useSpotlightPageState,
+} from "./SpotlightPageContext";
 import { useSpotlightContext } from "../SpotlightContext";
 import useFocusCapture from "~/hooks/useFocusCapture";
 import { objectFieldChoices } from "~/utils";
@@ -14,15 +17,12 @@ import useAlerts from "~/components/Alerts/useAlerts";
 import SpotlightListSection from "../SpotlightComponents/SpotlightListSection";
 
 export default function ListPage({ page, ..._props }) {
-	const {
-		reorder = true,
-		addAction = "Add new entry",
-		canAdd = true,
-		...pageProps
-	} = page ?? {};
 	const props = {
+		addAction: "Add new entry",
+		editable: true,
+		canAdd: true,
 		..._props,
-		...pageProps,
+		...(page ?? {}),
 	};
 	const { captureFocus, restoreFocus } = useFocusCapture();
 	const { confirm } = useAlerts();
@@ -33,7 +33,7 @@ export default function ListPage({ page, ..._props }) {
 	} = useSpotlightContext();
 	const [fields, setFields] = useSpotlightPageState(
 		"value",
-		objectFieldChoices(props.values)
+		objectFieldChoices(props.value)
 	);
 	const [fieldBeingEdited, setFieldBeingEdited] =
 		useSpotlightPageState("fieldBeingEdited");
@@ -49,7 +49,7 @@ export default function ListPage({ page, ..._props }) {
 
 		if (!newProps)
 			newFields = fields.filter(({ tempId }) => tempId != fieldId);
-		else if (fieldId == addAction)
+		else if (fieldId == props.addAction)
 			newFields = [...fields, { ...newProps, tempId: newProps.label }];
 		else
 			newFields = fields.map((field) => {
@@ -66,7 +66,7 @@ export default function ListPage({ page, ..._props }) {
 	};
 
 	const lastSelection = useRef(Date.now());
-	const { navigationValue, onSelect, onChange } = useSpotlightContext();
+	const { navigationValue, onSelect, onChange } = useSpotlightPageContext();
 
 	onChange(() => {
 		if (Date.now() - lastSelection.current > 50) setFieldBeingEdited(null);
@@ -74,57 +74,56 @@ export default function ListPage({ page, ..._props }) {
 
 	onSelect(async (value) => {
 		lastSelection.current = Date.now();
-		const addingNewField = value == addAction;
+		const addingNewField = value == props.addAction;
 		const field = addingNewField
-			? { tempId: addAction }
+			? { tempId: props.addAction }
 			: fields.find((field) => field.tempId == value);
 
-		if (props.editable) {
-			if (typeof props.onEdit == "function") {
-				const overriddenProps = props.onEdit(
-					addingNewField ? null : field
-				);
-				const formProps = {
-					type: "form",
-					values: field,
-					secondaryAction: "Delete",
-					secondaryActionType: "danger",
-					...overriddenProps,
-				};
+		if (typeof props.onEdit == "function") {
+			const overriddenProps = props.onEdit(addingNewField ? null : field);
+			const formProps = {
+				type: "form",
+				values: field,
+				secondaryAction: "Delete",
+				secondaryActionType: "danger",
+				...overriddenProps,
+			};
 
-				if (overriddenProps.data) {
-					updateField(value, overriddenProps.data, {
-						replace: true,
-						dontPersist:
-							typeof formProps.onSave == "function" &&
-							(addingNewField || !res),
-					});
-				}
-
-				if (addingNewField) formProps.secondaryAction = null;
-
-				let res = await pushSpotlightPage(formProps);
-
-				if (!res) return;
-
-				if (res.fromSecondaryAction) res = res.data;
-
-				updateField(value, res, {
+			if (overriddenProps.data) {
+				updateField(value, overriddenProps.data, {
 					replace: true,
 					dontPersist:
 						typeof formProps.onSave == "function" &&
 						(addingNewField || !res),
 				});
-			} else {
-				captureFocus();
-				setFieldBeingEdited(field);
 			}
+
+			if (addingNewField) formProps.secondaryAction = null;
+
+			let res = await pushSpotlightPage(formProps);
+
+			if (!res) return;
+
+			if (res.fromSecondaryAction) res = res.data;
+
+			updateField(value, res, {
+				replace: true,
+				dontPersist:
+					typeof formProps.onSave == "function" &&
+					(addingNewField || !res),
+			});
 		} else if (typeof props.onSelect == "function") {
 			const newPageProps = props.onSelect(field);
+
+			if (!newPageProps) return popCurrentSpotlightPage(field);
+
 			const navigationAction = newPageProps.replace
 				? replaceCurrentSpotlightPage
 				: pushSpotlightPage;
 			navigationAction(newPageProps);
+		} else if (props.editable) {
+			captureFocus();
+			setFieldBeingEdited(field);
 		} else updateField(value, { hidden: !field.hidden });
 	});
 
@@ -134,7 +133,7 @@ export default function ListPage({ page, ..._props }) {
 	) {
 		props.onSubmit(() => {
 			popCurrentSpotlightPage(
-				typeof props.values[0] == "object"
+				typeof props.value[0] == "object"
 					? fields
 					: fields.map(({ label }) => label)
 			);
@@ -176,7 +175,7 @@ export default function ListPage({ page, ..._props }) {
 		requestAnimationFrame(() => {
 			setFields(fields);
 
-			if (typeof props.onSave == "function") props.onSave(fields);
+			if (typeof props.onReorder == "function") props.onReorder(fields);
 		});
 	};
 
@@ -194,13 +193,13 @@ export default function ListPage({ page, ..._props }) {
 
 	const FieldItem = (field) => {
 		const selected = navigationValue == field.tempId;
-		const isNewEntry = field.tempId == addAction;
+		const isNewEntry = field.tempId == props.addAction;
 		return (
 			<div
 				key={field.tempId}
 				className={`
                     h-12 flex items-center gap-2 px-4 text-base leading-none
-                    ${isNewEntry && "border-t border-divider text-primary"}
+                    ${isNewEntry && "border-t border-content/5 text-primary"}
                     ${selected && "data-reach-combobox-selected"}
                 `}
 			>
@@ -310,38 +309,36 @@ export default function ListPage({ page, ..._props }) {
 					);
 				})}
 
-				{props.editable && canAdd && (
+				{props.canAdd && (
 					<SpotlightListItem
 						className={`text-primary
                     ${
-						navigationValue == addAction &&
+						navigationValue == props.addAction &&
 						"data-reach-combobox-selected"
 					}
                     `}
-						label={addAction}
-						value={addAction}
+						label={props.addAction}
+						value={props.addAction}
 						leading={<PlusIcon width={20} />}
 						trailing=" "
 					/>
 				)}
 			</SpotlightListSection>
 
-			{reorder && (
+			{typeof props.onReorder == "function" && (
 				<div className="absolute inset-0 bg-card">
 					<DragDropList
-						idKey="tempId"
-						className="divide-y divide-content/10"
+						className="divide-y divide-content/5"
 						items={fields}
 						onChange={handleSetFields}
 					>
 						{({ item: field }) => FieldItem(field)}
 					</DragDropList>
 
-					{props.editable &&
-						canAdd &&
+					{props.canAdd &&
 						FieldItem({
-							tempId: addAction,
-							label: addAction,
+							tempId: props.addAction,
+							label: props.addAction,
 						})}
 				</div>
 			)}

@@ -33,6 +33,8 @@ export const updateAppSettings = async ({
 };
 
 export const createPage = async (payload) => {
+	if (payload.index != undefined) payload.index = Number(payload.index);
+
 	return await prisma.pierPage.create({
 		data: {
 			...payload,
@@ -41,8 +43,27 @@ export const createPage = async (payload) => {
 	});
 };
 
+export const reorderPages = async ({ pages } = {}) => {
+	for (let i = 0; i < pages.length; i++) {
+		const { pageId, index } = pages[i];
+		await prisma.pierPage.update({
+			data: {
+				id: Number(pageId),
+				index: Number(index),
+			},
+			where: {
+				id: Number(pageId),
+			},
+		});
+	}
+
+	return null;
+};
+
 export const updatePage = async ({ pageId, ...payload } = {}) => {
 	let settings;
+
+	if (payload.index != undefined) payload.index = Number(payload.index);
 
 	if (payload.settings) {
 		const { settings: oldSettings } = await prisma.pierPage.findFirst({

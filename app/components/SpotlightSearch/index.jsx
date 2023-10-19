@@ -21,6 +21,7 @@ const theme = extendTheme(chakraTheme);
 
 export function SpotlightSearchWrapper() {
 	const {
+		spotlightRef,
 		spotlightInnerPages,
 		spotlightSearchVisible,
 		hideSpotlightSearch,
@@ -53,6 +54,7 @@ export function SpotlightSearchWrapper() {
 			{(dragProps) => (
 				<>
 					<SpotlightSearchPage
+						key={spotlightRef}
 						{...props}
 						open={
 							spotlightSearchVisible &&
@@ -78,7 +80,7 @@ export function SpotlightSearchWrapper() {
 
 					{spotlightInnerPages.map((page) => (
 						<SpotlightSearchPage
-							key={page.id}
+							key={spotlightRef + "-" + page.id}
 							page={page}
 							open={
 								spotlightSearchVisible &&

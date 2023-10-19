@@ -124,13 +124,13 @@ export default function SpotlightPageContent({
 		const pageHasFields = Object.keys(page.fields ?? {}).length > 0;
 		const pageHasAction =
 			pageHasFields ||
-			["list", "action"].includes(page.type) ||
+			["action"].includes(page.type) ||
 			page.hasAction ||
 			page.secondaryAction;
 		let content = children;
 
-		if (page?.values?.length && page.type == "list")
-			content = <ListPage page={page} editable />;
+		if (page?.value?.length && page.type == "list")
+			content = <ListPage page={page} />;
 
 		if (page.type == "image")
 			content = <ImagePickerPage value={page.value} />;

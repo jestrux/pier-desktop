@@ -6,6 +6,7 @@ import { randomId } from "~/utils";
 
 export const SpotlightContext = createContext({
 	pierAppData: {},
+	spotlightRef: randomId(),
 	spotlightCommands: {},
 	registerSpotlightCommand: (name, handler) => {},
 	spotlightInnerPages: [],
@@ -87,7 +88,7 @@ export function SpotlightProvider({ children }) {
 	};
 
 	const handlePierAppDataChanged = (e) => {
-		// setSpotlightRef(randomId());
+		setSpotlightRef(randomId());
 		setPierAppData(e.detail);
 	};
 
@@ -192,6 +193,7 @@ export function SpotlightProvider({ children }) {
 
 	const value = {
 		pierAppData,
+		spotlightRef,
 		spotlightCommands: spotlightCommands.current,
 		registerSpotlightCommand,
 		spotlightInnerPages,
@@ -208,50 +210,11 @@ export function SpotlightProvider({ children }) {
 
 	return (
 		<SpotlightContext.Provider value={value}>
-			<div key={spotlightRef}>{children}</div>
+			{children}
 		</SpotlightContext.Provider>
 	);
 }
 
 export function useSpotlightContext() {
-	const context = useContext(SpotlightContext);
-	const changeHandler = useRef();
-	const selectHandler = useRef();
-	const onChange = (callback) => (changeHandler.current = callback);
-	const onSelect = (callback) => (selectHandler.current = callback);
-
-	const handleSelect = ({ detail }) => {
-		const { page, value } = detail || {};
-		if (page?.id != context.page?.id) return;
-
-		if (typeof selectHandler.current == "function")
-			selectHandler.current(value);
-	};
-
-	useEffect(() => {
-		if (typeof changeHandler.current == "function")
-			changeHandler.current(context.navigationValue);
-	}, [context.navigationValue]);
-
-	useEffect(() => {
-		document.addEventListener(
-			"spotlight-search-value-changed",
-			handleSelect,
-			false
-		);
-
-		return () => {
-			document.removeEventListener(
-				"spotlight-search-value-changed",
-				handleSelect,
-				false
-			);
-		};
-	}, []);
-
-	return {
-		...context,
-		onChange,
-		onSelect,
-	};
+	return useContext(SpotlightContext);
 }

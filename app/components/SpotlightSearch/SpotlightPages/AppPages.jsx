@@ -1,9 +1,7 @@
 import { useFetcher } from "@remix-run/react";
-import SpotlightListItem from "../SpotlightComponents/SpotlightListItem";
-import SpotlightListSection from "../SpotlightComponents/SpotlightListSection";
 import { useSpotlightContext } from "../SpotlightContext";
 import PageIcons, { pageIconChoices } from "~/components/PageIcons";
-import { PlusIcon } from "@heroicons/react/24/outline";
+import SpotlightNavigationButton from "../SpotlightComponents/SpotlightNavigationButton";
 
 const useAppPages = () => {
 	const fetcher = useFetcher();
@@ -39,6 +37,7 @@ const useAppPages = () => {
 		const payload = {
 			name: "New page",
 			icon: "bolt",
+			index: pierAppData.pages.length,
 			settings: JSON.stringify({
 				layout: "default",
 			}),
@@ -70,7 +69,7 @@ const useAppPages = () => {
 
 	const editPage = (page, deletable = true) => {
 		pushSpotlightPage({
-			title: "Edit " + page.name,
+			title: "Edit page",
 			secondaryAction: !deletable
 				? null
 				: {
@@ -108,47 +107,69 @@ const useAppPages = () => {
 		});
 	};
 
+	const reorderPages = (pages) => {
+		const reorderedPages = pages.reduce(
+			(agg, { id, index: oldIndex }, index) => {
+				if (oldIndex == index) return agg;
+
+				return [
+					...agg,
+					{
+						pageId: id,
+						index,
+					},
+				];
+			},
+			[]
+		);
+
+		if (reorderedPages.length) {
+			fetcher.submit(
+				{
+					_action: "reorderPages",
+					pages: JSON.stringify(reorderedPages),
+				},
+				{ method: "patch", action: "/app" }
+			);
+		}
+
+		return pages;
+	};
+
 	return {
 		addPage,
 		editPage,
-		fields,
+		reorderPages,
 	};
 };
 
 export default function AppPages() {
-	const { addPage, editPage } = useAppPages();
+	const { addPage, editPage, reorderPages } = useAppPages();
 	const { pierAppData } = useSpotlightContext();
 
 	if (!pierAppData?.pageProps) return;
 
 	return (
-		<SpotlightListSection title="App pages">
-			{pierAppData.pages.map((page, index) => {
-				const selected = pierAppData.currentPage?.id == page.id;
-				const Icon =
-					selected && PageIcons[page.icon + "-filled"]
-						? PageIcons[page.icon + "-filled"]
-						: PageIcons[page.icon];
+		<SpotlightNavigationButton
+			label="App pages"
+			page={{
+				type: "list",
+				title: "App pages",
+				value: pierAppData.pages.map((page) => ({
+					...page,
+					label: page.name,
+				})),
+				addAction: "Add page",
+				onSelect: () => null,
+				onReorder: reorderPages,
+			}}
+			onPop={(page) => {
+				if (!page?.tempId) return;
 
-				return (
-					<SpotlightListItem
-						key={page.id}
-						label={page.name}
-						value={page.id}
-						onSelect={() => editPage(page, index)}
-						leading={<Icon width={20} />}
-						trailing={SpotlightListItem.NavIcon}
-					/>
-				);
-			})}
+				if (page.tempId == "Add page") return addPage();
 
-			<SpotlightListItem
-				className="text-primary"
-				value="Add Page"
-				leading={<PlusIcon width={20} />}
-				trailing={SpotlightListItem.NavIcon}
-				onSelect={addPage}
-			/>
-		</SpotlightListSection>
+				editPage(page);
+			}}
+		/>
 	);
 }

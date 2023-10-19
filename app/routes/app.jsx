@@ -12,6 +12,7 @@ import {
 	createSection,
 	deletePage,
 	deleteSection,
+	reorderPages,
 	updateAppSettings,
 	updatePage,
 	updateSectionSettings,
@@ -25,10 +26,19 @@ import getIp from "~/server/getIp.server";
 export const action = async ({ request }) => {
 	const { _action, ...data } = formDataObject(await request.formData());
 
-	if (data.appId) {
-		if (request.method == "PATCH") return await updateAppSettings(data);
+	console.log("Payload:", data);
+
+	if (_action) {
+		if (_action == "reorderPages")
+			return await reorderPages({ pages: JSON.parse(data.pages) });
+
+		if (_action == "editPage") return await updatePage(data);
 
 		if (_action == "addPage") return await createPage(data);
+	}
+
+	if (data.appId) {
+		if (request.method == "PATCH") return await updateAppSettings(data);
 	}
 
 	if (data.sectionId) {
@@ -40,7 +50,6 @@ export const action = async ({ request }) => {
 
 	if (data.pageId) {
 		if (request.method == "DELETE") return await deletePage(data.pageId);
-		else if (_action == "editPage") return await updatePage(data);
 	}
 
 	return await createSection(data);
@@ -67,10 +76,12 @@ export const loader = async ({ context }) => {
 	}
 
 	app.settings = JSON.parse(app.settings);
-	app.pages = app.pages.map((page) => {
-		page.settings = JSON.parse(page.settings);
-		return page;
-	});
+	app.pages = app.pages
+		.map((page) => {
+			page.settings = JSON.parse(page.settings);
+			return page;
+		})
+		.sort((a, b) => a.index - b.index);
 	const pages = app.pages;
 	const currentPage = pages?.length ? pages[0] : null;
 
