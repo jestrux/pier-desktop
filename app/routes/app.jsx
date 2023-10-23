@@ -76,9 +76,21 @@ export const loader = async ({ context }) => {
 	}
 
 	app.settings = JSON.parse(app.settings);
+	app.sections = app.sections.map((section) => {
+		return {
+			...section,
+			settings: JSON.parse(section.settings),
+		};
+	});
 	app.pages = app.pages
 		.map((page) => {
 			page.settings = JSON.parse(page.settings);
+			page.sections = page.sections.map((section) => {
+				return {
+					...section,
+					settings: JSON.parse(section.settings),
+				};
+			});
 			return page;
 		})
 		.sort((a, b) => a.index - b.index);
@@ -89,12 +101,7 @@ export const loader = async ({ context }) => {
 		...app.sections,
 		...(currentPage?.sections.length ? currentPage.sections : []),
 		// ...pages.map(({ sections }) => sections).flat(),
-	].map((section) => {
-		return {
-			...section,
-			settings: JSON.parse(section.settings),
-		};
-	});
+	];
 
 	const isLight = tinycolor(app.color).isLight();
 	const primaryBgTextColor = isLight ? "black" : "white";

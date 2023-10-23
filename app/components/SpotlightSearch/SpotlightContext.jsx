@@ -1,8 +1,8 @@
 /* eslint-disable no-unused-vars */
 import { useFetcher } from "@remix-run/react";
 import { createContext, useContext, useEffect, useRef, useState } from "react";
-import useWebsiteSections from "~/providers/website-sections/useWebsiteSections";
-import { randomId } from "~/utils";
+import usePageSections from "~/providers/usePageSections";
+import { randomId, specialEditableFieldTypes } from "~/utils";
 
 export const SpotlightContext = createContext({
 	pierAppData: {},
@@ -31,7 +31,7 @@ export function SpotlightProvider({ children }) {
 		spotlightCommands.current[name] = handler;
 	};
 	const fetcher = useFetcher();
-	const { getSection: getWebsiteSection } = useWebsiteSections();
+	const { getSection: getPageSection } = usePageSections();
 
 	const showSpotlightSearch = () => setSpotlightSearchVisible(true);
 
@@ -88,7 +88,7 @@ export function SpotlightProvider({ children }) {
 	};
 
 	const handlePierAppDataChanged = (e) => {
-		setSpotlightRef(randomId());
+		// setSpotlightRef(randomId());
 		setPierAppData(e.detail);
 	};
 
@@ -124,7 +124,7 @@ export function SpotlightProvider({ children }) {
 				},
 			},
 			type: "settings",
-			fields: getWebsiteSection(section.type)?.fields,
+			fields: getPageSection(section.type)?.fields,
 			values: section.settings,
 			onChange: async (value) => {
 				fetcher.submit(
@@ -139,7 +139,7 @@ export function SpotlightProvider({ children }) {
 	};
 
 	const addSection = async (type, parent = "page") => {
-		const section = getWebsiteSection(type);
+		const section = getPageSection(type);
 
 		if (!section) return console.log("Section not found: ", type);
 
@@ -153,7 +153,7 @@ export function SpotlightProvider({ children }) {
 			defaultValues = defaultFields.reduce((agg, [fieldName, field]) => {
 				return {
 					...agg,
-					...(["object", "form", "settings"].includes(field.type)
+					...(specialEditableFieldTypes.includes(field.type)
 						? field.defaultValue
 						: { [fieldName]: field.defaultValue }),
 				};
@@ -161,6 +161,7 @@ export function SpotlightProvider({ children }) {
 		}
 
 		const payload = {
+			platform: section.platform ?? "all",
 			name: section.name,
 			type: section.type,
 			settings: JSON.stringify(defaultValues),

@@ -36,7 +36,7 @@ export function ListPickerComponent({
 		});
 	}
 
-	const { onChange } = useSpotlightContext();
+	const { onChange } = useSpotlightPageContext();
 	onChange(props.onChange);
 
 	return (

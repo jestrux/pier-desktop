@@ -3,11 +3,11 @@ import SpotlightListItem from "../SpotlightComponents/SpotlightListItem";
 import SpotlightListSection from "../SpotlightComponents/SpotlightListSection";
 import SpotlightNavigationButton from "../SpotlightComponents/SpotlightNavigationButton";
 import { useSpotlightContext } from "../SpotlightContext";
-import useWebsiteSections from "~/providers/website-sections/useWebsiteSections";
+import usePageSections from "~/providers/usePageSections";
 
 export default function PageSections() {
 	const { pierAppData, addSection, editSection } = useSpotlightContext();
-	const { sectionArray } = useWebsiteSections();
+	const { sectionArray } = usePageSections();
 
 	if (!pierAppData?.pageProps) return;
 

@@ -30,31 +30,35 @@ function SpotlightListItem({
 	onSelect,
 	onFocus,
 	onBlur,
+	replace,
 }) {
 	const hoverObserverRef = useRef();
 	const optionRef = useRef();
 	const { searchTerm } = useSpotlightPageContext();
-	const replace = children && typeof children == "function";
+	replace = replace ?? (children && typeof children == "function");
 
-	let content = replace ? (
-		children()
-	) : (
-		<div
-			className={`${className} h-12 flex items-center gap-2 px-4 text-base leading-none`}
-		>
-			{leading != null && (
-				<div className="w-5 flex-shrink-0">{leading}</div>
-			)}
-			<div className="flex-1">{children || label || value}</div>
-			<span
-				className={`flex-shrink-0 ml-auto text-sm ${
-					typeof trailing == "string" && "opacity-40"
-				}`}
+	let content =
+		replace && typeof children == "function" ? (
+			children()
+		) : (
+			<div
+				className={`${className} h-12 flex items-center gap-2 px-4 text-base leading-none`}
 			>
-				{trailing}
-			</span>
-		</div>
-	);
+				{!replace && leading != null && (
+					<div className="w-5 flex-shrink-0">{leading}</div>
+				)}
+				<div className="flex-1">{children || label || value}</div>
+				{!replace && (
+					<span
+						className={`flex-shrink-0 ml-auto text-sm ${
+							typeof trailing == "string" && "opacity-40"
+						}`}
+					>
+						{trailing}
+					</span>
+				)}
+			</div>
+		);
 
 	const handleSelect = () => {
 		if (typeof onSelect == "function") onSelect(value);

@@ -15,6 +15,7 @@ import ImagePickerPage from "./ImagePickerPage";
 import ColorPickerPage from "./ColorPickerPage";
 import SpotlightPageActions from "./SpotlightPageActions";
 import { ListPickerPage } from "../SpotlightComponents/ListPicker";
+import TablePage from "./TablePage";
 
 export default function SpotlightPageContent({
 	open,
@@ -128,6 +129,9 @@ export default function SpotlightPageContent({
 			page.hasAction ||
 			page.secondaryAction;
 		let content = children;
+
+		if (page?.values?.length && page.type == "table")
+			content = <TablePage page={page} />;
 
 		if (page?.value?.length && page.type == "list")
 			content = <ListPage page={page} />;

@@ -2,6 +2,8 @@ export const randomId = () => Math.random().toString(36).slice(2);
 
 export const isEmptyObj = (obj) => Object.keys(obj).length === 0;
 
+export const specialEditableFieldTypes = ["object", "form", "settings"];
+
 export const formDataObject = (formData) => {
 	return Array.from(formData).reduce(
 		(agg, [key, value]) => ({
@@ -151,7 +153,11 @@ export const parseFields = (fields, data) => {
 		const processedChoices = objectFieldChoices(choices || []).map(
 			({ value }) => value
 		);
-		if (computedDefaultValue != undefined && choices && !processedChoices.includes(computedDefaultValue))
+		if (
+			computedDefaultValue != undefined &&
+			choices &&
+			!processedChoices.includes(computedDefaultValue)
+		)
 			choices.push(computedDefaultValue);
 
 		return {

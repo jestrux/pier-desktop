@@ -1,4 +1,4 @@
-import { parseFields } from "~/utils";
+import { parseFields, specialEditableFieldTypes } from "~/utils";
 import SpotlightSettingsItem from "../SpotlightComponents/SpotlightSettingsItem";
 
 export default function SettingsPage({ page }) {
@@ -7,7 +7,7 @@ export default function SettingsPage({ page }) {
 
 	const handleChange = (field, value) => {
 		return onChange(
-			["object", "settings"].includes(field.type)
+			specialEditableFieldTypes.includes(field.type)
 				? value
 				: { [field.name]: value }
 		);

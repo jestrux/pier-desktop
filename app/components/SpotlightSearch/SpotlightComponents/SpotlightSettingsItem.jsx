@@ -119,6 +119,16 @@ export default function SpotlightSettingsItem({
 			);
 		}
 
+		if (type == "table") {
+			await pushSpotlightPage({
+				title,
+				type: "table",
+				fields,
+				values: value,
+				onChange: (newValue) => handleChange(newValue),
+			});
+		}
+
 		if (type == "button") {
 			newValue = await pushSpotlightPage({
 				...onEditButton(pierAppData.app, value),

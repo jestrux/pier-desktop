@@ -53,7 +53,7 @@ async function getApp() {
 			page.sections = page.sections.map((section) => {
 				return {
 					...section,
-					section: JSON.parse(section.settings),
+					settings: JSON.parse(section.settings),
 				};
 			});
 			return page;
@@ -100,7 +100,7 @@ async function createWindow(url) {
 	win.show();
 
 	if (isDev) {
-		// win.webContents.openDevTools();
+		win.webContents.openDevTools();
 	}
 }
 
