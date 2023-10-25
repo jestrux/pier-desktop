@@ -16,11 +16,14 @@ import PageSections from "./SpotlightPages/PageSections";
 import SpotlightListSection from "./SpotlightComponents/SpotlightListSection";
 import EditFooter from "./SpotlightPages/EditFooter";
 import AppPages from "./SpotlightPages/AppPages";
+import ManageApps from "./SpotlightPages/ManageApps";
+import SpotlightNavigationButton from "./SpotlightComponents/SpotlightNavigationButton";
 
 const theme = extendTheme(chakraTheme);
 
 export function SpotlightSearchWrapper() {
 	const {
+		pierAppData,
 		spotlightRef,
 		spotlightInnerPages,
 		spotlightSearchVisible,
@@ -44,6 +47,12 @@ export function SpotlightSearchWrapper() {
 		setColorMode(dark ? "dark" : "light");
 	}, [hydrated]);
 
+	useEffect(() => {
+		if (!pierAppData?.apps) return;
+
+		if (!pierAppData.apps.length) showSpotlightSearch();
+	}, [pierAppData]);
+
 	useKeyDetector({
 		key: "Cmd + /",
 		action: () => showSpotlightSearch(),
@@ -63,19 +72,38 @@ export function SpotlightSearchWrapper() {
 						onClose={hideSpotlightSearch}
 						dragProps={dragProps}
 					>
-						<SpotlightListSection>
-							<EditAppBar />
+						{!pierAppData.app && <ManageApps />}
 
-							<EditBanner />
+						{pierAppData.app && (
+							<>
+								{pierAppData.app.type == "website" && (
+									<SpotlightListSection>
+										<EditAppBar />
 
-							<EditFooter />
+										<EditBanner />
 
-							<AppSettings />
+										<EditFooter />
+									</SpotlightListSection>
+								)}
 
-							<AppPages />
-						</SpotlightListSection>
+								<PageSections />
 
-						<PageSections />
+								<SpotlightListSection title="App Details">
+									<AppPages />
+
+									<AppSettings />
+								</SpotlightListSection>
+
+								<SpotlightNavigationButton
+									label="Manage Apps"
+									page={{
+										title: "Manage Apps",
+										type: "detail",
+										content: <ManageApps />,
+									}}
+								/>
+							</>
+						)}
 					</SpotlightSearchPage>
 
 					{spotlightInnerPages.map((page) => (

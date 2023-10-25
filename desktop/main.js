@@ -1,4 +1,5 @@
 const { initRemix } = require("remix-electron");
+const tinycolor = require("tinycolor2");
 const express = require("express");
 const { app, BrowserWindow, dialog } = require("electron");
 const { join } = require("node:path");
@@ -6,6 +7,7 @@ const { PrismaClient } = require("@prisma/client");
 
 const http = require("http");
 const { Server } = require("socket.io");
+const { writeFile } = require("node:fs");
 
 const isDev = process.env.NODE_ENV === "development";
 
@@ -16,12 +18,28 @@ const DB_PATH = isDev
 	? join(__dirname, "../prisma/dev.db")
 	: join(app.getPath("userData"), "some.db");
 
+const UPLOAD_PATH = isDev
+	? join(__dirname, "../prisma/screenshots")
+	: join(app.getPath("userData"), "screenshots");
+
 let prisma;
 
 const io = new Server(server);
 
 io.on("connection", (socket) => {
 	console.log("A new user connected to socket!");
+
+	socket.on("screenshot", (data) => {
+		console.log("IO Screenshot");
+		writeFile(
+			UPLOAD_PATH + `app-${data.appId}.png`,
+			Buffer.from(data.image, "base64"),
+			(err) => {
+				console.log("Save screenshot: ", err ? err : "success");
+			}
+		);
+		// io.broadcast("screenshot", data);
+	});
 });
 
 async function getApp() {
@@ -44,6 +62,9 @@ async function getApp() {
 				},
 			},
 		},
+		where: {
+			active: true,
+		},
 	});
 
 	app.settings = JSON.parse(app.settings);
@@ -62,6 +83,9 @@ async function getApp() {
 
 	// console.log("Pier app:", app);
 
+	const isLight = tinycolor(app.color).isLight();
+	app.primaryBgTextColor = isLight ? "#000000" : "#FFFFFF";
+
 	return app;
 }
 
@@ -72,7 +96,7 @@ expressApp.get("/reload", async (req, res) => {
 		return res.json({ app, models: [] });
 	} catch (error) {
 		console.log("Pier error: ", error);
-		return res.send(JSON.stringify(error));
+		return res.json({ app: null, models: [] });
 	}
 });
 
@@ -82,7 +106,7 @@ expressApp.get("/app/*", async (req, res) => {
 		return res.json({ app, models: [] });
 	} catch (error) {
 		console.log("Pier error: ", error);
-		return res.send(JSON.stringify(error));
+		return res.json({ app: null, models: [] });
 	}
 });
 
@@ -100,7 +124,7 @@ async function createWindow(url) {
 	win.show();
 
 	if (isDev) {
-		win.webContents.openDevTools();
+		// win.webContents.openDevTools();
 	}
 }
 

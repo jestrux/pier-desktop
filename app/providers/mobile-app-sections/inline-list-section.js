@@ -18,7 +18,7 @@ export default function inlineListSection() {
 						"The little things that actually boost your energy.",
 				},
 			},
-			listLayout: {
+			layout: {
 				type: "settings",
 				defaultValue: {
 					inset: true,
@@ -26,10 +26,15 @@ export default function inlineListSection() {
 				},
 				fields: {
 					inset: "boolean",
-					aspectRatio: {
+					imageShape: {
 						type: "radio",
-						label: "Aspect Ratio",
-						choices: ["square", "landscape", "circle"],
+						label: "Image Shape",
+						choices: ["square", "rectangle", "circle"],
+					},
+					imageSize: {
+						type: "radio",
+						label: "Image Size",
+						choices: ["xsmall", "small", "regular", "large"],
 					},
 				},
 			},
@@ -46,7 +51,7 @@ export default function inlineListSection() {
 				fields: {
 					image: "image",
 					title: "text",
-					subtitle: "text",
+					subtitle: { type: "text", optional: true },
 				},
 			},
 		},

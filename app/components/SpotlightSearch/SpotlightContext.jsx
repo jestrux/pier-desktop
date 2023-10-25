@@ -88,7 +88,7 @@ export function SpotlightProvider({ children }) {
 	};
 
 	const handlePierAppDataChanged = (e) => {
-		// setSpotlightRef(randomId());
+		setSpotlightRef(randomId());
 		setPierAppData(e.detail);
 	};
 

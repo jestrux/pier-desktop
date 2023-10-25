@@ -1,6 +1,7 @@
 import StandaloneApp from "~/StandaloneApp";
 import QRCode from "react-qr-code";
 import { useStandaloneAppContext } from "~/StandaloneApp/StandaloneAppContext";
+import StandaloneAdminPanel from "~/StandaloneAdminPanel";
 
 export const links = () => [
 	{ rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -15,15 +16,8 @@ export const links = () => [
 	},
 ];
 
-export default function Index() {
-	const { app, ipAddress, sections, pageProps } = useStandaloneAppContext();
-	// <link rel="preconnect" href="https://fonts.googleapis.com" />
-	// <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-	// <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-	// return <StandaloneApp />;
-
-	if (!app) return null;
-
+const MobileAppPreview = () => {
+	const { app, ipAddress } = useStandaloneAppContext();
 	const { _id, icon, color, type, name } = app;
 
 	return (
@@ -97,4 +91,16 @@ export default function Index() {
 			</div>
 		</div>
 	);
+};
+
+export default function Index() {
+	const { app } = useStandaloneAppContext();
+
+	if (!app) return null;
+
+	if (app.type == "mobileApp") return <MobileAppPreview />;
+
+	if (app.type == "adminPanel") return <StandaloneAdminPanel />;
+
+	return <StandaloneApp />;
 }

@@ -33,7 +33,7 @@ export default function PageSections() {
 				leading={<PlusIcon width={20} />}
 				label="Add Section"
 				page={{
-					title: "Add Section",
+					title: "Select Section Type",
 					type: "select",
 					fields: sectionArray
 						.filter(

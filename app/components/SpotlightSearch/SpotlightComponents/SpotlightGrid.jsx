@@ -3,9 +3,9 @@ import ReactDOM from "react-dom";
 import { useState } from "react";
 import useKeyDetector from "~/hooks/useKeyDetector";
 import { useComboboxContext } from "~/components/reach-combobox";
-import { useSpotlightContext } from "../SpotlightContext";
 import SpotlightListSection from "./SpotlightListSection";
 import SpotlightListItem from "./SpotlightListItem";
+import { useSpotlightPageContext } from "../SpotlightSearchPage/SpotlightPageContext";
 
 const chunkArray = (a, perChunk) =>
 	a.reduce((all, entry, i) => {
@@ -28,7 +28,7 @@ export default function SpotlightGrid({
 	const navValue = useRef(1);
 	const [currentColumn, setCurrentColumn] = useState(0);
 	const columns = chunkArray(choices, chunks);
-	const { onChange: onItemFocused } = useSpotlightContext();
+	const { onChange: onItemFocused } = useSpotlightPageContext();
 	const rows = Math.max(...columns.map((col) => col.length));
 
 	onItemFocused((value) => {

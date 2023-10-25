@@ -1,22 +1,36 @@
+import formattedApp from "../api/getActiveApp.server";
 import { prisma } from "../db.server";
-import sampleApp from "../orm/sampleApp";
+import sampleAdminPanel from "./sampleAdminPanel";
+import sampleMobileApp from "./sampleMobileApp";
+import sampleWebsite from "./sampleWebsite";
 
-export default async function seedApp() {
+export default async function seedApp(_type = "website") {
+	const { icon, color, type, name, settings, pages, sections } = {
+		adminPanel: sampleAdminPanel,
+		mobileApp: sampleMobileApp,
+		website: sampleWebsite,
+	}[_type];
+
+	await prisma.pierApp.updateMany({
+		data: {
+			active: false,
+		},
+	});
+
 	const app = await (async () => {
-		const { icon, color, type, name } = sampleApp;
 		return await prisma.pierApp.create({
 			data: {
 				icon,
 				color,
 				type,
 				name,
-				settings: JSON.stringify(sampleApp.settings),
+				settings: JSON.stringify(settings),
 			},
 		});
 	})();
 
 	const page = await (async () => {
-		const { name, icon, type, settings, index } = sampleApp.pages[0];
+		const { name, icon, type, settings, index } = pages[0];
 
 		return await prisma.pierPage.create({
 			data: {
@@ -30,16 +44,16 @@ export default async function seedApp() {
 		});
 	})();
 
-	const sections = [
-		...sampleApp.sections.map((section) => ({ ...section, appId: app.id })),
-		...sampleApp.pages[0].sections.map((section) => ({
+	const _sections = [
+		...sections.map((section) => ({ ...section, appId: app.id })),
+		...pages[0].sections.map((section) => ({
 			...section,
 			pageId: page.id,
 		})),
 	];
 
 	await Promise.all(
-		sections.map(async (section) => {
+		_sections.map(async (section) => {
 			const {
 				name,
 				color,
@@ -66,5 +80,5 @@ export default async function seedApp() {
 		})
 	);
 
-	return;
+	return formattedApp(app.id);
 }

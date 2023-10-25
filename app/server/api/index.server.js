@@ -4,32 +4,52 @@ export { default as createModel } from "./createModel.server";
 
 export { default as initializeDb } from "./initializeDb.server";
 
-export const updateAppSettings = async ({
-	appId,
-	settings: updatedSettings,
-} = {}) => {
-	const { settings: oldSettings } = await prisma.pierApp.findFirst({
+export const deleteApp = async (appId) => {
+	return await prisma.pierApp.delete({
 		where: {
 			id: Number(appId),
 		},
 	});
+};
 
-	const settings = {
-		...JSON.parse(oldSettings),
-		...JSON.parse(updatedSettings),
-	};
+export const updateApp = async ({ appId, ...payload } = {}) => {
+	let settings;
 
-	await prisma.pierApp.update({
+	if (payload.active != undefined) {
+		if (payload.active) {
+			await prisma.pierApp.updateMany({
+				data: {
+					active: false,
+				},
+			});
+		}
+
+		payload.active = payload.active === "true";
+	}
+
+	if (payload.settings) {
+		const { settings: oldSettings } = await prisma.pierApp.findFirst({
+			where: {
+				id: Number(appId),
+			},
+		});
+
+		settings = JSON.stringify({
+			...JSON.parse(oldSettings),
+			...JSON.parse(payload.settings),
+		});
+	}
+
+	return await prisma.pierApp.update({
 		data: {
 			id: Number(appId),
-			settings: JSON.stringify(settings),
+			...payload,
+			...(settings ? { settings } : {}),
 		},
 		where: {
 			id: Number(appId),
 		},
 	});
-
-	return settings;
 };
 
 export const createPage = async (payload) => {

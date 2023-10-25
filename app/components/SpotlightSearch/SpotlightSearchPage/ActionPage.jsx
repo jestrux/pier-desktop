@@ -10,7 +10,7 @@ const getFallbackSecondaryActionHandler = ({
 	confirm,
 	popCurrentSpotlightPage,
 }) => {
-	let handler = () => popCurrentSpotlightPage(page.secondaryAction);
+	let handler = () => popCurrentSpotlightPage(page.secondaryAction?.label);
 
 	if (typeof page.secondaryAction?.onClick == "function") {
 		const pageSecondaryActionHandler = page.secondaryAction.onClick;
@@ -41,12 +41,28 @@ const getFallbackSecondaryActionHandler = ({
 	return handler;
 };
 
+const getFallbackActionHandler = ({ page, popCurrentSpotlightPage }) => {
+	if (typeof page.action?.onClick == "function") {
+		return async () => {
+			const newData = await page.action?.onClick(page);
+			popCurrentSpotlightPage(newData);
+		};
+	}
+
+	return null;
+};
+
 export default function ActionPage({ page, children }) {
 	const { popCurrentSpotlightPage } = useSpotlightContext();
 	const { confirm } = useAlerts();
 	const secondaryActionShortCut = page.secondaryAction?.shortCut || "Cmd + k";
 	const secondaryActionButtonRef = useRef();
-	const submitHandler = useRef();
+	const submitHandler = useRef(
+		getFallbackActionHandler({
+			page,
+			popCurrentSpotlightPage,
+		})
+	);
 	const secondaryActionHandler = useRef(
 		getFallbackSecondaryActionHandler({
 			page,
@@ -134,7 +150,9 @@ export default function ActionPage({ page, children }) {
 							variant="ghost"
 						>
 							<span className="mr-0.5 capitalize">
-								{page?.action || "Submit"}
+								{page?.action?.label ||
+									page?.action ||
+									"Submit"}
 							</span>
 
 							<CommandKey label="Cmd" />

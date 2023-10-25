@@ -29,6 +29,7 @@ model PierApp {
   color     String
   type      String
   settings  String
+  active    Boolean       @default(true)
   pages     PierPage[]
   sections  PierSection[]
   createdAt DateTime      @default(now())
@@ -41,6 +42,7 @@ model PierPage {
   icon      String        @default("home")
   type      String        @default("custom")
   settings  String
+  active    Boolean       @default(false)
   index     Int           @default(1)
   appId     Int
   app       PierApp       @relation(fields: [appId], references: [id], onDelete: Cascade)
