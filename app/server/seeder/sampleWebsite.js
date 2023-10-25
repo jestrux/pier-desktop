@@ -4,7 +4,7 @@ import { defaultSettings as defaultFooterSettings } from "~/providers/website-se
 
 export default {
 	icon: "https://ipf-website.s3.amazonaws.com/paperless.png",
-	color: "#2196F3",
+	color: "#2196f3",
 	type: "website",
 	name: "Paperless",
 	settings: {

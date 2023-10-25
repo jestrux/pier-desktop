@@ -7,7 +7,7 @@ import usePageSections from "~/providers/usePageSections";
 
 export default function PageSections() {
 	const { pierAppData, addSection, editSection } = useSpotlightContext();
-	const { sectionArray } = usePageSections();
+	const { sectionArray } = usePageSections(pierAppData?.app?.type);
 
 	if (!pierAppData?.pageProps) return;
 

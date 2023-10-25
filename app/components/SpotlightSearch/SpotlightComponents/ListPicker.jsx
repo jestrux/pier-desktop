@@ -1,3 +1,4 @@
+/* eslint-disable no-mixed-spaces-and-tabs */
 import { objectFieldChoices } from "~/utils";
 import { CheckCircleIcon } from "@heroicons/react/24/solid";
 import { useSpotlightContext } from "../SpotlightContext";
@@ -89,10 +90,11 @@ export function ListPickerComponent({
 }
 
 export function ListPickerPage({ page }) {
+	const { popCurrentSpotlightPage } = useSpotlightContext();
+
 	const handleSelect = (value) => {
 		popCurrentSpotlightPage(value);
 	};
-	const { popCurrentSpotlightPage } = useSpotlightContext();
 
 	return (
 		<ListPickerComponent

@@ -22,7 +22,7 @@ export default function inlineListSection() {
 				type: "settings",
 				defaultValue: {
 					inset: true,
-					imageShape: "square",
+					imageShape: "circle",
 				},
 				fields: {
 					inset: "boolean",
@@ -42,10 +42,19 @@ export default function inlineListSection() {
 				type: "table",
 				defaultValue: [
 					{
-						image: "https://images.unsplash.com/photo-1696671296367-1549e8236fe4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wxNjE2NXwwfDF8YWxsfDEzfHx8fHx8Mnx8MTY5NzM2MDg0NXw&ixlib=rb-4.0.3&q=80&w=900",
-						title: "Some title",
-						subtitle:
-							"A really long ass description will go here and make some noise",
+						image: "https://images.unsplash.com/photo-1589156215870-a324614b3fff?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wxNjE2NXwwfDF8c2VhcmNofDV8fGJsYWNrJTIwZ2lybHxlbnwwfHx8fDE2OTgwNzgzNDN8MA&ixlib=rb-4.0.3&q=80&w=900",
+						title: "Lianna Dumei",
+						subtitle: "Marketing lead, KPMG",
+					},
+					{
+						image: "https://images.unsplash.com/photo-1589156280159-27698a70f29e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wxNjE2NXwwfDF8c2VhcmNofDF8fGJsYWNrJTIwd29tYW58ZW58MHx8fHwxNjk4MDc3OTEyfDA&ixlib=rb-4.0.3&q=80&w=900",
+						title: "Edna Saul",
+						subtitle: "Chief strategist, Kalope",
+					},
+					{
+						image: "https://images.unsplash.com/photo-1611432579699-484f7990b127?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wxNjE2NXwwfDF8c2VhcmNofDM1fHxibGFjayUyMHdvbWFufGVufDB8fHx8MTY5ODA3ODEyNXww&ixlib=rb-4.0.3&q=80&w=900",
+						title: "Tina Fey",
+						subtitle: "Owner, Fey Consultants",
 					},
 				],
 				fields: {

@@ -31,7 +31,9 @@ export function SpotlightProvider({ children }) {
 		spotlightCommands.current[name] = handler;
 	};
 	const fetcher = useFetcher();
-	const { getSection: getPageSection } = usePageSections();
+	const { getSection: getPageSection } = usePageSections(
+		pierAppData?.app?.type
+	);
 
 	const showSpotlightSearch = () => setSpotlightSearchVisible(true);
 

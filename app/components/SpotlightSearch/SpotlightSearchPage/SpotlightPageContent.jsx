@@ -142,6 +142,7 @@ export default function SpotlightPageContent({
 		if (page.type == "select") content = <ListPickerPage page={page} />;
 
 		if (page.type == "color") content = <ColorPickerPage page={page} />;
+		
 		else if (pageHasFields) {
 			if (page.type == "settings") content = <SettingsPage page={page} />;
 			if (page.type == "form") content = <FormPage page={page} />;

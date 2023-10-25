@@ -1,15 +1,13 @@
-import { useSpotlightContext } from "~/components/SpotlightSearch/SpotlightContext";
 import * as websiteSections from "./website-sections";
 import * as mobileAppSections from "./mobile-app-sections";
 import * as adminPanelSections from "./admin-panel-sections";
 
-export default function usePageSections() {
-	const { pierAppData } = useSpotlightContext();
+export default function usePageSections(type = "website") {
 	let sections = {
 		website: websiteSections,
 		mobileApp: mobileAppSections,
 		adminPanel: adminPanelSections,
-	}[pierAppData?.app?.type ?? "website"];
+	}[type];
 
 	return {
 		sections,

@@ -59,12 +59,12 @@ export const manualDownload = ({ filename, data }) => {
 };
 
 export const appColorChoices = {
-	Blue: "#2196F3",
-	Green: "#4CAF50",
-	Pink: "#E91E63",
-	Yellow: "#FFEB3B",
-	Indigo: "#3F51B5",
-	Orange: "#FF5722",
+	Blue: "#2196f3",
+	Green: "#4caf50",
+	Pink: "#e91e63",
+	Yellow: "#ffeb3b",
+	Indigo: "#3f51b5",
+	Orange: "#ff5722",
 };
 
 export const materialColors = {
@@ -179,6 +179,7 @@ export const onEditButton = (currentPierApp, button = {}) => ({
 	action: "Save Button",
 	secondaryAction: {
 		label: button.hidden ? "Show button" : "Hide Button",
+		destructive: true,
 		onClick: (page) => {
 			const button = page.values;
 

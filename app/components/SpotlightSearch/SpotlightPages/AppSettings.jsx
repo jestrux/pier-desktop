@@ -1,3 +1,4 @@
+import { materialColors } from "~/utils";
 import SpotlightNavigationButton from "../SpotlightComponents/SpotlightNavigationButton";
 import { useSpotlightContext } from "../SpotlightContext";
 import { useFetcher } from "@remix-run/react";
@@ -13,6 +14,12 @@ export default function AppSettings() {
 				title: "Edit App Settings",
 				type: "settings",
 				fields: {
+					color: {
+						type: "radio",
+						choices: Object.entries(materialColors).map(
+							([label, value]) => ({ label, value })
+						),
+					},
 					fontFamily: {
 						label: "Font Family",
 						type: "radio",
@@ -88,15 +95,27 @@ export default function AppSettings() {
 						choices: ["none", "regular", "full"],
 					},
 				},
-				values: pierAppData.app?.settings,
+				values: {
+					...pierAppData.app?.settings,
+					color: pierAppData.app?.color,
+				},
 				onChange: async (value) => {
-					fetcher.submit(
-						{
-							appId: pierAppData.app.id,
-							settings: JSON.stringify(value),
-						},
-						{ method: "patch", action: "/app" }
-					);
+					if (value.color) {
+						fetcher.submit(
+							{
+								appId: pierAppData.app.id,
+								color: value.color,
+							},
+							{ method: "patch", action: "/app" }
+						);
+					} else
+						fetcher.submit(
+							{
+								appId: pierAppData.app.id,
+								settings: JSON.stringify(value),
+							},
+							{ method: "patch", action: "/app" }
+						);
 				},
 			}}
 		/>
