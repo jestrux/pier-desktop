@@ -43,7 +43,7 @@ export default function Header() {
 						id="filterDropdown"
 						className="popover-custom shadow-md rounded-md absolute hidden"
 						style={{
-							"will-change": "top, left; top: 5px; left: -280px",
+							willChange: "top, left; top: 5px; left: -280px",
 						}}
 					>
 						<div className="p-3 flex flex-col gap-2"></div>

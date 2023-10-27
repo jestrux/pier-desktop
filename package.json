@@ -9,7 +9,7 @@
 		"dev": "npm run clean && cross-env NODE_ENV=development npm-run-all --parallel --print-label --race dev:*",
 		"dev:remix": "remix watch",
 		"dev:nodemon": "wait-on file:desktop/main.js && nodemon .",
-		"dev:studio": "npx prisma studio",
+		"studio": "npx prisma studio",
 		"build": "npm run clean && remix build && electron-builder",
 		"start": "cross-env NODE_ENV=production remix build && electron .",
 		"migrate": "npx prisma db push"

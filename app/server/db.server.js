@@ -2,12 +2,16 @@ import { PrismaClient } from "@prisma/client";
 import electron from "./electron.server";
 import fs from "node:fs";
 import { join } from "node:path";
-import { AsyncDatabase } from "promised-sqlite3";
+import getActiveApp from "./api/getActiveApp.server";
+import dbHelpers from "./helpers/db-helpers";
 
 const isDev = process.env.NODE_ENV === "development";
-const DB_PATH = isDev
-	? join(__dirname, "../../prisma/dev.db")
-	: join(electron.app.getPath("userData"), "some.db");
+
+const DB_FOLDER = isDev
+	? join(__dirname, "../../prisma")
+	: electron.app.getPath("userData");
+
+const DB_PATH = isDev ? join(DB_FOLDER, "dev.db") : join(DB_FOLDER, "pier.db");
 
 const initializeDatabase = () => {
 	try {
@@ -27,8 +31,6 @@ const initializeDatabase = () => {
 	}
 };
 
-if (!isDev) initializeDatabase();
-
 export const prisma = new PrismaClient({
 	datasources: {
 		db: {
@@ -37,22 +39,16 @@ export const prisma = new PrismaClient({
 	},
 });
 
-async function dbClient() {
-	return await AsyncDatabase.open(DB_PATH);
-}
+if (!isDev) initializeDatabase();
 
-export const runQuery = async (...params) => {
-	const db = await dbClient();
-	return db.run(...params);
+export const currentAppDatabase = async () => {
+	try {
+		const { app } = (await getActiveApp()) ?? {};
+
+		return await dbHelpers(join(DB_FOLDER, `db-${app.id}-${app.name}.db`));
+	} catch (error) {
+		console.log("Error loading pier db helpers: ", error);
+
+		return null;
+	}
 };
-
-export const queryAll = async (...params) => {
-	const db = await dbClient();
-	return db.all(...params);
-};
-
-export const getAll = async (table) => {
-	return await queryAll(`SELECT * from ${table}`);
-};
-
-export default dbClient;

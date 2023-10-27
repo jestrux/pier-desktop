@@ -65,12 +65,12 @@ export default function DataTable({ model, fields, data }) {
 							<div className="p-3 flex flex-col items-center justify-center">
 								<Text mb={4}>{model?.name} has no data</Text>
 
-								<div className="flex items-center gap-4">
+								{/* <div className="flex items-center gap-4">
 									{[5, 10, 25].map((count) => (
 										<Button
 											key={count}
 											size="sm"
-											isLoading={dataPopulator.isLoading}
+											// isLoading={dataPopulator.isLoading}
 											leftIcon={
 												<svg
 													className="w-3"
@@ -85,7 +85,7 @@ export default function DataTable({ model, fields, data }) {
 											Populate {count} records
 										</Button>
 									))}
-								</div>
+								</div> */}
 							</div>
 						</td>
 					</tr>

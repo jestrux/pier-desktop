@@ -8,15 +8,19 @@ const { PrismaClient } = require("@prisma/client");
 const http = require("http");
 const { Server } = require("socket.io");
 const { writeFile } = require("node:fs");
+const seedPierModels = require("./helpers/seedPierModels");
+const getPierData = require("./helpers/getPierData");
 
 const isDev = process.env.NODE_ENV === "development";
 
 const expressApp = express();
 const server = http.createServer(expressApp);
 
-const DB_PATH = isDev
-	? join(__dirname, "../prisma/dev.db")
-	: join(app.getPath("userData"), "some.db");
+const DB_FOLDER = isDev
+	? join(__dirname, "../prisma")
+	: app.getPath("userData");
+
+const DB_PATH = isDev ? join(DB_FOLDER, "dev.db") : join(DB_FOLDER, "pier.db");
 
 const UPLOAD_PATH = isDev
 	? join(__dirname, "../prisma/screenshots")
@@ -86,8 +90,33 @@ async function getApp() {
 	const isLight = tinycolor(app.color).isLight();
 	app.primaryBgTextColor = isLight ? "#000000" : "#FFFFFF";
 
+	try {
+		app.data = await getPierData(
+			join(DB_FOLDER, `db-${app.id}-${app.name}.db`)
+		);
+	} catch (error) {
+		console.log("No database setup", error);
+	}
+
 	return app;
 }
+
+expressApp.get("/seed-pier-models", async (req, res) => {
+	try {
+		const app = await getApp();
+		if (!app) return res.json({ error: "No current app" });
+
+		console.log("Setup pier models...");
+
+		const models = await seedPierModels(
+			join(DB_FOLDER, `db-${app.id}-${app.name}.db`)
+		);
+		return res.json(models);
+	} catch (error) {
+		console.log("Pier error: ", error);
+		return res.json({ error });
+	}
+});
 
 expressApp.get("/reload", async (req, res) => {
 	try {
@@ -145,6 +174,7 @@ app.on("ready", async () => {
 			serverBuild: join(__dirname, "build"),
 			getLoadContext: () => ({
 				socket: io,
+				seedPierModels: () => seedPierModels(DB_PATH),
 			}),
 		});
 		await createWindow(url);

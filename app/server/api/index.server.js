@@ -1,9 +1,5 @@
 import { prisma } from "~/server/db.server";
 
-export { default as createModel } from "./createModel.server";
-
-export { default as initializeDb } from "./initializeDb.server";
-
 export const deleteApp = async (appId) => {
 	return await prisma.pierApp.delete({
 		where: {

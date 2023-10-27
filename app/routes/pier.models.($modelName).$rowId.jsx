@@ -1,11 +1,16 @@
 import { Link, useLoaderData } from "@remix-run/react";
 import TableColumn from "~/components/DataTable/TableColumn";
-import { queryModel } from "~/server/orm";
+import { currentAppDatabase } from "~/server/db.server";
 
 export const loader = async ({ params }) => {
-	return await queryModel(params.modelName, {
-		rowId: params.rowId,
-	});
+	try {
+		const { queryModel } = await currentAppDatabase();
+		return await queryModel(params.modelName, {
+			rowId: params.rowId,
+		});
+	} catch (error) {
+		return { data: null, model: null };
+	}
 };
 
 export default function Index() {

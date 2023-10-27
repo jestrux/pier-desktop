@@ -13,14 +13,14 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Pier {
-  id            Int      @id @default(autoincrement())
-  display_field String
-  fields        String
-  settings      String
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
-}
+// model Pier {
+//   id            Int      @id @default(autoincrement())
+//   display_field String
+//   fields        String
+//   settings      String
+//   createdAt     DateTime @default(now())
+//   updatedAt     DateTime @updatedAt
+// }
 
 model PierApp {
   id        Int           @id @default(autoincrement())

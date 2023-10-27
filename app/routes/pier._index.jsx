@@ -1,12 +1,22 @@
 import { Link, useLoaderData } from "@remix-run/react";
-import { queryModel } from "~/server/orm";
+import { currentAppDatabase } from "~/server/db.server";
 
 export const loader = async () => {
-	return await queryModel("pier", { includeModelDetails: false });
+	let models;
+
+	try {
+		const { queryModel } = await currentAppDatabase();
+		models = await queryModel("pier", { includeModelDetails: false });
+	} catch (error) {
+		console.log("Pier: Error fetching models: ", error);
+		models = [];
+	}
+
+	return models;
 };
 
 export default function Index() {
-	const { data } = useLoaderData();
+	const data = useLoaderData();
 
 	return (
 		<main className="p-5">
