@@ -50,7 +50,14 @@ export default function banner() {
 			},
 			buttonOne: "button",
 			buttonTwo: "button",
-			image: "image",
+			media: {
+				type: "object",
+				fields: {
+					image: "image",
+					video: { label: "Video URL", type: "video" },
+					fullWidth: "boolean",
+				},
+			},
 		},
 		defaultValues: defaultSettings,
 	};

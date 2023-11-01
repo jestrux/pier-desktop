@@ -1,8 +1,11 @@
-import { ServerOnly } from "remix-utils";
+import { useEffect, useRef } from "react";
+import { useHydrated } from "remix-utils";
 import { useStandaloneAppContext } from "~/StandaloneApp/StandaloneAppContext";
 import SectionButtons from "~/StandaloneApp/components/SectionButtons";
 
 export default function WebsiteNavbar() {
+	const hydrated = useHydrated();
+	const mainNavigationMenu = useRef(null);
 	const { app, currentPage, pageProps } = useStandaloneAppContext();
 	const {
 		appBar: _appBar,
@@ -13,10 +16,12 @@ export default function WebsiteNavbar() {
 	const appBar = _appBar?.settings;
 	const banner = _banner?.settings;
 	const showAppName = appBar?.showAppName ?? false;
-	const activeLink = appBar?.activeLink ?? {
-		showIndicator: true,
-		useAppColorForText: false,
-	};
+	// const activeLink = appBar?.activeLink ?? {
+	// 	showIndicator: true,
+	// 	useAppColorForText: false,
+	// };
+	const showIndicator = appBar?.showIndicatorForActiveLink;
+	const useAppColorForText = appBar?.useAppColorForActiveLink;
 
 	const layout = appBar.layout ?? "Regular";
 	const links = appBar.links ?? [];
@@ -69,12 +74,31 @@ export default function WebsiteNavbar() {
 		return styles;
 	};
 
+	useEffect(() => {
+		if (!hydrated) return;
+
+		const mainNavigationBarObserver = new IntersectionObserver(
+			([e]) => {
+				mainNavigationMenu.current.classList.toggle(
+					"scrolled",
+					e.intersectionRatio < 1
+				);
+			},
+			{
+				threshold: [1],
+			}
+		);
+
+		mainNavigationBarObserver.observe(mainNavigationMenu.current);
+	}, [hydrated]);
+
 	return (
 		<>
 			<style>{styles()}</style>
 
 			<section
 				id="mainNavigationMenu"
+				ref={mainNavigationMenu}
 				className={`${bgClass} ${scrollBehaviorClass} hidden md:block z-50`}
 				style={{ top: "-0.1px" }}
 			>
@@ -111,10 +135,10 @@ export default function WebsiteNavbar() {
 								let styling = "";
 
 								if (selected) {
-									styling = activeLink.showIndicator
-										? "border-primary "
+									styling = showIndicator
+										? "border-[currentColor] "
 										: "border-transparent ";
-									styling += activeLink.useAppColorForText
+									styling += useAppColorForText
 										? "text-primary "
 										: "";
 								} else {
@@ -125,10 +149,9 @@ export default function WebsiteNavbar() {
 											? "underline "
 											: "";
 									else
-										styling +=
-											!activeLink.useAppColorForText
-												? "opacity-50 "
-												: "";
+										styling += !useAppColorForText
+											? "opacity-50 "
+											: "opacity-70 ";
 								}
 
 								return (
@@ -163,8 +186,6 @@ export default function WebsiteNavbar() {
 					<SectionButtons buttons={buttons} small />
 				</div>
 			</section>
-
-			<ServerOnly>{() => <script src="pier-nav.js"></script>}</ServerOnly>
 		</>
 	);
 }

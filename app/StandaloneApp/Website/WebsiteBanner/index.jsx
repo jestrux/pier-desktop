@@ -2,10 +2,18 @@ import { useStandaloneAppContext } from "~/StandaloneApp/StandaloneAppContext";
 import useBannerProps from "./useBannerProps";
 import SectionButtons from "~/StandaloneApp/components/SectionButtons";
 import MarkdownText from "~/StandaloneApp/components/MarkdownText";
+import classNames from "classnames";
 
 const CenteredBanner = () => {
-	const { title, subtitle, image, background, imageCornerRadius, buttons } =
-		useBannerProps();
+	const {
+		title,
+		subtitle,
+		image,
+		background,
+		imageCornerRadius,
+		buttons,
+		fullWidth,
+	} = useBannerProps();
 
 	return (
 		<div>
@@ -38,7 +46,12 @@ const CenteredBanner = () => {
 			</div>
 
 			<div
-				className={`${imageCornerRadius} aspect-video relative -mt-6 max-w-5xl mx-auto overflow-hidden`}
+				className={classNames({
+					[imageCornerRadius]: true,
+					"relative -mt-6 mx-auto overflow-hidden": true,
+					"aspect-video  max-w-5xl": !fullWidth,
+					"aspect-[3/1]": fullWidth,
+				})}
 				style={{ background: `${background}` }}
 			>
 				<img

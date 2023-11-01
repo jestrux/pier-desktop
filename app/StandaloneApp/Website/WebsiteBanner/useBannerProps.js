@@ -9,7 +9,11 @@ export default function useBannerProps() {
 		none: "rounded-none",
 		regular: "rounded-xl",
 		full: "rounded-[40px]",
-	}[app.settings.roundedCorners];
+	}[
+		banner.layout == "Centered" && banner.fullWidth
+			? "none"
+			: app.settings.roundedCorners
+	];
 
 	return {
 		...banner,

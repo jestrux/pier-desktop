@@ -72,15 +72,27 @@ async function getApp() {
 	});
 
 	app.settings = JSON.parse(app.settings);
+	app.sections = app.sections
+		.map((section) => {
+			return {
+				...section,
+				settings: JSON.parse(section.settings),
+			};
+		})
+		.sort((a, b) => a.index - b.index);
+
 	app.pages = app.pages
 		.map((page) => {
 			page.settings = JSON.parse(page.settings);
-			page.sections = page.sections.map((section) => {
-				return {
-					...section,
-					settings: JSON.parse(section.settings),
-				};
-			});
+			page.sections = page.sections
+				.map((section) => {
+					return {
+						...section,
+						settings: JSON.parse(section.settings),
+					};
+				})
+				.sort((a, b) => a.index - b.index);
+
 			return page;
 		})
 		.sort((a, b) => a.index - b.index);
@@ -122,7 +134,7 @@ expressApp.get("/reload", async (req, res) => {
 	try {
 		const app = await getApp();
 		io.emit("app-changed", JSON.stringify({ app, models: [] }));
-		return res.json({ app, models: [] });
+		return res.json(app);
 	} catch (error) {
 		console.log("Pier error: ", error);
 		return res.json({ app: null, models: [] });

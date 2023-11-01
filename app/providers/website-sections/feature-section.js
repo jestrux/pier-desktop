@@ -1,15 +1,27 @@
-import textSection from "./text-section";
+import pageSectionFields from "./pageSectionFields";
 
 export default function featureSection() {
 	const section = {
-		...textSection(),
 		index: 3,
 		type: "featureSection",
 		name: "Feature Section",
 	};
 
+	const fields = {
+		...pageSectionFields({
+			background: "#F2F2F2",
+			color: "black",
+			title: "Our core values",
+			subtitle:
+				"Contact us with any of our insurance offerings and we'll sort you out. We'll be waiting to hear from you.",
+			layout: "Centered",
+			buttonOne: null,
+			buttonTwo: null,
+		}),
+	};
+
 	section.fields = {
-		...section.fields,
+		...fields,
 		featureLayout: {
 			type: "settings",
 			defaultValue: {

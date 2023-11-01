@@ -46,8 +46,9 @@ export default async function seedApp(_type = "website") {
 
 	const _sections = [
 		...sections.map((section) => ({ ...section, appId: app.id })),
-		...pages[0].sections.map((section) => ({
+		...pages[0].sections.map((section, index) => ({
 			...section,
+			index,
 			pageId: page.id,
 		})),
 	];

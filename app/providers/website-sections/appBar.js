@@ -44,10 +44,8 @@ export const defaultSettings = {
 			underline: false,
 		},
 	],
-	activeLink: {
-		showIndicator: false,
-		useAppColorForText: false,
-	},
+	showIndicatorForActiveLink: false,
+	useAppColorForActiveLink: false,
 	buttonOne: {
 		tempId: "Login",
 		label: "Contact Us",
@@ -98,6 +96,19 @@ export default function appBar() {
 			showAppName: {
 				label: "Show App Name",
 				type: "boolean",
+			},
+			activeLink: {
+				type: "settings",
+				fields: {
+					useAppColorForActiveLink: {
+						type: "boolean",
+						label: "Use App Color For Text",
+					},
+					showIndicatorForActiveLink: {
+						type: "boolean",
+						label: "Show Indicator",
+					},
+				},
 			},
 			buttonOne: "button",
 			buttonTwo: "button",

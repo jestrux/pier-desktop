@@ -88,6 +88,19 @@ export default function SpotlightSettingsItem({
 		const title = "Edit " + label;
 		let newValue = null;
 
+		if (["markdown", "text", "long text"].includes(type)) {
+			newValue = await pushSpotlightPage({
+				title,
+				type: "form",
+				action: "Save",
+				fields: {
+					[label]: { type, defaultValue: value },
+				},
+			});
+
+			if (newValue) newValue = newValue[label];
+		}
+
 		if (type == "radio")
 			return el.current.querySelector(`#menuTriggerButton`).click();
 
@@ -154,8 +167,9 @@ export default function SpotlightSettingsItem({
 				...(type == "color"
 					? {
 							secondaryAction: {
-								label: "Transparent",
-								onClick: () => "inherit",
+								label: "Adaptive Color",
+								choices: ["inherit", "gray", "primary"],
+								onClick: (value) => value,
 							},
 					  }
 					: {}),

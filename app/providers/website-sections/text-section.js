@@ -16,7 +16,7 @@ export default function textSection() {
 			layout: {
 				label: "Layout",
 				type: "radio",
-				choices: ["Regular", "Centered"],
+				choices: ["Regular", "Centered", "Horizontal"],
 				defaultValue: "Centered",
 			},
 			text: {

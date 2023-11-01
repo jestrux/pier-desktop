@@ -4,6 +4,7 @@ import CommandKey from "~/components/CommandKey";
 import useKeyDetector from "~/hooks/useKeyDetector";
 import useAlerts from "~/components/Alerts/useAlerts";
 import { useSpotlightContext } from "../SpotlightContext";
+import Menu from "~/components/Menu";
 
 const getFallbackSecondaryActionHandler = ({
 	page,
@@ -97,6 +98,49 @@ export default function ActionPage({ page, children }) {
 		},
 	});
 
+	const renderSecondaryButton = () => {
+		const { label, choices, selectedChoice, destructive } =
+			page.secondaryAction;
+		const button = (
+			<Button
+				as={choices?.length ? "div" : null}
+				ref={secondaryActionButtonRef}
+				className="gap-1"
+				rounded="md"
+				size="sm"
+				variant="ghost"
+				colorScheme={destructive && "red"}
+				onClick={choices?.length ? null : handleSecondaryAction}
+			>
+				<span className="mr-0.5 capitalize">{label}</span>
+				{secondaryActionShortCut.split(" + ").map((key) => (
+					<CommandKey key={key} label={key} />
+				))}
+			</Button>
+		);
+
+		if (choices?.length) {
+			return (
+				<Menu
+					plain
+					choices={choices}
+					value={selectedChoice}
+					onChange={(data) => {
+						if (!data) return;
+
+						popCurrentSpotlightPage({
+							fromSecondaryAction: true,
+							data,
+						});
+					}}
+					trigger={button}
+				/>
+			);
+		}
+
+		return button;
+	};
+
 	return (
 		<>
 			{Children.map(children, (child) =>
@@ -117,28 +161,7 @@ export default function ActionPage({ page, children }) {
 								: "-ml-2"
 						}
 					>
-						{page?.secondaryAction && (
-							<Button
-								ref={secondaryActionButtonRef}
-								className="gap-1"
-								rounded="md"
-								size="sm"
-								variant="ghost"
-								colorScheme={
-									page.secondaryAction?.destructive && "red"
-								}
-								onClick={handleSecondaryAction}
-							>
-								<span className="mr-0.5 capitalize">
-									{page.secondaryAction.label}
-								</span>
-								{secondaryActionShortCut
-									.split(" + ")
-									.map((key) => (
-										<CommandKey key={key} label={key} />
-									))}
-							</Button>
-						)}
+						{page?.secondaryAction && renderSecondaryButton()}
 					</div>
 
 					{typeof submitHandler.current == "function" && (

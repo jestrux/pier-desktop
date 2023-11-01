@@ -1,13 +1,11 @@
 export default function Footer() {
 	return (
 		<footer className="bg-primary text-[--primary-text-color] /80 relative z-10">
-			<div className="max-w-7xl mx-auto pt-6 md:pt-12 pb-4 md:pb-10 leading-loose text-sm">
+			<div className="max-w-7xl mx-auto px-4 pt-6 md:pt-12 pb-4 md:pb-10 leading-loose text-sm">
 				<div className="text-center md:text-left md:grid grid-cols-12 gap-6">
-					<div className="hidden pl-6 col-span-3 md:flex flex-col items-between md:items-start">
+					<div className="hidden col-span-3 md:flex flex-col items-between md:items-start">
 						<div className="flex flex-col gap-3">
-							<h5 className="text-lg font-bold">
-								About Us
-							</h5>
+							<h5 className="text-lg font-bold">About Us</h5>
 							<p className="leading-[2.5]">
 								The National Insurance Corporation was
 								established in 1963 as first Insurance Company
@@ -52,9 +50,7 @@ export default function Footer() {
 
 					<div className="pt-8 md:pt-0 md:pl-8 col-span-3 flex flex-col items-center md:items-start">
 						<div className="flex flex-col items-center md:items-start gap-3">
-							<h5 className="text-lg font-bold">
-								Contacts
-							</h5>
+							<h5 className="text-lg font-bold">Contacts</h5>
 							<a href="tel:0800110041">
 								<p className="flex items-center gap-3">
 									<svg

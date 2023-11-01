@@ -1,4 +1,7 @@
-export default function GridSection() {
+import SectionText from "../../SectionText";
+
+export default function GridSection(settings) {
+	const { background, color } = settings || {};
 	const data = [
 		{
 			image: "https://www.rauecoculturaltourism.org/wp-content/uploads/2023/04/IMG_2275.jpg",
@@ -45,60 +48,30 @@ export default function GridSection() {
 	];
 
 	return (
-		<section className="px-6 md:px-0 py-10 md:py-20">
-			<div className="max-w-7xl mx-auto p-4">
-				<div className="flex flex-col items-center justify-center text-center">
-					<h2
-						className="text-2xl font-black"
-						style={{
-							fontFamily: "var(--heading-font-family)",
-							fontSize: "var(--heading-font-size)",
-							fontWeight: "var(--heading-font-weight)",
-							textTransform: "var(--heading-text-transform)",
-						}}
-					>
-						The activities
-					</h2>
+		<section
+			className="px-6 md:px-0 py-10 md:py-20"
+			style={{ background: background, color: color }}
+		>
+			<div className="max-w-7xl mx-auto p-4 flex flex-col gap-12">
+				<SectionText {...settings} />
 
-					<div className="mt-3 text-base/loose md:text-xl/loose opacity-80 max-w-3xl">
-						<div>
-							<p>
-								What we'll be getting around to on your stay
-								here. The little things that actually boost your
-								energy and keep you going through your work day.
-							</p>
-						</div>
-					</div>
-
-					<div className="mt-6">
-						<div className="flex items-center gap-3">
-							<a
-								href="#"
-								className="bg-[--primary-color] text-[--primary-text-color] shadow hover:opacity-90 rounded-md h-12 px-6 font-bold  group min-w-[80px] flex items-center justify-center text-center focus:outline-none"
-							>
-								Learn more
-							</a>
-						</div>
-					</div>
-				</div>
-
-				<div className="mt-8 grid grid-cols-4 gap-6">
+				<div className="grid grid-cols-4 gap-6">
 					{data.map((entry, index) => (
 						<div
 							key={index}
-							className="overflow-hidden border border-neutral-300 shadow-sm rounded"
+							className="bg-white dark:bg-white/10 overflow-hidden border border-black/10 dark:border-white/20 shadow rounded-md"
 						>
-							<div className="flex flex-col gap-4 pb-6">
+							<div className="flex flex-col gap-3 pb-4">
 								<div className="">
 									<img
-										className="w-full aspect-[2/1.5] object-cover"
+										className="w-full aspect-[2/1.2] object-cover"
 										src={entry.image}
 										alt=""
 									/>
 								</div>
 
-								<div className="px-6 flex flex-col gap-1 justify-center">
-									<h2 className="text-2xl font-semibold md:text-xls">
+								<div className="text-[--content-color] px-5 flex flex-col gap-0.5 justify-center">
+									<h2 className="text-lg font-bold">
 										{entry.title}
 									</h2>
 

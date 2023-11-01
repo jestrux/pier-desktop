@@ -1,15 +1,26 @@
-import textSection from "./text-section";
+import pageSectionFields from "./pageSectionFields";
 
 export default function gridSection() {
 	const section = {
-		...textSection(),
 		index: 4,
 		type: "gridSection",
 		name: "Grid Section",
 	};
 
+	const fields = {
+		...pageSectionFields({
+			textSettingsLabel: "Grid Text",
+			title: "Eco-friendly tours",
+			subtitle:
+				"The eco-friendly tours that we organize raise awareness about environmental concerns.",
+			layout: "Horizontal",
+			buttonOne: "See all tours",
+			buttonTwo: null, //"Book a tour",
+		}),
+	};
+
 	section.fields = {
-		...section.fields,
+		...fields,
 		gridLayout: {
 			type: "settings",
 			defaultValue: {
@@ -48,7 +59,7 @@ export default function gridSection() {
 				overlayText: "boolean",
 			},
 		},
-		gridContent: {
+		gridCard: {
 			type: "settings",
 			defaultValue: {
 				padding: "0.5rem",

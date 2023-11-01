@@ -16,21 +16,25 @@ export default async function getActiveApp() {
 	});
 
 	app.settings = JSON.parse(app.settings);
-	app.sections = app.sections.map((section) => {
-		return {
-			...section,
-			settings: JSON.parse(section.settings),
-		};
-	});
+	app.sections = app.sections
+		.map((section) => {
+			return {
+				...section,
+				settings: JSON.parse(section.settings),
+			};
+		})
+		.sort((a, b) => a.index - b.index);
 	app.pages = app.pages
 		.map((page) => {
 			page.settings = JSON.parse(page.settings);
-			page.sections = page.sections.map((section) => {
-				return {
-					...section,
-					settings: JSON.parse(section.settings),
-				};
-			});
+			page.sections = page.sections
+				.map((section) => {
+					return {
+						...section,
+						settings: JSON.parse(section.settings),
+					};
+				})
+				.sort((a, b) => a.index - b.index);
 			return page;
 		})
 		.sort((a, b) => a.index - b.index);

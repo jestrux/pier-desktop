@@ -84,7 +84,8 @@ export const materialColors = {
 	Amber: "#ffc107",
 	Orange: "#ff9800",
 	"Deep Orange": "#ff5722",
-	Brown: "#795548",
+	// Brown: "#795548",
+	Brown: "#86520D",
 	"Blue Gray": "#607d8b",
 };
 
@@ -179,7 +180,7 @@ export const onEditButton = (currentPierApp, button = {}) => ({
 	action: "Save Button",
 	secondaryAction: {
 		label: button.hidden ? "Show button" : "Hide Button",
-		destructive: true,
+		// destructive: true,
 		onClick: (page) => {
 			const button = page.values;
 
