@@ -24,7 +24,7 @@ export default function gridSection() {
 		gridLayout: {
 			type: "settings",
 			defaultValue: {
-				aspectRatio: "portrait",
+				aspectRatio: "landscape",
 				columns: 4,
 				gap: "2rem",
 				overlayText: false,
@@ -33,7 +33,7 @@ export default function gridSection() {
 				aspectRatio: {
 					type: "radio",
 					label: "Aspect Ratio",
-					choices: ["portrait", "landscape", "square"],
+					choices: ["landscape", "square", "portrait"],
 				},
 				columns: {
 					type: "radio",
@@ -62,19 +62,26 @@ export default function gridSection() {
 		gridCard: {
 			type: "settings",
 			defaultValue: {
-				padding: "0.5rem",
+				inset: true,
+				padding: "regular",
+				textSize: "regular",
 				textPlacement: "bottomLeft",
 			},
 			fields: {
+				inset: {
+					type: "boolean",
+					label: "Inset content",
+				},
 				padding: {
 					type: "radio",
 					label: "Padding",
-					choices: [
-						{ label: "small", value: "0.25rem" },
-						{ label: "regular", value: "0.5rem" },
-						{ label: "large", value: "0.75rem" },
-						{ label: "xlarge", value: "1rem" },
-					],
+					choices: ["regular", "large"],
+				},
+				textSize: {
+					type: "radio",
+					label: "Text size",
+					choices: ["small", "regular", "large", "xlarge"],
+					show: (data) => data.overlayText,
 				},
 				textPlacement: {
 					type: "radio",

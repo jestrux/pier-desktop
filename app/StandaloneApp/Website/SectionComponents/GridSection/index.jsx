@@ -1,3 +1,4 @@
+import classNames from "classnames";
 import SectionText from "../../SectionText";
 
 export default function GridSection(settings) {
@@ -55,27 +56,78 @@ export default function GridSection(settings) {
 			<div className="max-w-7xl mx-auto p-4 flex flex-col gap-12">
 				<SectionText {...settings} />
 
-				<div className="grid grid-cols-4 gap-6">
+				<div
+					className={classNames({
+						"grid gap-6": true,
+						"grid-cols-2": settings.columns == 2,
+						"grid-cols-3": settings.columns == 3,
+						"grid-cols-4": settings.columns == 4,
+						"grid-cols-5": settings.columns == 5,
+					})}
+				>
 					{data.map((entry, index) => (
 						<div
 							key={index}
 							className="bg-white dark:bg-white/10 overflow-hidden border border-black/10 dark:border-white/20 shadow rounded-md"
 						>
-							<div className="flex flex-col gap-3 pb-4">
+							<div className="relative flex flex-col">
 								<div className="">
 									<img
-										className="w-full aspect-[2/1.2] object-cover"
+										className={classNames({
+											"w-full object-cover": true,
+											"aspect-[2/1.2]":
+												settings.aspectRatio ==
+												"landscape",
+											"aspect-[1/1.35]":
+												settings.aspectRatio ==
+												"portrait",
+											"aspect-square":
+												settings.aspectRatio ==
+												"square",
+										})}
 										src={entry.image}
 										alt=""
 									/>
 								</div>
 
-								<div className="text-[--content-color] px-5 flex flex-col gap-0.5 justify-center">
-									<h2 className="text-lg font-bold">
+								<div
+									className={classNames({
+										"text-[--content-color] flex flex-col gap-0.5": true,
+										"p-5": settings.inset,
+										"mt-3": !settings.inset,
+										"absolute inset-0 z-10 bg-gradient-to-b from-transparent via-black/70 via-70% to-black text-white justify-end":
+											settings.overlayText,
+									})}
+								>
+									<h2
+										className={classNames({
+											"font-bold": true,
+											"text-base":
+												settings.textSize == "small",
+											"text-lg":
+												settings.textSize == "regular",
+											"text-xl":
+												settings.textSize == "large",
+											"text-2xl":
+												settings.textSize == "xlarge",
+										})}
+									>
 										{entry.title}
 									</h2>
 
-									<p className="text-sm leading-loose opacity-80">
+									<p
+										className={classNames({
+											"leading-loose opacity-80": true,
+											"text-[9px]":
+												settings.textSize == "small",
+											"text-xs":
+												settings.textSize == "regular",
+											"text-sm":
+												settings.textSize == "large",
+											"text-base":
+												settings.textSize == "xlarge",
+										})}
+									>
 										{entry.description}
 									</p>
 
