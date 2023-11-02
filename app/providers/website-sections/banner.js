@@ -54,7 +54,11 @@ export default function banner() {
 				type: "object",
 				fields: {
 					image: "image",
-					video: { label: "Video URL", type: "video" },
+					video: {
+						label: "Video URL",
+						type: "video",
+						optional: true,
+					},
 					fullWidth: "boolean",
 				},
 			},
