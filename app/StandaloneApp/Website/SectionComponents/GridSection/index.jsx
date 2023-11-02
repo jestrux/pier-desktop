@@ -68,13 +68,18 @@ export default function GridSection(settings) {
 					{data.map((entry, index) => (
 						<div
 							key={index}
-							className="bg-white dark:bg-white/10 overflow-hidden border border-black/10 dark:border-white/20 shadow rounded-md"
+							className={classNames({
+								"overflow-hidden": true,
+								"bg-white dark:bg-white/10 border border-black/10 dark:border-white/20 shadow rounded-md":
+									settings.inset,
+							})}
 						>
 							<div className="relative flex flex-col">
 								<div className="">
 									<img
 										className={classNames({
 											"w-full object-cover": true,
+											"rounded-md": !settings.inset,
 											"aspect-[2/1.2]":
 												settings.aspectRatio ==
 												"landscape",
