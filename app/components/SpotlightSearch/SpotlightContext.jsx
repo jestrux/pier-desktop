@@ -74,6 +74,8 @@ export function SpotlightProvider({ children }) {
 		setSpotlightInnerPages(
 			spotlightInnerPages.filter((p) => p.id != poppedPage.id)
 		);
+
+		updateAppData();
 	};
 
 	const replaceCurrentSpotlightPage = (page) => {
@@ -90,8 +92,17 @@ export function SpotlightProvider({ children }) {
 	};
 
 	const handlePierAppDataChanged = (e) => {
-		setSpotlightRef(randomId());
-		setPierAppData(e.detail);
+		window.pendingPierAppData = e.detail;
+		if (!pierAppData?.app?.id) setPierAppData(e.detail);
+	};
+
+	const updateAppData = () => {
+		setTimeout(() => {
+			if (window.pendingPierAppData) {
+				setPierAppData(window.pendingPierAppData);
+				setSpotlightRef(randomId());
+			}
+		}, 200);
 	};
 
 	useEffect(() => {
@@ -206,7 +217,10 @@ export function SpotlightProvider({ children }) {
 		pushSpotlightPage,
 		popCurrentSpotlightPage,
 		replaceCurrentSpotlightPage,
-		popSpotlightToRoot: () => setSpotlightInnerPages([]),
+		popSpotlightToRoot: () => {
+			setSpotlightInnerPages([]);
+			updateAppData();
+		},
 		addSection,
 		editSection,
 	};
