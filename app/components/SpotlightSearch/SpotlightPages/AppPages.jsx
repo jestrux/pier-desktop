@@ -7,6 +7,7 @@ const useAppPages = () => {
 	const fetcher = useFetcher();
 	const { pushSpotlightPage, pierAppData } = useSpotlightContext();
 	const fields = {
+		active: "boolean",
 		name: {
 			type: "text",
 			defaultValue: "New page",

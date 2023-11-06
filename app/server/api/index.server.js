@@ -94,6 +94,18 @@ export const updatePage = async ({ pageId, ...payload } = {}) => {
 		});
 	}
 
+	if (payload.active != undefined) {
+		if (payload.active) {
+			await prisma.pierPage.updateMany({
+				data: {
+					active: false,
+				},
+			});
+		}
+
+		payload.active = payload.active === "true";
+	}
+
 	return await prisma.pierPage.update({
 		data: {
 			id: Number(pageId),

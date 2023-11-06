@@ -39,7 +39,10 @@ export default async function getActiveApp() {
 		})
 		.sort((a, b) => a.index - b.index);
 	const pages = app.pages;
-	const currentPage = pages?.length ? pages[0] : null;
+	let currentPage;
+
+	if (pages?.length)
+		currentPage = pages.find((page) => page.active) ?? pages[0];
 
 	const sections = [
 		...app.sections,
