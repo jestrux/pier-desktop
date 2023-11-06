@@ -79,6 +79,8 @@ export default function WebsiteNavbar() {
 
 		const mainNavigationBarObserver = new IntersectionObserver(
 			([e]) => {
+				if(!mainNavigationMenu.current) return;
+				
 				mainNavigationMenu.current.classList.toggle(
 					"scrolled",
 					e.intersectionRatio < 1
