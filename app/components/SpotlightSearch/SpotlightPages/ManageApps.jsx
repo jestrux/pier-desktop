@@ -5,7 +5,8 @@ import SpotlightListItem from "../SpotlightComponents/SpotlightListItem";
 import { PlusIcon } from "@heroicons/react/24/outline";
 
 export default function ManageApps() {
-	const { pierAppData, pushSpotlightPage } = useSpotlightContext();
+	const { pierAppData, pushSpotlightPage, popSpotlightToRoot } =
+		useSpotlightContext();
 	const fetcher = useFetcher();
 
 	if (!pierAppData?.apps) return;
@@ -92,16 +93,22 @@ export default function ManageApps() {
 					label={app.name}
 					value={app.id}
 					onSelect={async () => {
-						if (!pierAppData.app) {
-							console.log("App: ", pierAppData.app);
-							toggleApp(app, true);
-							setTimeout(() => {
-								editApp({ ...app, active: true });
-							}, 90);
-							return;
-						}
+						toggleApp(app);
 
-						editApp(app);
+						setTimeout(() => {
+							popSpotlightToRoot();
+						}, 90);
+
+						// if (!pierAppData.app) {
+						// 	console.log("App: ", pierAppData.app);
+						// 	toggleApp(app, true);
+						// 	setTimeout(() => {
+						// 		editApp({ ...app, active: true });
+						// 	}, 90);
+						// 	return;
+						// }
+
+						// editApp(app);
 					}}
 					trailing={SpotlightListItem.NavIcon}
 				/>
